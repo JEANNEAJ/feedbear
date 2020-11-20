@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+
 import {
   decrement,
   increment,
@@ -13,6 +15,26 @@ export function Counter() {
   const count = useSelector(selectCount);
   const dispatch = useDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
+
+  const testReq = () => {
+    
+    dispatch(decrement());
+    axios.post('http://localhost:5000/', {count})
+      .then(data => console.log(data))
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (currentId) {
+  //     dispatch(updatePost(currentId, postData));
+  //   } else {
+  //     dispatch(createPost(postData));
+  //   }
+  // }
 
   return (
     <div>
@@ -28,7 +50,8 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
+          // onClick={() => dispatch(decrement())}
+          onClick={testReq}
         >
           -
         </button>
