@@ -1,54 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import * as api from './api';
 import { Counter } from './features/counter/Counter';
+import './App.css';
 
+import Form from './features/form/Form';
+import FeedbackRequests from './features/feedbackRequests/FeedbackRequests';
 
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		
+	}, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+			<header>
+				<div className="wrapper">
+					<h1>hello</h1>
+				</div>
+			</header>
+      
+			<main>
+				<div className="wrapper">
+					<Form />
+					<FeedbackRequests />
+				</div>
+			</main>
+				
+				
+			<footer>
+				<div className="wrapper">
+
+				</div>
+			</footer>
     </div>
   );
 }
