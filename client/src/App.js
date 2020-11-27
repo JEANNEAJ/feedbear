@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as api from './api';
 import { Counter } from './features/counter/Counter';
 
@@ -15,10 +15,13 @@ import './App.css';
 import Form from './features/form/Form';
 import FeedbackRequests from './features/feedbackRequests/FeedbackRequests';
 import FeedbackDetails from './features/feedbackDetails/FeedbackDetails';
+import SignIn from './features/signIn/SignIn';
+import { selectUser } from './features/signIn/userSlice';
 
 
 function App() {
 	const dispatch = useDispatch();
+	const user = useSelector(selectUser);
 
 	useEffect(() => {
 		
@@ -37,7 +40,9 @@ function App() {
 			      
 						<main>
 							<div className="wrapper">
-								<Route exact path="/" component={Form} />
+								<Route exact path="/">
+									{user._id ? <Form /> : <SignIn />}
+								</Route>
 								<Route exact path="/" component={FeedbackRequests} />
 								<Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
 							</div>
