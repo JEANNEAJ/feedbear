@@ -31,6 +31,7 @@ export default function Form() {
 
 	return (
 		<div>
+			<h2>Get feedback on your app</h2>
 			<form className={styles.feedbackRequest} action="#">
 
 				<label className="sr-only" htmlFor="input-name">Name</label>

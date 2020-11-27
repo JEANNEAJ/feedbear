@@ -1,11 +1,14 @@
 import express from 'express'
 
-import { getForms, createForm } from '../controllers/forms.js';
+import { getForms, getFormByID, createForm } from '../controllers/forms.js';
 
 const router = express.Router();
 
 // get all forms
 router.get('/', getForms);
+
+// get form by ID
+router.get('/:id', getFormByID);
 
 // create new form
 router.post('/', createForm);

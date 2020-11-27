@@ -10,6 +10,18 @@ export const getForms = async (req, res) => {
 	}
 };
 
+export const getFormByID = async (req, res) => {
+	const { id } = req.params;
+	// console.log(id);
+
+	try {
+		const formMessages = await FormMessage.find({ "_id": id });
+		res.status(200).json(formMessages);
+	} catch (err) {
+		res.status(404).json({ message: err });
+	}
+};
+
 export const createForm = async (req, res) => {
 	const body = req.body;
 	console.log(body);
