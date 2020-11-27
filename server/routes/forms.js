@@ -14,9 +14,9 @@ router.get('/:id', getFormByID);
 router.post('/', createForm);
 
 //update
-router.put('/:id', () => {});
+router.put('/:id', () => { });
 
 //delete
-router.delete('/:id', () => {})
+router.delete('/:id', () => { })
 
 export default router;
