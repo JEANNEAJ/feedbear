@@ -22,6 +22,7 @@ import { selectUser } from './features/signIn/userSlice';
 function App() {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
+	console.log(user);
 
 	useEffect(() => {
 		

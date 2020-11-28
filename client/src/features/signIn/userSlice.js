@@ -20,8 +20,10 @@ export const login = createAsyncThunk(
 export const userSlice = createSlice({
 	name: 'user',
 	initialState: {
-        _id: undefined,
-        email: undefined,
+        data: {
+            _id: undefined,
+            email: undefined
+        },
         loading: 'idle',
         currentRequestId: undefined,
         error: null
@@ -39,8 +41,7 @@ export const userSlice = createSlice({
             const { requestId } = action.meta;
             if (state.loading === 'pending' && state.currentRequestId === requestId) {
                 state.loading = 'idle';
-                state._id = action.payload._id;
-                state.email = action.payload.email;
+                state.data = action.payload.data;
                 state.currentRequestId = undefined;
             }
         },
@@ -56,6 +57,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const selectUser = state => state.user;
+export const selectUser = state => state.user.data;
 
 export default userSlice.reducer;
