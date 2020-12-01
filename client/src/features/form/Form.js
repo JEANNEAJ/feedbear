@@ -10,6 +10,7 @@ export default function Form() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState('Tear me to shreds!');
+	const [projectTitle, setProjectTitle] = useState('');
 	const [projectLink, setProjectLink] = useState('');
 	const [liveLink, setLiveLink] = useState('');
 	const dispatch = useDispatch();
@@ -20,12 +21,13 @@ export default function Form() {
 		e.preventDefault();
 		dispatch(submit({
 			name,
-			email, 
+			email,
 			message,
+			projectTitle,
 			projectLink,
 			liveLink,
 		}));
-		
+
 	}
 
 
@@ -39,6 +41,9 @@ export default function Form() {
 
 				<label className="sr-only" htmlFor="input-email">E-mail</label>
 				<input className={styles.right} onChange={e => setEmail(e.target.value)} type="email" name="input-email" id="input-email" placeholder="Enter email" />
+
+				<label className="sr-only" htmlFor="input-title">Project Name</label>
+				<input className={styles.center} onChange={e => setProjectTitle(e.target.value)} type="text" name="input-title" id="input-title" placeholder="Project Name" />
 
 				<label className="sr-only" htmlFor="input-projectLink">Project Link</label>
 				<input className={styles.left} onChange={e => setProjectLink(e.target.value)} type="text" name="input-projectLink" id="input-projectLink" placeholder="Enter Project Link (eg. github)" />
