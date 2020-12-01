@@ -20,6 +20,10 @@ const formSchema = mongoose.Schema({
 		type: Boolean,
 		required: true,
 		default: true
+	},
+	createdBy: {
+		type: mongoose.SchemaTypes.ObjectId,
+		required: true
 	}
 });
 
