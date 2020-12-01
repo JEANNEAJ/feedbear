@@ -37,7 +37,7 @@ app.use(cors());
 // 	}
 // }));
 
-app.use('/form', formRoutes);
+app.use('/forms', formRoutes);
 app.use(signUpRoutes);
 app.use(secureRoutes);
 
