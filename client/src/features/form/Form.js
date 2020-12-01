@@ -36,12 +36,6 @@ export default function Form() {
 			<h2>Get feedback on your app</h2>
 			<form className={styles.feedbackRequest} action="#">
 
-				<label className="sr-only" htmlFor="input-name">Name</label>
-				<input className={styles.left} onChange={e => setName(e.target.value)} type="text" name="input-name" id="input-name" placeholder="Enter name" />
-
-				<label className="sr-only" htmlFor="input-email">E-mail</label>
-				<input className={styles.right} onChange={e => setEmail(e.target.value)} type="email" name="input-email" id="input-email" placeholder="Enter email" />
-
 				<label className="sr-only" htmlFor="input-title">Project Name</label>
 				<input className={styles.center} onChange={e => setProjectTitle(e.target.value)} type="text" name="input-title" id="input-title" placeholder="Project Name" />
 
