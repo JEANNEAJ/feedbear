@@ -4,10 +4,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from 'passport';
-import csurf from 'csurf';
-import cookieParser from 'cookie-parser';
+// import csurf from 'csurf';
+// import cookieParser from 'cookie-parser';
 
-import UserModel from './models/users.js';
+// import UserModel from './models/users.js';
 
 
 // mongoose.connect(process.env.CONNECTION_URL);
@@ -41,7 +41,7 @@ app.use('/forms', formRoutes);
 app.use(signUpRoutes);
 app.use(secureRoutes);
 
-// Plug in the JWT strategy as a middleware so only verified users can access this route.
+// Plug in the JWT strategy as a middleware (passport.authen...) so only verified users can access this route.
 app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 // Handle errors.

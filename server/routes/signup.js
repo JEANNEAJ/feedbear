@@ -37,7 +37,8 @@ router.post(
             async (error) => {
               if (error) return next(error);
 
-              const body = { _id: user._id, email: user.email };
+              const body = { _id: user._id, email: user.email, name: user.name };
+              console.log('body from signup.js', body);
               const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 
               return res.json({ data: body, token });
