@@ -27,6 +27,6 @@ export const submit = form => async dispatch => {
 };
 
 
-export const selectUser = state => state.form.user;
+// export const selectUser = state => state.form.user;
 
 export default formSlice.reducer;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, submit } from './formSlice';
+import { submit } from './formSlice';
 
 import styles from './Form.module.css';
 
 
 export default function Form() {
-	const user = useSelector(selectUser);
+	const userId = useSelector(state => state.user.data._id);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState('Tear me to shreds!');
@@ -20,6 +20,7 @@ export default function Form() {
 	const handleSubmit = e => {
 		e.preventDefault();
 		dispatch(submit({
+			userId,
 			name,
 			email,
 			message,
