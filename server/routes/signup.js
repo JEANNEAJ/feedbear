@@ -40,7 +40,7 @@ router.post(
               const body = { _id: user._id, email: user.email };
               const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 
-              return res.json({ token });
+              return res.json({ data: body, token });
             }
           );
         } catch (error) {

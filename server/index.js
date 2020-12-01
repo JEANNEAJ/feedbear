@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import csurf from 'csurf';
+import cookieParser from 'cookie-parser';
 
 import UserModel from './models/users.js';
 
@@ -24,6 +26,16 @@ const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+// app.use(cookieParser());
+// app.use(csurf({
+// 	cookie: {
+// 		key: '_csrf-feedbear',
+// 		path: '/context-route',
+// 		httpOnly: true,
+// 		secure: process.env.NODE_ENV === 'production',
+// 		maxAge: 3600
+// 	}
+// }));
 
 app.use('/form', formRoutes);
 app.use(signUpRoutes);
