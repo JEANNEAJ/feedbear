@@ -4,6 +4,7 @@ const formSchema = mongoose.Schema({
 	name: String,
 	email: String,
 	message: String,
+	projectTitle: String,
 	projectLink: {
 		type: String,
 		required: true
