@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import * as api from '../../api';
+import * as api from '../../api/forms';
 
 export default function FeedbackDetails(props) {
 	// console.log(props);

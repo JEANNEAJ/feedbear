@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import * as api from '../../api';
+import * as api from '../../api/forms';
 
 export const formSlice = createSlice({
 	name: 'form',
