@@ -25,7 +25,8 @@ export const userSlice = createSlice({
             email: undefined,
             name: undefined
         },
-        loading: 'idle',
+				loading: 'idle',
+				isLoggedIn: false,
         currentRequestId: undefined,
         error: null
     },
@@ -42,7 +43,8 @@ export const userSlice = createSlice({
             const { requestId } = action.meta;
             if (state.loading === 'pending' && state.currentRequestId === requestId) {
                 state.loading = 'idle';
-                state.data = action.payload.data;
+								state.data = action.payload.data;
+								state.isLoggedIn = true;
                 state.currentRequestId = undefined;
             }
         },
@@ -50,7 +52,8 @@ export const userSlice = createSlice({
         [login.rejected]: (state, action) => {
             const { requestId } = action.meta;
             if (state.loading === 'pending' && state.currentRequestId === requestId) {
-                state.loading = 'idle';
+								state.loading = 'idle';
+								state.isLoggedIn = false;
                 state.error = action.error;
                 state.currentRequestId = undefined;
             }
