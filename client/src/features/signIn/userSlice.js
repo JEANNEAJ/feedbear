@@ -4,7 +4,7 @@ import * as api from '../../api';
 
 export const login = createAsyncThunk(
     'user/login',
-    async (credentials, { getState, requestId}) => {
+    async (credentials, { getState, requestId }) => {
         const { currentRequestId, loading } = getState().user;
 
         // do nothing if another request is being processed
@@ -18,17 +18,18 @@ export const login = createAsyncThunk(
 )
 
 export const userSlice = createSlice({
-	name: 'user',
-	initialState: {
+    name: 'user',
+    initialState: {
         data: {
             _id: undefined,
-            email: undefined
+            email: undefined,
+            name: undefined
         },
         loading: 'idle',
         currentRequestId: undefined,
         error: null
     },
-	reducers: { },
+    reducers: {},
     extraReducers: {
         [login.pending]: (state, action) => {
             if (state.loading === 'idle') {
