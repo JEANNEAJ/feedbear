@@ -15,7 +15,7 @@ export default function FeedbackDetails(props) {
 	useEffect(() => {
 		const populateRequests = async () => {
 			try {
-				const { data } = await api.fetchFormByID(feedbackID);
+				const { data } = await api.fetchFormByID('_id', feedbackID);
 				
 				setRequest(data[0]);
 			} catch (error) {

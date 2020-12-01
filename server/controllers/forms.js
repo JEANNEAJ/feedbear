@@ -12,15 +12,33 @@ export const getForms = async (req, res) => {
 
 export const getFormByID = async (req, res) => {
 	const { id } = req.params;
-	// console.log(id);
+	const { type } = req.query;
+	// if (!type.length) type = "_id";
 
+	// console.log(req);
+	// console.log('getFormByID:', id);
+	console.log(type);
 	try {
-		const formMessages = await FormMessage.find({ "_id": id });
+
+		const formMessages = await FormMessage.find({ [type]: id });
 		res.status(200).json(formMessages);
 	} catch (err) {
 		res.status(404).json({ message: err });
 	}
 };
+
+// export const getFormsByUserId = async (req, res) => {
+// 	const { userId } = req.params;
+// 	console.log('getFormsByUserId:', userId);
+
+// 	try {
+// 		const formMessages = await FormMessage.find({ "userId": userId });
+// 		console.log(formMessages);
+// 		res.status(200).json(formMessages);
+// 	} catch (err) {
+// 		res.status(404).json({ message: err });
+// 	}
+// };
 
 export const createForm = async (req, res) => {
 	const body = req.body;
