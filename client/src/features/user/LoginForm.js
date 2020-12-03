@@ -36,8 +36,9 @@ const LoginForm = () => {
         onChange={(e) => handleChange(setPassword, e)}
       />
       <button onClick={handleLogin}>Sign In</button>
+      <p> Don't have an account?</p>
       <p>
-        Don't have an account? <Link to="/signup">Click here</Link> to sign up.
+        <Link to="/signup">Click here</Link> to sign up.
       </p>
     </form>
   );

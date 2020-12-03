@@ -45,8 +45,9 @@ const SignupForm = () => {
       />
 
       <button onClick={handleLogin}>Create User</button>
+      <p>Already registered?</p>
       <p>
-        Already registered? <Link to="/">Click here</Link> to log in.
+        <Link to="/">Click here</Link> to log in.
       </p>
     </form>
   );
