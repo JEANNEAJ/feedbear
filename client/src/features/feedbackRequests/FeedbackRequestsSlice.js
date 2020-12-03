@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import * as api from '../../api';
+import * as api from "../../api";
 
 export const feedbackRequestSlice = createSlice({
-	name: 'feedbackRequest',
-	initialState: {
-		feedbackRequests: [],
-	},
-	reducers: {
+  name: "feedbackRequest",
+  initialState: {
+    feedbackRequests: [],
+  },
+  reducers: {
     fetchRequests: (state, action) => {
       state.feedbackRequests = action.payload;
     },
@@ -15,18 +15,20 @@ export const feedbackRequestSlice = createSlice({
       state.feedbackRequests = [...state.feedbackRequests, action.payload];
     },
     removeRequest: (state, action) => {
-      state.feedbackRequests = state.feedbackRequests.filter(request => request._id !== action.payload)
+      state.feedbackRequests = state.feedbackRequests.filter(
+        (request) => request._id !== action.payload
+      );
     },
     updateRequest: (state, action) => {
-      state.feedbackRequests = state.feedbackRequests.map(request => {
+      state.feedbackRequests = state.feedbackRequests.map((request) => {
         if (request._id !== action.payload.id) {
           return request;
         }
-        return { ...request, ...action.payload}
-      })
-    }
-  }
-})
+        return { ...request, ...action.payload };
+      });
+    },
+  },
+});
 
 // export const { updateName, updateEmail, updateMessage } = formSlice.actions;
 
@@ -43,7 +45,6 @@ export const feedbackRequestSlice = createSlice({
 // 		console.log(err);
 // 	}
 // };
-
 
 // export const selectUser = state => state.form.user;
 

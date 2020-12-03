@@ -56,7 +56,9 @@ select {
 button {
 	font-family: inherit;
 	color: inherit;
-  border: none;
+  border: 1px solid grey;
+  padding: 0.2em;
+  margin: 0.2em;
   background: none;
   cursor: pointer;
 }
