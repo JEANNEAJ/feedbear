@@ -1,6 +1,6 @@
 // TODO: refactor -> userSlice in the SignIn folder? not sure how to structure this
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as api from '../../api';
+import * as api from '../../api/session';
 
 export const login = createAsyncThunk(
     'user/login',

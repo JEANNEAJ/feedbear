@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import * as api from '../../api';
+import * as api from '../../api/forms';
 
 export const formSlice = createSlice({
 	name: 'form',
-	initialState: {
-		user: 'test'
-	},
+	initialState: { },
 	reducers: {}
 })
 
@@ -26,7 +24,5 @@ export const submit = form => async dispatch => {
 	}
 };
 
-
-export const selectUser = state => state.form.user;
 
 export default formSlice.reducer;
