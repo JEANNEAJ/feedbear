@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styles from "./FeedbackRequest.module.css";
+import styles from "./FeedbackListItem.module.css";
 
-export default function FeedbackRequest(props) {
+export default function FeedbackListItem(props) {
   const {
     name,
     email,

@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./App.css";
 
-import Form from "./features/form/Form";
-import FeedbackRequests from "./features/feedbackRequests/FeedbackRequests";
+import FeedbackRequestForm from "./features/feedbackRequest/FeedbackRequestForm";
+import FeedbackList from "./features/feedbackList/FeedbackList";
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-import SignIn from "./features/signIn/SignIn";
-import { selectUser } from "./features/signIn/userSlice";
+import LoginForm from "./features/user/LoginForm";
+import { selectUser } from "./features/user/userSlice";
+import UserPage from "./features/user/UserPage";
 
-import Nav from "./features/nav/Nav";
-import UserPage from "./features/userPage/UserPage";
+import Nav from "./components/nav/Nav";
 
 function App() {
   const user = useSelector(selectUser);
@@ -30,9 +30,9 @@ function App() {
         <main>
           <div className="wrapper">
             <Route exact path="/">
-              {user._id ? <Form /> : <SignIn />}
+              {user._id ? <FeedbackRequestForm /> : <LoginForm />}
             </Route>
-            <Route exact path="/" component={FeedbackRequests} />
+            <Route exact path="/" component={FeedbackList} />
             <Route
               exact
               path="/feedback/:feedbackID"

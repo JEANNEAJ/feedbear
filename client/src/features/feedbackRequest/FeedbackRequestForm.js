@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { submit } from "./formSlice";
-import { selectUser } from "./../signIn/userSlice";
+import { submit } from "./feedbackRequestSlice";
+import { selectUser } from "../user/userSlice";
 
-import styles from "./Form.module.css";
+import styles from "./FeedbackRequestForm.module.css";
 
-export default function Form() {
+export default function FeedbackRequestForm() {
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
   const [message, setMessage] = useState("Tear me to shreds!");
