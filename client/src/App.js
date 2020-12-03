@@ -5,14 +5,13 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./App.css";
 
-import FeedbackRequestForm from "./features/feedbackRequest/FeedbackRequestForm";
-import FeedbackList from "./features/feedbackList/FeedbackList";
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 import LoginForm from "./features/user/LoginForm";
 import { selectUser } from "./features/user/userSlice";
 import UserPage from "./features/user/UserPage";
 
 import Nav from "./components/nav/Nav";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   const user = useSelector(selectUser);
@@ -30,9 +29,8 @@ function App() {
         <main>
           <div className="wrapper">
             <Route exact path="/">
-              {user._id ? <FeedbackRequestForm /> : <LoginForm />}
+              {user._id ? <Dashboard /> : <LoginForm />}
             </Route>
-            <Route exact path="/" component={FeedbackList} />
             <Route
               exact
               path="/feedback/:feedbackID"
