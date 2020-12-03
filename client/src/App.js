@@ -15,6 +15,9 @@ import FeedbackDetails from './features/feedbackDetails/FeedbackDetails';
 import SignIn from './features/signIn/SignIn';
 import { selectUser } from './features/signIn/userSlice';
 
+import Nav from './features/nav/Nav';
+import UserPage from './features/userPage/UserPage';
+
 
 function App() {
 	const user = useSelector(selectUser);
@@ -27,9 +30,7 @@ function App() {
 			<div className="App">
 				<header>
 					<div className="wrapper">
-						<h1><Link to={"/"}>
-							Feedback App
-								</Link></h1>
+						<Nav />
 					</div>
 				</header>
 
@@ -40,6 +41,7 @@ function App() {
 						</Route>
 						<Route exact path="/" component={FeedbackRequests} />
 						<Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
+						<Route exact path="/user/:userId" component={UserPage} />
 					</div>
 				</main>
 

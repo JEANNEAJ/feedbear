@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
 
 const formSchema = mongoose.Schema({
+	userId: {
+		type: mongoose.SchemaTypes.ObjectId,
+		required: true
+	},
 	name: String,
-	email: String,
 	message: String,
 	projectTitle: String,
 	projectLink: {
