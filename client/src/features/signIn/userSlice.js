@@ -17,6 +17,14 @@ export const login = createAsyncThunk(
     }
 )
 
+export const signup = createAsyncThunk(
+    'user/signup',
+    async (credentials) => {
+        const res = await api.signup(credentials);
+        return res.data;
+    }
+)
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
