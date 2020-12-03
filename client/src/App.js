@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./App.css";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 import LoginForm from "./features/user/LoginForm";
 import { selectUser } from "./features/user/userSlice";
+import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
 
 import Nav from "./components/nav/Nav";
@@ -31,6 +32,7 @@ function App() {
             <Route exact path="/">
               {user._id ? <Dashboard /> : <LoginForm />}
             </Route>
+            <Route path="/signup" component={SignupForm} />
             <Route
               exact
               path="/feedback/:feedbackID"

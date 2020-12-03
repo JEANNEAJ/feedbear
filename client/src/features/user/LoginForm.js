@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import SignupForm from "./SignupForm";
 import { login } from "./userSlice";
+
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showNewUser, setShowNewUser] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (handler, e) => {
     handler(e.target.value);
@@ -21,28 +22,27 @@ const LoginForm = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setShowNewUser(true);
+    history.push("/signup");
   };
 
   return (
-    <>
-      <form>
-        <input
-          name="email"
-          type="text"
-          onChange={(e) => handleChange(setEmail, e)}
-        />
+    <form>
+      <input
+        name="email"
+        type="text"
+        placeholder="email"
+        onChange={(e) => handleChange(setEmail, e)}
+      />
 
-        <input
-          name="password"
-          type="password"
-          onChange={(e) => handleChange(setPassword, e)}
-        />
-        <button onClick={handleLogin}>Sign In</button>
-        <button onClick={handleSignup}>Sign Up</button>
-      </form>
-      {showNewUser && <SignupForm />}
-    </>
+      <input
+        name="password"
+        type="password"
+        placeholder="password"
+        onChange={(e) => handleChange(setPassword, e)}
+      />
+      <button onClick={handleLogin}>Sign In</button>
+      <button onClick={handleSignup}>Sign Up</button>
+    </form>
   );
 };
 

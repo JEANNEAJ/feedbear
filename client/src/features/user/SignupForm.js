@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "./userSlice";
+import { Link } from "react-router-dom";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -42,6 +43,9 @@ const SignupForm = () => {
       />
 
       <button onClick={handleLogin}>Create User</button>
+      <p style={{ "text-align": "center" }}>
+        Already registered? <Link to="/">Click here</Link> to log in.
+      </p>
     </form>
   );
 };
