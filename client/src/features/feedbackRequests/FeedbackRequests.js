@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import { useSelector, useDispatch } from 'react-redux';
 import styles from './FeedbackRequests.module.css';
 
-import * as api from '../../api';
+import * as api from '../../api/forms';
 
 import FeedbackRequest from './feedbackRequest/FeedbackRequest';
 

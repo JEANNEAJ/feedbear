@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const formSchema = mongoose.Schema({
+	userId: String,
 	name: String,
 	email: String,
 	message: String,

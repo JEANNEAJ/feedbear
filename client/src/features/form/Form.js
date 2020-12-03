@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { submit } from './formSlice';
 import { selectUser } from './../signIn/userSlice';
 
+
 import styles from './Form.module.css';
 
 
 export default function Form() {
 	const user = useSelector(selectUser);
+  const { _id: userId, name, email } = user;
 	const [message, setMessage] = useState('Tear me to shreds!');
 	const [projectTitle, setProjectTitle] = useState('');
 	const [projectLink, setProjectLink] = useState('');
@@ -18,13 +20,13 @@ export default function Form() {
 	const handleSubmit = e => {
 		e.preventDefault();
 		dispatch(submit({
-			name: user.name,
-			email: user.email,
+			userId,
+      name,
+			email,
 			message,
 			projectTitle,
 			projectLink,
-			liveLink,
-			createdBy: user._id
+			liveLink
 		}));
 
 	}
