@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import * as api from '../../api/forms';
 
-import FeedbackRequest from "../feedbackRequests/feedbackRequest/FeedbackRequest";
+import FeedbackListItem from "../feedbackList/FeedbackListItem";
 
 export default function UserPage() {
   const user = useSelector((state) => state.user);
@@ -40,7 +40,7 @@ export default function UserPage() {
       ) : (
         <ul>
           {requests.map((request) => (
-            <FeedbackRequest key={request._id} request={request} />
+            <FeedbackListItem key={request._id} request={request} />
           ))}
         </ul>
       )}

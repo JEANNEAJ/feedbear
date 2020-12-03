@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 // import { useSelector, useDispatch } from 'react-redux';
-import styles from "./FeedbackRequests.module.css";
+import styles from "./FeedbackList.module.css";
 
 import * as api from "../../api/forms";
 
-import FeedbackRequest from "./feedbackRequest/FeedbackRequest";
+import FeedbackListItem from "./FeedbackListItem";
 
-export default function FeedbackRequests() {
+export default function FeedbackList() {
   const [requests, setRequests] = useState([]);
   // const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ export default function FeedbackRequests() {
       <div className="requests">
         <ul>
           {requests.map((request) => (
-            <FeedbackRequest key={request._id} request={request} />
+            <FeedbackListItem key={request._id} request={request} />
           ))}
         </ul>
       </div>
