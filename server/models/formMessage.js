@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 
 const formSchema = mongoose.Schema({
-	userId: String,
+	userId: {
+		type: mongoose.SchemaTypes.ObjectId,
+		required: true
+	},
 	name: String,
-	email: String,
 	message: String,
 	projectTitle: String,
 	projectLink: {
@@ -21,10 +23,6 @@ const formSchema = mongoose.Schema({
 		type: Boolean,
 		required: true,
 		default: true
-	},
-	createdBy: {
-		type: mongoose.SchemaTypes.ObjectId,
-		required: true
 	}
 });
 

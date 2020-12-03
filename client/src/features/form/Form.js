@@ -9,7 +9,7 @@ import styles from './Form.module.css';
 
 export default function Form() {
 	const user = useSelector(selectUser);
-  const { _id: userId, name, email } = user;
+  const { _id: userId, name } = user;
 	const [message, setMessage] = useState('Tear me to shreds!');
 	const [projectTitle, setProjectTitle] = useState('');
 	const [projectLink, setProjectLink] = useState('');
@@ -22,7 +22,6 @@ export default function Form() {
 		dispatch(submit({
 			userId,
       name,
-			email,
 			message,
 			projectTitle,
 			projectLink,
