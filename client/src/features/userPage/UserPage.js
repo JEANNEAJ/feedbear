@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import * as api from '../../api';
+import * as api from '../../api/forms';
 
 import FeedbackRequest from '../feedbackRequests/feedbackRequest/FeedbackRequest';
 
