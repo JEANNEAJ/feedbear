@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { login } from "./userSlice";
 
-import { useHistory } from "react-router-dom";
+import "./forms.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleChange = (handler, e) => {
     handler(e.target.value);
@@ -20,13 +20,8 @@ const LoginForm = () => {
     dispatch(login(credentials));
   };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    history.push("/signup");
-  };
-
   return (
-    <form>
+    <form className="form">
       <input
         name="email"
         type="text"
@@ -41,7 +36,9 @@ const LoginForm = () => {
         onChange={(e) => handleChange(setPassword, e)}
       />
       <button onClick={handleLogin}>Sign In</button>
-      <button onClick={handleSignup}>Sign Up</button>
+      <p>
+        Don't have an account? <Link to="/signup">Click here</Link> to sign up.
+      </p>
     </form>
   );
 };

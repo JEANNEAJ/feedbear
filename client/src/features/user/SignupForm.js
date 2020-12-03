@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { signup } from "./userSlice";
 import { Link } from "react-router-dom";
 
+import "./forms.css";
+
 const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +22,7 @@ const SignupForm = () => {
   };
 
   return (
-    <form>
+    <form className="form">
       <input
         name="name"
         type="text"
@@ -43,7 +45,7 @@ const SignupForm = () => {
       />
 
       <button onClick={handleLogin}>Create User</button>
-      <p style={{ "text-align": "center" }}>
+      <p>
         Already registered? <Link to="/">Click here</Link> to log in.
       </p>
     </form>
