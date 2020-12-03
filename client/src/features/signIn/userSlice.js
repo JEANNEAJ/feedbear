@@ -33,8 +33,8 @@ export const userSlice = createSlice({
             email: undefined,
             name: undefined
         },
-				loading: 'idle',
-				isLoggedIn: false,
+        loading: 'idle',
+        isLoggedIn: false,
         currentRequestId: undefined,
         error: null
     },
