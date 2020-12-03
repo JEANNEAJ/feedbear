@@ -10,6 +10,9 @@ router.get('/', getForms);
 // get form by ID
 router.get('/:id', getFormByID);
 
+// get forms by user ID
+// router.get('/:userId', getFormsByUserId);
+
 // create new form
 router.post('/', createForm);
 

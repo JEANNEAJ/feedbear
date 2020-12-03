@@ -6,6 +6,7 @@ import styles from './Form.module.css';
 
 
 export default function Form() {
+	const userId = useSelector(state => state.user.data._id);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState('Tear me to shreds!');
@@ -19,6 +20,7 @@ export default function Form() {
 	const handleSubmit = e => {
 		e.preventDefault();
 		dispatch(submit({
+			userId,
 			name,
 			email,
 			message,

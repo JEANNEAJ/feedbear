@@ -13,7 +13,7 @@ const SignIn = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const credentials = { email, password };
+				const credentials = { email, password };
         dispatch(login(credentials));
     }
 
