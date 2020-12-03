@@ -11,7 +11,7 @@ import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 import SignIn from "./features/signIn/SignIn";
 import { selectUser } from "./features/signIn/userSlice";
 
-import Nav from "./features/nav/Nav";
+import Nav from "./components/nav/Nav";
 import UserPage from "./features/userPage/UserPage";
 
 function App() {
