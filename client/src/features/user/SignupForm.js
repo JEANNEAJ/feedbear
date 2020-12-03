@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "./userSlice";
 
-const SignUp = () => {
+const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -46,4 +46,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignupForm;

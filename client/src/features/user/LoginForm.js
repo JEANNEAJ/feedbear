@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import SignUp from "./SignupForm";
+import SignupForm from "./SignupForm";
 import { login } from "./userSlice";
 
-const SignIn = () => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showNewUser, setShowNewUser] = useState(false);
@@ -41,9 +41,9 @@ const SignIn = () => {
         <button onClick={handleLogin}>Sign In</button>
         <button onClick={handleSignup}>Sign Up</button>
       </form>
-      {showNewUser && <SignUp />}
+      {showNewUser && <SignupForm />}
     </>
   );
 };
 
-export default SignIn;
+export default LoginForm;
