@@ -21,13 +21,22 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        console.log(req.body);
         const name = req.body.name;
-        const user = await UserModel.create({ name, email, password });
+        const user = await UserModel.create({
+          name,
+          email,
+          password,
+        });
 
         return done(null, user);
-      } catch (error) {
-        done(error);
+      } catch (err) {
+        // handle failed registration due to duplicate email
+        if (err.code === 11000) {
+          err.status = 409;
+          err.message = "A user with this email already exists.";
+        }
+
+        return done(err);
       }
     }
   )
