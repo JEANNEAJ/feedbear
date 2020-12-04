@@ -1,10 +1,9 @@
-// TODO: refactor -> userSlice in the SignIn folder? not sure how to structure this
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../../api/session";
 
 export const login = createAsyncThunk(
   "user/login",
-  async (credentials, { getState, requestId }) => {
+  async (credentials, { getState, requestId, rejectWithValue }) => {
     const { currentRequestId, loading } = getState().user;
 
     // do nothing if another request is being processed
@@ -12,8 +11,12 @@ export const login = createAsyncThunk(
       return;
     }
 
-    const response = await api.login(credentials);
-    return response.data;
+    try {
+      const response = await api.login(credentials);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 
@@ -69,7 +72,7 @@ export const userSlice = createSlice({
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
         state.isLoggedIn = false;
-        state.error = action.error;
+        state.error = action.payload;
         state.currentRequestId = undefined;
       }
     },
