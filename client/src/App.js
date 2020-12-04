@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import "./App.css";
 
@@ -32,7 +32,9 @@ function App() {
             <Route exact path="/">
               {user._id ? <Dashboard /> : <LoginForm />}
             </Route>
-            <Route path="/signup" component={SignupForm} />
+            <Route path="/signup">
+              {user._id ? <Redirect to="/" /> : <SignupForm />}
+            </Route>
             <Route
               exact
               path="/feedback/:feedbackID"
