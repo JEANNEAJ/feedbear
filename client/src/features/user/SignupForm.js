@@ -15,7 +15,7 @@ const SignupForm = () => {
     handler(e.target.value);
   };
 
-  const handleLogin = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
     const credentials = { email, password, name };
     dispatch(signup(credentials));
@@ -44,7 +44,7 @@ const SignupForm = () => {
         onChange={(e) => handleChange(setPassword, e)}
       />
 
-      <button onClick={handleLogin}>Create User</button>
+      <button onClick={handleSignup}>Create User</button>
       <p>Already registered?</p>
       <p>
         <Link to="/">Click here</Link> to log in.
