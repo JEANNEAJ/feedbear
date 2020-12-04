@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { login } from "./userSlice";
+import { login, selectError } from "./userSlice";
 
 import "./forms.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   const handleChange = (handler, e) => {
@@ -35,6 +36,17 @@ const LoginForm = () => {
         placeholder="password"
         onChange={(e) => handleChange(setPassword, e)}
       />
+
+      {/* TODO: refactor this into an error message component? FormError or something? */}
+      {error ? (
+        <p className="error">
+          <strong>Error: </strong>
+          {error}
+        </p>
+      ) : (
+        ""
+      )}
+
       <button onClick={handleLogin}>Sign In</button>
       <p> Don't have an account?</p>
       <p>

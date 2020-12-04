@@ -104,5 +104,6 @@ export const userSlice = createSlice({
 });
 
 export const selectUser = (state) => state.user.data;
+export const selectError = (state) => state.user.error;
 
 export default userSlice.reducer;
