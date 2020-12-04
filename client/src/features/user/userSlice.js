@@ -17,10 +17,20 @@ export const login = createAsyncThunk(
   }
 );
 
-export const signup = createAsyncThunk("user/signup", async (credentials) => {
-  const res = await api.signup(credentials);
-  return res.data;
-});
+export const signup = createAsyncThunk(
+  "user/signup",
+  async (credentials, { getState, requestId }) => {
+    const { currentRequestId, loading } = getState().user;
+
+    // do nothing if another request is being processed
+    if (loading !== "pending" || requestId !== currentRequestId) {
+      return;
+    }
+
+    const res = await api.signup(credentials);
+    return res.data;
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -55,6 +65,33 @@ export const userSlice = createSlice({
     },
 
     [login.rejected]: (state, action) => {
+      const { requestId } = action.meta;
+      if (state.loading === "pending" && state.currentRequestId === requestId) {
+        state.loading = "idle";
+        state.isLoggedIn = false;
+        state.error = action.error;
+        state.currentRequestId = undefined;
+      }
+    },
+
+    [signup.pending]: (state, action) => {
+      if (state.loading === "idle") {
+        state.loading = "pending";
+        state.currentRequestId = action.meta.requestId;
+      }
+    },
+
+    [signup.fulfilled]: (state, action) => {
+      const { requestId } = action.meta;
+      if (state.loading === "pending" && state.currentRequestId === requestId) {
+        state.loading = "idle";
+        state.data = action.payload.data;
+        state.isLoggedIn = true;
+        state.currentRequestId = undefined;
+      }
+    },
+
+    [signup.rejected]: (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";

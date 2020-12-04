@@ -9,9 +9,13 @@ router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
   async (req, res, next) => {
+    const { _id, email, name } = req.user;
+
+    // TODO: handle establishing a session after signup
+
     res.json({
       message: "Signup successful",
-      user: req.user,
+      data: { _id, email, name },
     });
   }
 );
