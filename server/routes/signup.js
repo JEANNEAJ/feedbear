@@ -24,9 +24,12 @@ router.post(
 router.post("/login", async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
-      if (err || !user) {
-        const error = new Error("An error occurred.");
+      if (!user) {
+        return res.status(401).send({ message: "Login failed." });
+      }
 
+      if (err) {
+        const error = new Error("An error occurred.");
         return next(error);
       }
 
@@ -35,7 +38,6 @@ router.post("/login", async (req, res, next) => {
         if (error) return next(error);
 
         const body = { _id: user._id, email: user.email, name: user.name };
-        console.log("body from signup.js", body);
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 
         return res.json({ data: body, token });
