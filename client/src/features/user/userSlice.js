@@ -52,7 +52,14 @@ export const userSlice = createSlice({
     currentRequestId: undefined,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearErrors(state) {
+      state.loading = "idle";
+      state.currentRequestId = undefined;
+      state.error = null;
+      state.isLoggedIn = false;
+    },
+  },
   extraReducers: {
     [login.pending]: (state, action) => {
       if (state.loading === "idle") {
@@ -113,4 +120,6 @@ export const userSlice = createSlice({
 export const selectUser = (state) => state.user.data;
 export const selectError = (state) => state.user.error;
 
-export default userSlice.reducer;
+const { actions, reducer } = userSlice;
+export const { clearErrors } = actions;
+export default reducer;

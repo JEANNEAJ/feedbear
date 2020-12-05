@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { login, selectError } from "./userSlice";
+import { clearErrors, login, selectError } from "./userSlice";
 
 import "./forms.css";
 
@@ -10,6 +10,13 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const error = useSelector(selectError);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // cleanup error state in Redux store on unmount
+    return () => {
+      dispatch(clearErrors());
+    };
+  }, [dispatch]);
 
   const handleChange = (handler, e) => {
     handler(e.target.value);
