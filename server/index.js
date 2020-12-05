@@ -25,17 +25,6 @@ const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-// app.use(cookieParser());
-// app.use(csurf({
-// 	cookie: {
-// 		key: '_csrf-feedbear',
-// 		path: '/context-route',
-// 		httpOnly: true,
-// 		secure: process.env.NODE_ENV === 'production',
-// 		maxAge: 3600
-// 	}
-// }));
-
 app.use("/forms", formRoutes);
 app.use(signUpRoutes);
 app.use(secureRoutes);
@@ -50,7 +39,7 @@ app.use(
 // Handle errors.
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
-  res.json({ error: err });
+  res.json({ message: err.message || "An unidentified error occurred." });
 });
 
 // app.listen(3000, () => {
