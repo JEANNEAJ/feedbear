@@ -5,20 +5,16 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 
 // adding new user; Passport authenticates the user based on the middleware created in auth.js
-router.post(
-  "/signup",
-  passport.authenticate("signup", { session: false }),
-  async (req, res, next) => {
+router.post("/signup", async (req, res, next) => {
+  passport.authenticate("signup", async (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
     const { _id, email, name } = req.user;
-
-    // TODO: handle establishing a session after signup
-
-    res.json({
-      message: "Signup successful",
-      data: { _id, email, name },
-    });
-  }
-);
+    return res.status(200).json({ data: { _id, email, name } });
+  })(req, res, next);
+});
 
 // authenticating existing user login
 router.post("/login", async (req, res, next) => {
