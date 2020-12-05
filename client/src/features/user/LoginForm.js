@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearErrors, login, selectError } from "./userSlice";
@@ -11,7 +11,7 @@ const LoginForm = () => {
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // cleanup error state in Redux store on unmount
     return () => {
       dispatch(clearErrors());
