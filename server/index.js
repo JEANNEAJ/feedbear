@@ -14,7 +14,7 @@ import passport from "passport";
 mongoose.Promise = global.Promise;
 
 dotenv.config();
-import "./auth/auth.js";
+import "./strategies/strategies.js";
 
 import formRoutes from "./routes/forms.js";
 import authRoutes from "./routes/auth.js";
