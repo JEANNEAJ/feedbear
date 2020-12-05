@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "user/signup",
-  async (credentials, { getState, requestId }) => {
+  async (credentials, { getState, requestId, rejectWithValue }) => {
     const { currentRequestId, loading } = getState().user;
 
     // do nothing if another request is being processed
@@ -30,8 +30,12 @@ export const signup = createAsyncThunk(
       return;
     }
 
-    const res = await api.signup(credentials);
-    return res.data;
+    try {
+      const response = await api.signup(credentials);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 
@@ -99,7 +103,7 @@ export const userSlice = createSlice({
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
         state.isLoggedIn = false;
-        state.error = action.error;
+        state.error = action.payload;
         state.currentRequestId = undefined;
       }
     },
