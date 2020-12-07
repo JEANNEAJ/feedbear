@@ -39,6 +39,36 @@ export const signup = createAsyncThunk(
   }
 );
 
+const pending = (state, action) => {
+  console.log('pending');
+  if (state.loading === "idle") {
+    state.loading = "pending";
+    state.currentRequestId = action.meta.requestId;
+  }
+}
+
+const fulfilled = (state, action) => {
+  console.log('fulfilled');
+  const { requestId } = action.meta;
+  if (state.loading === "pending" && state.currentRequestId === requestId) {
+    state.loading = "idle";
+    state.data = action.payload.data;
+    state.isLoggedIn = true;
+    state.currentRequestId = undefined;
+  }
+}
+
+const rejected = (state, action) => {
+  console.log('rejected');
+  const { requestId } = action.meta;
+  if (state.loading === "pending" && state.currentRequestId === requestId) {
+    state.loading = "idle";
+    state.isLoggedIn = false;
+    state.error = action.payload;
+    state.currentRequestId = undefined;
+  }
+}
+
 export const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -61,59 +91,13 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [login.pending]: (state, action) => {
-      if (state.loading === "idle") {
-        state.loading = "pending";
-        state.currentRequestId = action.meta.requestId;
-      }
-    },
+    [login.pending]: pending,
+    [login.fulfilled]: fulfilled,
+    [login.rejected]: rejected,
 
-    [login.fulfilled]: (state, action) => {
-      const { requestId } = action.meta;
-      if (state.loading === "pending" && state.currentRequestId === requestId) {
-        state.loading = "idle";
-        state.data = action.payload.data;
-        state.isLoggedIn = true;
-        state.currentRequestId = undefined;
-      }
-    },
-
-    [login.rejected]: (state, action) => {
-      const { requestId } = action.meta;
-      if (state.loading === "pending" && state.currentRequestId === requestId) {
-        state.loading = "idle";
-        state.isLoggedIn = false;
-        state.error = action.payload;
-        state.currentRequestId = undefined;
-      }
-    },
-
-    [signup.pending]: (state, action) => {
-      if (state.loading === "idle") {
-        state.loading = "pending";
-        state.currentRequestId = action.meta.requestId;
-      }
-    },
-
-    [signup.fulfilled]: (state, action) => {
-      const { requestId } = action.meta;
-      if (state.loading === "pending" && state.currentRequestId === requestId) {
-        state.loading = "idle";
-        state.data = action.payload.data;
-        state.isLoggedIn = true;
-        state.currentRequestId = undefined;
-      }
-    },
-
-    [signup.rejected]: (state, action) => {
-      const { requestId } = action.meta;
-      if (state.loading === "pending" && state.currentRequestId === requestId) {
-        state.loading = "idle";
-        state.isLoggedIn = false;
-        state.error = action.payload;
-        state.currentRequestId = undefined;
-      }
-    },
+    [signup.pending]: pending,
+    [signup.fulfilled]: fulfilled,
+    [signup.rejected]: rejected,
   },
 });
 
