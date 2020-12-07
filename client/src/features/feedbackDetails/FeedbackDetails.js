@@ -10,8 +10,8 @@ export default function FeedbackDetails(props) {
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
-  console.log(request);
-  const { name, email, message, projectLink, liveLink, createdAt } = request;
+  // console.log(request);
+  const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
   useEffect(() => {
     const populateRequests = async () => {
@@ -34,11 +34,13 @@ export default function FeedbackDetails(props) {
         "Loading..."
       ) : (
         <>
-          <h2>Project Name</h2>
+          <h2>{projectTitle}</h2>
           <p>by {name}</p>
+          <p>created at {createdAt}</p>
           <img src="https://placekitten.com/200/300" alt="Placeholder" />
           <a href={liveLink}>View App</a>
           <a href={projectLink}>View Repository</a>
+          <p>{message}</p>
 
           <Form type="CommentForm" />
         </>
