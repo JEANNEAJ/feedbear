@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "./userSlice";
+import { Link } from "react-router-dom";
 
-const SignUp = () => {
+import "./forms.css";
+
+const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -12,14 +15,14 @@ const SignUp = () => {
     handler(e.target.value);
   };
 
-  const handleLogin = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
     const credentials = { email, password, name };
     dispatch(signup(credentials));
   };
 
   return (
-    <form>
+    <form className="form">
       <input
         name="name"
         type="text"
@@ -41,9 +44,13 @@ const SignUp = () => {
         onChange={(e) => handleChange(setPassword, e)}
       />
 
-      <button onClick={handleLogin}>Create User</button>
+      <button onClick={handleSignup}>Create User</button>
+      <p>Already registered?</p>
+      <p>
+        <Link to="/">Click here</Link> to log in.
+      </p>
     </form>
   );
 };
 
-export default SignUp;
+export default SignupForm;

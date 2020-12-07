@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import SignUp from "./SignupForm";
+import { Link } from "react-router-dom";
 import { login } from "./userSlice";
 
-const SignIn = () => {
+import "./forms.css";
+
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showNewUser, setShowNewUser] = useState(false);
   const dispatch = useDispatch();
 
   const handleChange = (handler, e) => {
@@ -19,31 +20,28 @@ const SignIn = () => {
     dispatch(login(credentials));
   };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    setShowNewUser(true);
-  };
-
   return (
-    <>
-      <form>
-        <input
-          name="email"
-          type="text"
-          onChange={(e) => handleChange(setEmail, e)}
-        />
+    <form className="form">
+      <input
+        name="email"
+        type="text"
+        placeholder="email"
+        onChange={(e) => handleChange(setEmail, e)}
+      />
 
-        <input
-          name="password"
-          type="password"
-          onChange={(e) => handleChange(setPassword, e)}
-        />
-        <button onClick={handleLogin}>Sign In</button>
-        <button onClick={handleSignup}>Sign Up</button>
-      </form>
-      {showNewUser && <SignUp />}
-    </>
+      <input
+        name="password"
+        type="password"
+        placeholder="password"
+        onChange={(e) => handleChange(setPassword, e)}
+      />
+      <button onClick={handleLogin}>Sign In</button>
+      <p> Don't have an account?</p>
+      <p>
+        <Link to="/signup">Click here</Link> to sign up.
+      </p>
+    </form>
   );
 };
 
-export default SignIn;
+export default LoginForm;
