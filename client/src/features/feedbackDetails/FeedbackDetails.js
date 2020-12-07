@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import Form from '../../components/form/Form';
+
 import * as api from "../../api/forms";
 
 export default function FeedbackDetails(props) {
@@ -38,18 +40,7 @@ export default function FeedbackDetails(props) {
           <a href={liveLink}>View App</a>
           <a href={projectLink}>View Repository</a>
 
-          <form action="#">
-            <label className="sr-only" htmlFor="input-feedback">
-              Your feedback
-            </label>
-            <textarea
-              name="input-feedback"
-              id="input-feedback"
-              placeholder="Leave your feedback"
-            ></textarea>
-
-            <button type="submit">Submit</button>
-          </form>
+          <Form type="CommentForm" />
         </>
       )}
     </div>

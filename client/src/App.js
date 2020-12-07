@@ -6,10 +6,10 @@ import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import "./App.css";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-import LoginForm from "./features/user/LoginForm";
 import { selectUser } from "./features/user/userSlice";
-import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
+
+import Form from './components/form/Form';
 
 import Nav from "./components/nav/Nav";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -30,10 +30,10 @@ function App() {
         <main>
           <div className="wrapper">
             <Route exact path="/">
-              {user._id ? <Dashboard /> : <LoginForm />}
+              {user._id ? <Dashboard /> : <Form type="LoginForm" />}
             </Route>
             <Route path="/signup">
-              {user._id ? <Redirect to="/" /> : <SignupForm />}
+              {user._id ? <Redirect to="/" /> : <Form type="SignupForm" />}
             </Route>
             <Route
               exact
