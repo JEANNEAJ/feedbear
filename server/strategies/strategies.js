@@ -10,7 +10,7 @@ import UserModel from "../models/users.js";
 
 dotenv.config();
 
-// saves the information provided by the user to the database, and then sends the user information to the next middleware if successful
+// create strategy for registering users
 passport.use(
   "signup",
   new localStrategy(
@@ -21,19 +21,30 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        console.log(req.body);
         const name = req.body.name;
-        const user = await UserModel.create({ name, email, password });
+
+        // create new User document and save it in the database
+        const user = await UserModel.create({
+          name,
+          email,
+          password,
+        });
 
         return done(null, user);
-      } catch (error) {
-        done(error);
+      } catch (err) {
+        // handle failed registration due to duplicate email
+        if (err.code === 11000) {
+          err.status = 409;
+          err.message = "A user with this email already exists.";
+        }
+
+        return done(err);
       }
     }
   )
 );
 
-// finds the first user associated with the email provided
+// create strategy for logging in
 passport.use(
   "login",
   new localStrategy(
@@ -43,7 +54,7 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        // check that user exists with given email
+        // check that the provided email is a registered account
         const user = await UserModel.findOne({ email });
         if (!user) {
           return done(null, false, { message: "User not found" });

@@ -4,6 +4,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .form input,
@@ -21,4 +22,12 @@
 
 .form p {
   text-align: center;
+}
+
+.error {
+  background-color: orangered;
+  color: white;
+  width: max-content;
+  padding: 5px 10px;
+  border-radius: 10px;
 }

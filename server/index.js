@@ -4,61 +4,41 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import passport from "passport";
-// import csurf from 'csurf';
-// import cookieParser from 'cookie-parser';
+import "./strategies/strategies.js";
 
-// import UserModel from './models/users.js';
-
-// mongoose.connect(process.env.CONNECTION_URL);
-// mongoose.connection.on('error', error => console.log(error));
-mongoose.Promise = global.Promise;
-
-dotenv.config();
-import "./auth/auth.js";
-
+// routes
 import formRoutes from "./routes/forms.js";
-import signUpRoutes from "./routes/signup.js";
+import authRoutes from "./routes/auth.js";
 import secureRoutes from "./routes/secure-routes.js";
 
-const app = express();
+// settings
+mongoose.Promise = global.Promise;
+dotenv.config();
+const PORT = process.env.PORT || 5000;
 
+// middleware stack
+const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-// app.use(cookieParser());
-// app.use(csurf({
-// 	cookie: {
-// 		key: '_csrf-feedbear',
-// 		path: '/context-route',
-// 		httpOnly: true,
-// 		secure: process.env.NODE_ENV === 'production',
-// 		maxAge: 3600
-// 	}
-// }));
-
 app.use("/forms", formRoutes);
-app.use(signUpRoutes);
+app.use(authRoutes);
 app.use(secureRoutes);
 
-// Plug in the JWT strategy as a middleware (passport.authen...) so only verified users can access this route.
+// TODO: decide if we want to use this approach for private routes
 app.use(
   "/user",
   passport.authenticate("jwt", { session: false }),
   secureRoutes
 );
 
-// Handle errors.
+// error-handling middleware
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
-  res.json({ error: err });
+  res.json({ message: err.message || "An unidentified error occurred." });
 });
 
-// app.listen(3000, () => {
-// 	console.log('Server started.')
-// });
-
-const PORT = process.env.PORT || 5000;
-
+// connect to db and start the serve
 mongoose
   .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
