@@ -13,6 +13,7 @@ import Form from './components/form/Form';
 
 import Nav from "./components/nav/Nav";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Footer from './components/Footer/Footer';
 
 function App() {
   const user = useSelector(selectUser);
@@ -44,9 +45,7 @@ function App() {
           </div>
         </main>
 
-        <footer>
-          <div className="wrapper"></div>
-        </footer>
+        <Footer />
       </div>
     </Router>
   );
