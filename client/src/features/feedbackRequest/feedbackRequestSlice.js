@@ -23,4 +23,15 @@ export const submit = (form) => async (dispatch) => {
   }
 };
 
+export const update = (form, id) => async (dispatch) => {
+  try {
+    const { data } = await api.updateFeedbackDetails(id, form);
+    console.log("update success");
+    console.log(data);
+  } catch (err) {
+    console.log("update failed");
+    console.log(err);
+  }
+}
+
 export default formSlice.reducer;

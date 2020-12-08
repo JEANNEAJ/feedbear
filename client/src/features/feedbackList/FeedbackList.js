@@ -25,18 +25,18 @@ export default function FeedbackList() {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Feedback Requests</h2>
-      <button className={styles.refresh} onClick={handleRefresh}>
-        refresh 🔃
+    <div>
+      <div className={styles.titleSection}>
+        <h2>Feedback Requests</h2>
+        <button className={styles.refresh} onClick={handleRefresh}>
+          refresh 🔃
       </button>
-      <div className="requests">
-        <ul>
-          {requests.map((request) => (
-            <FeedbackListItem key={request._id} request={request} />
-          ))}
-        </ul>
       </div>
+      <ul className={styles.container}>
+        {requests.map((request) => (
+          <FeedbackListItem key={request._id} request={request} />
+        ))}
+      </ul>
     </div>
   );
 }

@@ -20,6 +20,8 @@ export const login = async (req, res, next) => {
         const body = { _id: user._id, email: user.email, name: user.name };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 
+        req.session.user = body; // stores user session
+
         return res.json({ data: body, token });
       });
     } catch (error) {

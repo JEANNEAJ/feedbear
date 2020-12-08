@@ -7,7 +7,11 @@ import Form from '../form/Form';
 const Dashboard = () => {
   return (
     <div>
-      <Form type="FeedbackRequestForm" />
+
+      <Form type="FeedbackRequestForm" buttonText='Submit' />
+
+//       <FeedbackRequestForm buttonText='Submit' />
+
       <FeedbackList />
     </div>
   );
