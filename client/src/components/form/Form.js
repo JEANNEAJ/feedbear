@@ -14,9 +14,10 @@ export default function Form(props) {
   const { type } = props;
   const FormType = Components[type];
 
+  // console.log(...props);
   return (
     <form className={styles.form} action="#">
-      <FormType />
+      <FormType {...props} />
     </form>
   )
 }

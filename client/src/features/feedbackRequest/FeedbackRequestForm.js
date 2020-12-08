@@ -109,15 +109,15 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
       ></textarea>
 
 
-//       <button className={styles.button} onClick={handleSubmit} type="submit">
+{/* //       <button className={styles.button} onClick={handleSubmit} type="submit">
 //         Submit
 //       </button>
-//     </>
+//     </> */}
 
         <button className={styles.button} onClick={handleSubmit} type="submit">
           {buttonText}
         </button>
-      </form>
-    </div>
+      </>
+    // </>
   );
 }
