@@ -29,6 +29,14 @@ export default function UserPage() {
     }
   };
 
+  const handleDelete = async (requestId) => {
+    try {
+      await api.deleteFeedbackRequest(requestId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <p>Welcome {name}!</p>
@@ -41,14 +49,13 @@ export default function UserPage() {
         </p>
       ) : (
           <ul className={styles.container}>
-          {requests.map((request) => (
+            {requests.map((request) => (
               <FeedbackListItem key={request._id} request={request}>
-                <p><Link to={`/edit/${request._id}`}>Edit</Link> | <a href='#'>Delete</a></p>
+                <p><Link to={`/edit/${request._id}`}>Edit</Link> <button onClick={() => handleDelete(request._id)}>Delete</button></p>
               </FeedbackListItem>
-          ))}
-        </ul>
-      )}
-
+            ))}
+          </ul>
+        )}
       <button onClick={handleRefresh}>refresh 🔃</button>
     </div>
   );
