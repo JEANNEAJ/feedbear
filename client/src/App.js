@@ -13,6 +13,7 @@ import UserPage from "./features/user/UserPage";
 
 import Nav from "./components/nav/Nav";
 import Dashboard from "./components/Dashboard/Dashboard";
+import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 
 function App() {
   const user = useSelector(selectUser);
@@ -45,12 +46,9 @@ function App() {
             <Route path="/signup">
               {user._id ? <Redirect to="/" /> : <SignupForm />}
             </Route>
-            <Route
-              exact
-              path="/feedback/:feedbackID"
-              component={FeedbackDetails}
-            />
+            <Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
             <Route exact path="/user/:userId" component={UserPage} />
+            <Route exact path="/edit/:requestId" component={UpdateRequest} />
           </div>
         </main>
 

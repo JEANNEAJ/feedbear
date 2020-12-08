@@ -14,13 +14,16 @@ export default function Nav() {
         <Link to={"/"}>Feedback App</Link>
       </h1>
 
-      <ul>
-        {user.isLoggedIn && (
+      {user.isLoggedIn && (
+        <ul>
           <li>
             <Link to={`/user/${_id}`}>My Feedback Requests</Link>
           </li>
-        )}
-      </ul>
+          <li>
+            <Link to={"/"}>Back to Main Page</Link>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }

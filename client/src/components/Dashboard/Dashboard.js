@@ -5,7 +5,7 @@ import FeedbackRequestForm from "../../features/feedbackRequest/FeedbackRequestF
 const Dashboard = () => {
   return (
     <div>
-      <FeedbackRequestForm />
+      <FeedbackRequestForm buttonText='Submit' />
       <FeedbackList />
     </div>
   );

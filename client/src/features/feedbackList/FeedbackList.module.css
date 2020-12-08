@@ -1,13 +1,10 @@
 .container {
 	width: 100%;
 	min-height: 10rem;
-	border: 1px solid grey;
-
-	position: relative;
 }
 
-.refresh {
-	position: absolute;
-	top: 0.5rem;
-	right: 1rem;
+.titleSection {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 1em;
 }

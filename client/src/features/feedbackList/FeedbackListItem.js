@@ -17,12 +17,11 @@ export default function FeedbackListItem(props) {
 
   return (
     <li className={styles.container}>
-      <h3>
-        <Link to={`/feedback/${_id}`}>{projectTitle}</Link>
-      </h3>
-      <p>
-        by {name} at {createdAt}
-      </p>
+      <div className={styles.projectTitle}>
+        <h3><Link to={`/feedback/${_id}`}>{projectTitle}</Link></h3>
+        {props.children}
+      </div>
+      <p>by {name} at {createdAt}</p>
       <a href={projectLink}>Project Link</a>
       <a href={liveLink}>Live Link</a>
       <p>{message}</p>
