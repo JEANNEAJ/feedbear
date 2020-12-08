@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = `${process.env.REACT_APP_API_URL}/forms`;
+// const url = `${process.env.REACT_APP_API_URL}/forms`; // commented out after removing cors on backend
+const url = '/forms';
 
 export const fetchForms = () => axios.get(url);
 export const fetchFormByID = (type, ID) =>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import "./App.css";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 import LoginForm from "./features/user/LoginForm";
-import { selectUser } from "./features/user/userSlice";
+import { selectUser, checkLoggedIn } from "./features/user/userSlice";
 import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
 
@@ -16,7 +16,12 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   const user = useSelector(selectUser);
-  useEffect(() => {}, []);
+  const loginChecked = useSelector(state => state.user.loginChecked);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkLoggedIn());
+  }, [loginChecked]);
 
   return (
     <Router>
@@ -30,7 +35,12 @@ function App() {
         <main>
           <div className="wrapper">
             <Route exact path="/">
-              {user._id ? <Dashboard /> : <LoginForm />}
+              { 
+                loginChecked 
+                ? user._id ? <Dashboard /> : <LoginForm />
+                : <p>Loading</p>  
+              }
+              {/* {user._id ? <Dashboard /> : <LoginForm />} */}
             </Route>
             <Route path="/signup">
               {user._id ? <Redirect to="/" /> : <SignupForm />}
