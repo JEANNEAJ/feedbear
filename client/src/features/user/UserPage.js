@@ -42,7 +42,9 @@ export default function UserPage() {
       ) : (
           <ul className={styles.container}>
           {requests.map((request) => (
-            <FeedbackListItem key={request._id} request={request} />
+              <FeedbackListItem key={request._id} request={request}>
+                <p><Link to={`/edit/${request._id}`}>Edit</Link> | <a href='#'>Delete</a></p>
+              </FeedbackListItem>
           ))}
         </ul>
       )}
