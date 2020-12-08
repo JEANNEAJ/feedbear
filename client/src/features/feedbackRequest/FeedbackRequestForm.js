@@ -39,6 +39,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
           liveLink,
         }, requestId)
       )
+      // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
       history.push('/user/:userId');
     } else {
       dispatch(
