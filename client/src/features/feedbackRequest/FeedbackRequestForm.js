@@ -7,7 +7,7 @@ import { selectUser } from "../user/userSlice";
 
 import styles from "./FeedbackRequestForm.module.css";
 
-export default function FeedbackRequestForm({ inputText, requestId }) {
+export default function FeedbackRequestForm({ buttonText, inputText, requestId }) {
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
   const [message, setMessage] = useState("Tear me to shreds!");
@@ -110,7 +110,7 @@ export default function FeedbackRequestForm({ inputText, requestId }) {
         ></textarea>
 
         <button className={styles.button} onClick={handleSubmit} type="submit">
-          Submit
+          {buttonText}
         </button>
       </form>
     </div>

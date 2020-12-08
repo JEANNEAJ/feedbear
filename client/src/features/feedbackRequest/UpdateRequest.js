@@ -23,7 +23,7 @@ export const UpdateRequest = () => {
   return (
     <div>
       <h3>Edit Your Requests:</h3>
-      {request ? <FeedbackRequestForm inputText={request} requestId={requestId} /> : <p>Loading ...</p>}
+      {request ? <FeedbackRequestForm buttonText='Save' inputText={request} requestId={requestId} /> : <p>Loading ...</p>}
     </div>
   )
 }
