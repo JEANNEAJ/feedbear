@@ -70,15 +70,17 @@ const fulfilled = (state, action) => {
   console.log('fulfilled');
   const { requestId } = action.meta;
   
-  if (action.type === 'user/checkLoggedIn/fulfilled' && !action.payload.data._id) {
-    return;
-  }
-
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
+    state.currentRequestId = undefined;
+    
+    // short circuit return if there was no logged in user found
+    if (action.type === 'user/checkLoggedIn/fulfilled' && action.payload.data === undefined) {
+      return;
+    }
+
     state.data = action.payload.data;
     state.isLoggedIn = true;
-    state.currentRequestId = undefined;
   }
 }
 
