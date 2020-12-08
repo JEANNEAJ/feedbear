@@ -75,8 +75,13 @@ const fulfilled = (state, action) => {
     state.currentRequestId = undefined;
     
     // short circuit return if there was no logged in user found
-    if (action.type === 'user/checkLoggedIn/fulfilled' && action.payload.data === undefined) {
-      return;
+    if (action.type === 'user/checkLoggedIn/fulfilled') {
+      state.loginChecked = true;
+      
+      if (action.payload.data === undefined) {
+        return;
+      }
+
     }
 
     state.data = action.payload.data;
@@ -105,6 +110,7 @@ export const userSlice = createSlice({
     },
     loading: "idle",
     isLoggedIn: false,
+    loginChecked: false,
     currentRequestId: undefined,
     error: null,
   },
@@ -113,7 +119,7 @@ export const userSlice = createSlice({
       state.loading = "idle";
       state.currentRequestId = undefined;
       state.error = null;
-      state.isLoggedIn = false;
+      // state.isLoggedIn = false;
     },
   },
   extraReducers: {
