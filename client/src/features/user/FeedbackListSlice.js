@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const deleteItem = (id) => async (dispatch) => {
+  try {
+    await api.deleteFeedbackRequest(id);
+    console.log("delete success");
+  } catch (err) {
+    console.log("delete failed");
+    console.log(err);
+  }
+}
+
 
 export const feedbackRequestSlice = createSlice({
   name: "feedbackRequest",
