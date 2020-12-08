@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = `${process.env.REACT_APP_API_URL}`;
+// const url = `${process.env.REACT_APP_API_URL}`; // commented out after removing cors on backend
+const url = '';
 
 export const login = (credentials) => axios.post(`${url}/login`, credentials);
 
