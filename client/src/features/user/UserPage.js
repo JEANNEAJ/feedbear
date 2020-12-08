@@ -32,6 +32,7 @@ export default function UserPage() {
   const handleDelete = async (requestId) => {
     try {
       await api.deleteFeedbackRequest(requestId);
+      handleRefresh();
     } catch (error) {
       console.log(error);
     }
