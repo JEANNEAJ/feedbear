@@ -17,7 +17,7 @@ router.get("/:id", getFormByID);
 router.post("/", createForm);
 
 //update
-router.put("/:id", () => {});
+router.patch("/:id", updateFeedbackDetails);
 
 //delete
 router.delete("/:id", () => {});
