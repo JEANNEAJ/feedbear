@@ -1,6 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../../api/session";
 
+export const checkLoggedIn = createAsyncThunk(
+  "user/checkLoggedIn",
+  async (credentials = null, { getState, requestId, rejectWithValue }) => {
+    const { currentRequestId, loading } = getState().user;
+
+    // do nothing if another request is being processed
+    if (loading !== "pending" || requestId !== currentRequestId) {
+      return;
+    }
+    
+    try {
+      const response = await api.checkLoggedIn();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "user/login",
   async (credentials, { getState, requestId, rejectWithValue }) => {
@@ -50,6 +69,11 @@ const pending = (state, action) => {
 const fulfilled = (state, action) => {
   console.log('fulfilled');
   const { requestId } = action.meta;
+  
+  if (action.type === 'user/checkLoggedIn/fulfilled' && !action.payload.data._id) {
+    return;
+  }
+
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
     state.data = action.payload.data;
@@ -98,6 +122,10 @@ export const userSlice = createSlice({
     [signup.pending]: pending,
     [signup.fulfilled]: fulfilled,
     [signup.rejected]: rejected,
+
+    [checkLoggedIn.pending]: pending,
+    [checkLoggedIn.fulfilled]: fulfilled,
+    [checkLoggedIn.rejected]: rejected,
   },
 });
 

@@ -13,6 +13,7 @@ import connectStore from "connect-mongo"
 import formRoutes from "./routes/forms.js";
 import authRoutes from "./routes/auth.js";
 import secureRoutes from "./routes/secure-routes.js";
+import sessionRoutes from "./routes/session.js";
 
 // settings
 mongoose.Promise = global.Promise;
@@ -61,6 +62,7 @@ app.use(session({
 app.use("/forms", formRoutes);
 app.use(authRoutes);
 app.use(secureRoutes);
+app.use(sessionRoutes);
 
 // TODO: decide if we want to use this approach for private routes
 app.use(

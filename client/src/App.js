@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import "./App.css";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 import LoginForm from "./features/user/LoginForm";
-import { selectUser } from "./features/user/userSlice";
+import { selectUser, checkLoggedIn } from "./features/user/userSlice";
 import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
 
@@ -16,7 +16,11 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   const user = useSelector(selectUser);
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkLoggedIn());
+  }, []);
 
   return (
     <Router>
