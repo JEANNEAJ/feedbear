@@ -1,6 +1,7 @@
 import express from "express";
 
 import { getForms, getFormByID, createForm } from "../controllers/forms.js";
+import { updateFeedbackDetails, deleteFeedbackRequest } from '../controllers/editingFeedback.js';
 
 const router = express.Router();
 
@@ -20,6 +21,6 @@ router.post("/", createForm);
 router.patch("/:id", updateFeedbackDetails);
 
 //delete
-router.delete("/:id", () => {});
+router.delete("/:id", deleteFeedbackRequest);
 
 export default router;

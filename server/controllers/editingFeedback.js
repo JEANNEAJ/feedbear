@@ -15,3 +15,17 @@ export const updateFeedbackDetails = async (req, res) => {
     }
   }
 }
+
+export const deleteFeedbackRequest = async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!Mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
+  else {
+    try {
+      await FormMessage.findByIdAndRemove(_id);
+      res.json({ message: 'Feedback Request deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
+  }
+}
