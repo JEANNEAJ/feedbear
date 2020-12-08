@@ -10,3 +10,4 @@ export const fetchFormByID = (type, ID) =>
 // export const fetchFormsByUserId = userId => axios.get(`${url}/${userId}`);
 
 export const createForm = (newForm) => axios.post(url, newForm);
+export const updateFeedbackDetails = (id, updatedDetails) => axios.patch(`${url}/${id}`, updatedDetails);
