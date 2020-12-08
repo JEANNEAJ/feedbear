@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import Form from '../../components/form/Form';
+
 import * as api from "../../api/forms";
 
 export default function FeedbackDetails(props) {
@@ -8,8 +10,8 @@ export default function FeedbackDetails(props) {
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
-  console.log(request);
-  const { name, email, message, projectLink, liveLink, createdAt } = request;
+  // console.log(request);
+  const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
   useEffect(() => {
     const populateRequests = async () => {
@@ -32,24 +34,15 @@ export default function FeedbackDetails(props) {
         "Loading..."
       ) : (
         <>
-          <h2>Project Name</h2>
+          <h2>{projectTitle}</h2>
           <p>by {name}</p>
+          <p>created at {createdAt}</p>
           <img src="https://placekitten.com/200/300" alt="Placeholder" />
           <a href={liveLink}>View App</a>
           <a href={projectLink}>View Repository</a>
+          <p>{message}</p>
 
-          <form action="#">
-            <label className="sr-only" htmlFor="input-feedback">
-              Your feedback
-            </label>
-            <textarea
-              name="input-feedback"
-              id="input-feedback"
-              placeholder="Leave your feedback"
-            ></textarea>
-
-            <button type="submit">Submit</button>
-          </form>
+          <Form type="CommentForm" />
         </>
       )}
     </div>
