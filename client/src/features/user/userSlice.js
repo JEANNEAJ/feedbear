@@ -10,7 +10,7 @@ export const checkLoggedIn = createAsyncThunk(
     if (loading !== "pending" || requestId !== currentRequestId) {
       return;
     }
-    
+
     try {
       const response = await api.checkLoggedIn();
       return response.data;
@@ -59,38 +59,37 @@ export const signup = createAsyncThunk(
 );
 
 const pending = (state, action) => {
-  console.log('pending');
+  console.log("pending");
   if (state.loading === "idle") {
     state.loading = "pending";
     state.currentRequestId = action.meta.requestId;
   }
-}
+};
 
 const fulfilled = (state, action) => {
-  console.log('fulfilled');
+  console.log("fulfilled");
   const { requestId } = action.meta;
-  
+
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
     state.currentRequestId = undefined;
-    
+
     // short circuit return if there was no logged in user found
-    if (action.type === 'user/checkLoggedIn/fulfilled') {
+    if (action.type === "user/checkLoggedIn/fulfilled") {
       state.loginChecked = true;
-      
+
       if (action.payload.data === undefined) {
         return;
       }
-
     }
 
     state.data = action.payload.data;
     state.isLoggedIn = true;
   }
-}
+};
 
 const rejected = (state, action) => {
-  console.log('rejected');
+  console.log("rejected");
   const { requestId } = action.meta;
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
@@ -98,16 +97,18 @@ const rejected = (state, action) => {
     state.error = action.payload;
     state.currentRequestId = undefined;
   }
-}
+};
+
+const nullUser = {
+  _id: undefined,
+  email: undefined,
+  name: undefined,
+};
 
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    data: {
-      _id: undefined,
-      email: undefined,
-      name: undefined,
-    },
+    data: nullUser,
     loading: "idle",
     isLoggedIn: false,
     loginChecked: false,
@@ -120,6 +121,10 @@ export const userSlice = createSlice({
       state.currentRequestId = undefined;
       state.error = null;
       // state.isLoggedIn = false;
+    },
+    logout(state) {
+      state.data = nullUser;
+      state.isLoggedIn = false;
     },
   },
   extraReducers: {
@@ -141,5 +146,5 @@ export const selectUser = (state) => state.user.data;
 export const selectError = (state) => state.user.error;
 
 const { actions, reducer } = userSlice;
-export const { clearErrors } = actions;
+export const { clearErrors, logout } = actions;
 export default reducer;
