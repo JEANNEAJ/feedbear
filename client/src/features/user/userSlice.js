@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../../api/session";
 
-export const checkLoggedIn = createAsyncThunk(
-  "user/checkLoggedIn",
-  async (credentials = null, { getState, requestId, rejectWithValue }) => {
+export const checkForUserSession = createAsyncThunk(
+  "user/checkForUserSession",
+  async (_ = null, { getState, requestId, rejectWithValue }) => {
     const { currentRequestId, loading } = getState().user;
 
     // do nothing if another request is being processed
@@ -12,7 +12,7 @@ export const checkLoggedIn = createAsyncThunk(
     }
     
     try {
-      const response = await api.checkLoggedIn();
+      const response = await api.getUserSession();
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.message);
@@ -74,18 +74,17 @@ const fulfilled = (state, action) => {
     state.loading = "idle";
     state.currentRequestId = undefined;
     
-    // short circuit return if there was no logged in user found
-    if (action.type === 'user/checkLoggedIn/fulfilled') {
-      state.loginChecked = true;
+    if (action.type === 'user/checkForUserSession/fulfilled') {
+      state.userSessionChecked = true;
       
       if (action.payload.data === undefined) {
+        // short circuit return if there was no user data in the api call response
         return;
       }
 
     }
 
     state.data = action.payload.data;
-    state.isLoggedIn = true;
   }
 }
 
@@ -94,7 +93,6 @@ const rejected = (state, action) => {
   const { requestId } = action.meta;
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
-    state.isLoggedIn = false;
     state.error = action.payload;
     state.currentRequestId = undefined;
   }
@@ -109,8 +107,7 @@ export const userSlice = createSlice({
       name: undefined,
     },
     loading: "idle",
-    isLoggedIn: false,
-    loginChecked: false,
+    userSessionChecked: false,
     currentRequestId: undefined,
     error: null,
   },
@@ -119,7 +116,6 @@ export const userSlice = createSlice({
       state.loading = "idle";
       state.currentRequestId = undefined;
       state.error = null;
-      // state.isLoggedIn = false;
     },
   },
   extraReducers: {
@@ -131,9 +127,9 @@ export const userSlice = createSlice({
     [signup.fulfilled]: fulfilled,
     [signup.rejected]: rejected,
 
-    [checkLoggedIn.pending]: pending,
-    [checkLoggedIn.fulfilled]: fulfilled,
-    [checkLoggedIn.rejected]: rejected,
+    [checkForUserSession.pending]: pending,
+    [checkForUserSession.fulfilled]: fulfilled,
+    [checkForUserSession.rejected]: rejected,
   },
 });
 

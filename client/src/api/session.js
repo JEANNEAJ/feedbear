@@ -7,4 +7,4 @@ export const login = (credentials) => axios.post(`${url}/login`, credentials);
 
 export const signup = (credentials) => axios.post(`${url}/signup`, credentials);
 
-export const checkLoggedIn = () => axios.get(`${url}/session`)
+export const getUserSession = () => axios.get(`${url}/session`)
