@@ -30,9 +30,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
   }, [])
 
   // submit the form data
-  const onSubmit = (data) => {
-    // const { message, projectTitle, projectLink, liveLink } = data;
-    // console.log(data);
+  const onSubmit = () => {
     if (inputText) {
       dispatch(
         update({
