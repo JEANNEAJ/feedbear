@@ -14,6 +14,8 @@ export default function UserPage() {
   // console.log(_id);
 
   const [requests, setRequests] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState({ projectTitle: '', requestId: '' });
 
   useEffect(() => {
     handleRefresh();
@@ -36,6 +38,20 @@ export default function UserPage() {
     } catch (error) {
       console.log(error);
     }
+    setDeleteRequest({});
+    setModalIsOpen(false);
+  }
+
+  const openModal = (projectTitle, id) => {
+    setModalIsOpen(true);
+    setDeleteRequest({
+      projectTitle,
+      id
+    });
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   }
 
   return (
@@ -52,12 +68,22 @@ export default function UserPage() {
           <ul className={styles.container}>
             {requests.map((request) => (
               <FeedbackListItem key={request._id} request={request}>
-                <p><Link to={`/edit/${request._id}`}>Edit</Link> <button onClick={() => handleDelete(request._id)}>Delete</button></p>
+                <p><Link to={`/edit/${request._id}`}>Edit</Link> <button onClick={() => openModal(request.projectTitle, request._id)}>Delete</button></p>
               </FeedbackListItem>
             ))}
           </ul>
         )}
       <button onClick={handleRefresh}>refresh 🔃</button>
+
+      {/* inline styling for demo purposes only */}
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel='delete' style={customStyles} className='Modal'>
+        <h2 style={{ marginBottom: '0.8em' }}>Delete {deleteRequest.projectTitle}?</h2>
+        <p>Are you sure you want to delete this request?</p>
+        <p style={{ marginBottom: '1.2em' }}>This operation is irreversible</p>
+        <button onClick={() => handleDelete(deleteRequest.id)}>Delete</button>
+        <button onClick={closeModal}>Cancel</button>
+      </Modal>
+
     </div>
   );
 }
