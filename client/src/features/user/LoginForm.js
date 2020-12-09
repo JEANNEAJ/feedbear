@@ -2,10 +2,10 @@ import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearErrors, login, selectError } from "./userSlice";
+import { useForm } from "react-hook-form";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, watch, errors } = useForm();
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
@@ -16,31 +16,29 @@ const LoginForm = () => {
     };
   }, [dispatch]);
 
-  const handleChange = (handler, e) => {
-    handler(e.target.value);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = (data) => {
+    const { email, password } = data;
     const credentials = { email, password };
     dispatch(login(credentials));
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(handleLogin)}>
       <input
         name="email"
         type="text"
         placeholder="email"
-        onChange={(e) => handleChange(setEmail, e)}
+        ref={register({ required: true })}
       />
+      {errors.email && <span>This field is required</span>}
 
       <input
         name="password"
         type="password"
         placeholder="password"
-        onChange={(e) => handleChange(setPassword, e)}
+        ref={register({ required: true })}
       />
+      {errors.password && <span>This field is required</span>}
 
       {/* TODO: refactor this into an error message component? FormError or something? */}
       {error ? (
@@ -52,12 +50,12 @@ const LoginForm = () => {
         ""
       )}
 
-      <button onClick={handleLogin}>Sign In</button>
-      <p> Don't have an account?</p>
+      <button type="submit">Sign In</button>
+      <p>Don't have an account?</p>
       <p>
         <Link to="/signup">Click here</Link> to sign up.
       </p>
-    </>
+    </form>
   );
 };
 
