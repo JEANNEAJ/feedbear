@@ -1,5 +1,9 @@
 import React from 'react'
 
+/** The time difference between now and the provided date string
+ * @param {string} dateString - The date string to find the difference from
+ * @returns The time difference formatted in days or hours eg. '8 days', '1 hour'.
+ */
 export default function timeDifference({ dateString }) {
   
   const currentDate = new Date();
