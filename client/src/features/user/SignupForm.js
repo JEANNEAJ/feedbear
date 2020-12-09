@@ -6,9 +6,6 @@ import { useForm } from "react-hook-form";
 
 const SignupForm = () => {
   const { register, handleSubmit, watch, errors } = useForm();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [name, setName] = useState("");
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
@@ -19,12 +16,7 @@ const SignupForm = () => {
     };
   }, [dispatch]);
 
-  // const handleChange = (handler, e) => {
-  //   handler(e.target.value);
-  // };
-
   const handleSignup = (data) => {
-    // e.preventDefault();
     const {email, password, name} = data;
     const credentials = { email, password, name };
     dispatch(signup(credentials));
@@ -37,7 +29,6 @@ const SignupForm = () => {
         type="text"
         placeholder="Name"
         ref={register({ required: true })}
-        // onChange={(e) => handleChange(setName, e)}
       />
       {errors.name && <span>This field is required</span>}
 
@@ -46,7 +37,6 @@ const SignupForm = () => {
         type="email"
         placeholder="E-mail"
         ref={register({ required: true })}
-        // onChange={(e) => handleChange(setEmail, e)}
       />
       {errors.email && <span>This field is required</span>}
 
@@ -55,7 +45,6 @@ const SignupForm = () => {
         type="password"
         placeholder="Password"
         ref={register({ minLength: 8 })}
-        // onChange={(e) => handleChange(setPassword, e)}
       />
       {errors.password && <span>Password must be at least 8 characters</span>}
 
