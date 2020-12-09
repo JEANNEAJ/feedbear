@@ -30,6 +30,7 @@ const SignupForm = () => {
   return (
     <>
       <input
+        className="input-text"
         name="name"
         type="text"
         placeholder="Name"
@@ -37,6 +38,7 @@ const SignupForm = () => {
       />
 
       <input
+        className="input-text"
         name="email"
         type="text"
         placeholder="E-mail"
@@ -44,6 +46,7 @@ const SignupForm = () => {
       />
 
       <input
+        className="input-text"
         name="password"
         type="password"
         placeholder="Password"
@@ -59,7 +62,9 @@ const SignupForm = () => {
         ""
       )}
 
-      <button onClick={handleSignup}>Create User</button>
+      <button className="btn-submit" onClick={handleSignup}>
+        Create User
+      </button>
       <p>Already registered?</p>
       <p>
         <Link to="/">Click here</Link> to log in.
