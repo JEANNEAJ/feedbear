@@ -3,27 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
-import "./App.css";
-
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-
-import LoginForm from "./features/user/LoginForm";
 import { selectUser, checkLoggedIn } from "./features/user/userSlice";
-import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
-
-import Form from './components/form/Form';
-
-import Nav from "./components/nav/Nav";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Footer from './components/Footer/Footer';
-
 import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 
+import Form from "./components/form/Form";
+import Nav from "./components/nav/Nav";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Footer from "./components/Footer/Footer";
+
+import "./tailwind.output.css";
 
 function App() {
   const user = useSelector(selectUser);
-  const loginChecked = useSelector(state => state.user.loginChecked);
+  const loginChecked = useSelector((state) => state.user.loginChecked);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,28 +26,36 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      {/* arrange components in a flex-column that spans 100vh */}
+      <div className="flex flex-col justify-between h-screen">
         <header>
           <div className="wrapper">
             <Nav />
           </div>
         </header>
 
-        <main>
-          <div className="wrapper">
+        {/* main component fills space b/w header and footer, centered vertically */}
+        <main className="flex-grow flex flex-col justify-around">
+          <div className="">
             <Route exact path="/">
-
-              { 
-                loginChecked 
-                ? user._id ? <Dashboard /> : <Form type="LoginForm" />
-                : <p>Loading</p>  
-              }
-
+              {loginChecked ? (
+                user._id ? (
+                  <Dashboard />
+                ) : (
+                  <Form type="LoginForm" />
+                )
+              ) : (
+                <p>Loading</p>
+              )}
             </Route>
             <Route path="/signup">
               {user._id ? <Redirect to="/" /> : <Form type="SignupForm" />}
             </Route>
-            <Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
+            <Route
+              exact
+              path="/feedback/:feedbackID"
+              component={FeedbackDetails}
+            />
             <Route exact path="/user/:userId" component={UserPage} />
             <Route exact path="/edit/:requestId" component={UpdateRequest} />
           </div>
