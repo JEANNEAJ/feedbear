@@ -26,7 +26,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(handleLogin)}>
       <input
         name="email"
-        type="text"
+        type="email"
         placeholder="email"
         ref={register({ required: true })}
       />
