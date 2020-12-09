@@ -29,6 +29,7 @@ const LoginForm = () => {
   return (
     <>
       <input
+        className="input-text"
         name="email"
         type="text"
         placeholder="email"
@@ -36,6 +37,7 @@ const LoginForm = () => {
       />
 
       <input
+        className="input-text"
         name="password"
         type="password"
         placeholder="password"
@@ -52,9 +54,14 @@ const LoginForm = () => {
         ""
       )}
 
-      <button onClick={handleLogin}>Sign In</button>
+      <button
+        className="bg-purple-400 rounded-full py-2 px-6 my-3 w-1/4 min-w-max"
+        onClick={handleLogin}
+      >
+        Sign In
+      </button>
       <p> Don't have an account?</p>
-      <p>
+      <p class="col-start-2 col-span-1">
         <Link to="/signup">Click here</Link> to sign up.
       </p>
     </>

@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import LoginForm from '../../features/user/LoginForm';
-import SignupForm from '../../features/user/SignupForm';
-import FeedbackRequestForm from '../../features/feedbackRequest/FeedbackRequestForm';
-import CommentForm from '../../features/feedbackDetails/CommentForm';
-
-import styles from './Form.module.css';
+import LoginForm from "../../features/user/LoginForm";
+import SignupForm from "../../features/user/SignupForm";
+import FeedbackRequestForm from "../../features/feedbackRequest/FeedbackRequestForm";
+import CommentForm from "../../features/feedbackDetails/CommentForm";
 
 const Components = { LoginForm, SignupForm, FeedbackRequestForm, CommentForm };
 
@@ -16,8 +14,13 @@ export default function Form(props) {
 
   // console.log(...props);
   return (
-    <form className={styles.form} action="#">
-      <FormType {...props} />
-    </form>
-  )
+    <div className="container mx-auto max-w-screen-sm">
+      <form
+        className="md:container mx:auto flex flex-col items-center p-5"
+        action="#"
+      >
+        <FormType {...props} />
+      </form>
+    </div>
+  );
 }
