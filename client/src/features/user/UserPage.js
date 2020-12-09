@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import * as api from '../../api/forms';
+import * as api from "../../api/forms";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
-
-import styles from './UserPage.module.css';
 
 export default function UserPage() {
   const user = useSelector((state) => state.user);
@@ -36,27 +34,32 @@ export default function UserPage() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
-    <div>
-      <p>Welcome {name}!</p>
+    <div className="container mx-auto p-5">
+      <p className="text-xl font-bold">Welcome, {name}!</p>
 
-      <h3>Your Feedback Requests:</h3>
+      <h3 className="text-xl mt-3">Your Feedback Requests:</h3>
 
       {!requests.length ? (
         <p>
           Nothing here, try making a <Link to={"/"}>new Feedback Request</Link>
         </p>
       ) : (
-          <ul className={styles.container}>
-            {requests.map((request) => (
-              <FeedbackListItem key={request._id} request={request}>
-                <p><Link to={`/edit/${request._id}`}>Edit</Link> <button onClick={() => handleDelete(request._id)}>Delete</button></p>
-              </FeedbackListItem>
-            ))}
-          </ul>
-        )}
+        <ul>
+          {requests.map((request) => (
+            <FeedbackListItem key={request._id} request={request}>
+              <p>
+                <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
+                <button onClick={() => handleDelete(request._id)}>
+                  Delete
+                </button>
+              </p>
+            </FeedbackListItem>
+          ))}
+        </ul>
+      )}
       <button onClick={handleRefresh}>refresh 🔃</button>
     </div>
   );
