@@ -7,7 +7,11 @@ import { selectUser } from "../user/userSlice";
 
 import styles from "./FeedbackRequestForm.module.css";
 
-export default function FeedbackRequestForm({ buttonText, inputText, requestId }) {
+export default function FeedbackRequestForm({
+  buttonText,
+  inputText,
+  requestId,
+}) {
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
   const [message, setMessage] = useState("Tear me to shreds!");
@@ -25,22 +29,25 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
       setLiveLink(inputText.liveLink);
       setMessage(inputText.message);
     }
-  }, [])
+  }, []);
 
   // submit the form data
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputText) {
       dispatch(
-        update({
-          message,
-          projectTitle,
-          projectLink,
-          liveLink,
-        }, requestId)
-      )
+        update(
+          {
+            message,
+            projectTitle,
+            projectLink,
+            liveLink,
+          },
+          requestId
+        )
+      );
       // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
-      history.push('/user/:userId');
+      history.push("/user/:userId");
     } else {
       dispatch(
         submit({
@@ -61,7 +68,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         Project Name
       </label>
       <input
-        className={styles.center}
+        className="input-text"
         onChange={(e) => setProjectTitle(e.target.value)}
         type="text"
         name="input-title"
@@ -74,7 +81,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         Project Link
       </label>
       <input
-        className={styles.left}
+        className="input-text"
         onChange={(e) => setProjectLink(e.target.value)}
         type="text"
         name="input-projectLink"
@@ -87,7 +94,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         Project Live Link
       </label>
       <input
-        className={styles.right}
+        className="input-text"
         onChange={(e) => setLiveLink(e.target.value)}
         type="text"
         name="input-liveLink"
@@ -100,7 +107,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         Message
       </label>
       <textarea
-        className={styles.message}
+        className="input-text"
         onChange={(e) => setMessage(e.target.value)}
         name="input-message"
         id="input-message"
@@ -108,16 +115,10 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         value={message}
       ></textarea>
 
-
-{/* //       <button className={styles.button} onClick={handleSubmit} type="submit">
-//         Submit
-//       </button>
-//     </> */}
-
-        <button className={styles.button} onClick={handleSubmit} type="submit">
-          {buttonText}
-        </button>
-      </>
+      <button className="btn-submit" onClick={handleSubmit} type="submit">
+        {buttonText}
+      </button>
+    </>
     // </>
   );
 }

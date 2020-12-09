@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styles from "./FeedbackListItem.module.css";
-
 export default function FeedbackListItem(props) {
   const {
     name,
@@ -16,13 +14,16 @@ export default function FeedbackListItem(props) {
   } = props.request;
 
   return (
-    <li className={styles.container}>
-      <div className={styles.projectTitle}>
-        <h3><Link to={`/feedback/${_id}`}>{projectTitle}</Link></h3>
-        {props.children}
+    <li className="border-2 rounded-lg mt-3 px-3 py-2 hover:bg-gray-100">
+      <div className="text-lg">
+        <h3>
+          <Link to={`/feedback/${_id}`}>{projectTitle}</Link>
+        </h3>
       </div>
-      <p>by {name} at {createdAt}</p>
-      <a href={projectLink}>Project Link</a>
+      <p>
+        by {name} at {createdAt}
+      </p>
+      <a href={projectLink}>Project Link</a>&nbsp;
       <a href={liveLink}>Live Link</a>
       <p>{message}</p>
     </li>
