@@ -16,7 +16,7 @@ export default function Form(props) {
   return (
     <div className="container mx-auto max-w-screen-sm">
       <form
-        className="md:container mx:auto flex flex-col items-center p-5"
+        className="md:container mx:auto flex flex-col items-center"
         action="#"
       >
         <FormType {...props} />

@@ -35,7 +35,7 @@ function App() {
         </header>
 
         {/* main component fills space b/w header and footer, centered vertically */}
-        <main className="flex-grow flex flex-col justify-around">
+        <main className="flex-grow flex flex-col justify-around p-5">
           <div className="">
             <Route exact path="/">
               {loginChecked ? (
