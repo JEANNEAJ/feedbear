@@ -5,8 +5,6 @@ import { useHistory } from "react-router-dom";
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 
-import styles from "./FeedbackRequestForm.module.css";
-
 export default function FeedbackRequestForm({
   buttonText,
   inputText,
