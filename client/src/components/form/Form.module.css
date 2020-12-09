@@ -12,6 +12,7 @@
 }
 
 .form input,
+.form textarea,
 .form button {
   width: 100%;
   min-width: 200px;
