@@ -54,10 +54,7 @@ const LoginForm = () => {
         ""
       )}
 
-      <button
-        className="bg-purple-400 rounded-full py-2 px-6 my-3 w-1/4 min-w-max"
-        onClick={handleLogin}
-      >
+      <button className="btn-submit" onClick={handleLogin}>
         Sign In
       </button>
       <p> Don't have an account?</p>
