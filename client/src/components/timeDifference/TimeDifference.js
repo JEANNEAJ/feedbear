@@ -12,9 +12,21 @@ export default function timeDifference({ dateString }) {
   const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
+  const display = () => {
+    if (diffDays) {
+      if (diffDays === 1) return `${diffDays} day`;
+      else return `${diffDays} days`;
+    } else if (diffHours) {
+      if (diffHours === 1) return `${diffHours} hour`;
+      else return `${diffHours} hours`;
+    } else {
+      return 'less than an hour';
+    }
+  }
+
   return (
     <time title={date}>
-      {diffDays ? diffDays === 1 ? `${diffDays} day` : `${diffDays} days` : diffHours ? diffHours === 1 ? `${diffHours} hour` : `${diffHours} hours` : 'less than an hour'}
+      {display()}
     </time>
   )
 }
