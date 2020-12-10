@@ -8,7 +8,7 @@ import "./App.css";
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 
 import LoginForm from "./features/user/LoginForm";
-import { selectUser, checkLoggedIn } from "./features/user/userSlice";
+import { selectUser, checkForUserSession } from "./features/user/userSlice";
 import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
 
@@ -23,12 +23,10 @@ import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 
 function App() {
   const user = useSelector(selectUser);
-  const loginChecked = useSelector(state => state.user.loginChecked);
+  const userSessionChecked = useSelector(state => state.user.userSessionChecked);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkLoggedIn());
-  }, [loginChecked]);
+  useEffect(() => { dispatch(checkForUserSession()) }, []);
 
   return (
     <Router>
@@ -44,7 +42,7 @@ function App() {
             <Route exact path="/">
 
               { 
-                loginChecked 
+                userSessionChecked 
                 ? user._id ? <Dashboard /> : <Form type="LoginForm" />
                 : <p>Loading</p>  
               }
