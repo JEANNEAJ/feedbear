@@ -14,7 +14,7 @@ export default function FeedbackListItem(props) {
   } = props.request;
 
   return (
-    <li className="border-2 rounded-lg mt-3 px-3 py-2 hover:bg-gray-100">
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
       <div className="text-lg">
         <h3>
           <Link to={`/feedback/${_id}`}>{projectTitle}</Link>

@@ -14,7 +14,7 @@ export default function Form(props) {
 
   // console.log(...props);
   return (
-    <div className="container mx-auto max-w-screen-sm">
+    <div className="container mx-auto max-w-screen-sm bg-white p-5 rounded-lg shadow-md">
       <form
         className="md:container mx:auto flex flex-col items-center"
         action="#"

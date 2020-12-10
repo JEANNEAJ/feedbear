@@ -39,24 +39,28 @@ export default function FeedbackDetails(props) {
         "Loading..."
       ) : (
         <>
-          <h2 className="text-xl font-bold">{projectTitle}</h2>
-          <p>by {name}</p>
-          <p>created at {createdAt}</p>
-          <a href={liveLink}>View App</a>
-          <a href={projectLink}>View Repository</a>
-          <img
-            className="mx-auto max-w-full my-3"
-            src="https://placekitten.com/400/300"
-            alt="Placeholder"
-          />
-          <p className="mb-10">{message}</p>
-
-          <h3 className="text-xl font-bold">Feedback</h3>
-          <Form type="CommentForm" />
+          <div className="bg-white rounded-lg shadow-md p-5">
+            <h2 className="text-xl font-bold">{projectTitle}</h2>
+            <p>by {name}</p>
+            <p>created at {createdAt}</p>
+            <div className="flex space-x-4">
+              <a href={liveLink}>View App</a>
+              <a href={projectLink}>View Repository</a>
+            </div>
+            <img
+              className="mx-auto max-w-full my-3"
+              src="https://placekitten.com/400/300"
+              alt="Placeholder"
+            />
+            <p className="mb-10">{message}</p>
+            <p className="text-sm">ID: {feedbackID}</p>
+          </div>
+          <div className="mt-10">
+            <h3 className="mb-5 text-xl font-bold">Feedback</h3>
+            <Form type="CommentForm" />
+          </div>
         </>
       )}
-
-      <p className="text-sm">ID: {feedbackID}</p>
     </div>
   );
 }

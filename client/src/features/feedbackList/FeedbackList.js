@@ -21,7 +21,7 @@ export default function FeedbackList() {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between mb-2">
+      <div className="mt-10 flex justify-between">
         <h2 className="text-xl font-bold">Feedback Requests</h2>
         <button onClick={handleRefresh}>refresh 🔃</button>
       </div>
