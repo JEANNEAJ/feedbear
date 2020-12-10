@@ -15,16 +15,12 @@ const formSchema = mongoose.Schema({
   liveLink: {
     type: String,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   active: {
     type: Boolean,
     required: true,
     default: true,
   },
-});
+}, { timestamps: true });
 
 const FormMessage = mongoose.model("FormMessage", formSchema);
 
