@@ -9,7 +9,7 @@ export default function Nav() {
   const { _id } = user.data;
 
   return (
-    <nav className="container max-w-screen-2xl mx-auto p-5">
+    <nav className="container mx-auto p-5">
       <h1 className="text-3xl font-bold">
         <Link to={"/"}>Feedback App</Link>
       </h1>

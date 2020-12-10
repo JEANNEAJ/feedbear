@@ -32,14 +32,12 @@ function App() {
       {/* arrange components in a flex-column that spans 100vh */}
       <div className="bg-gradient-to-b from-purple-400 to-blue-400 flex flex-col justify-between min-h-screen">
         <header>
-          <div className="wrapper">
-            <Nav />
-          </div>
+          <Nav />
         </header>
 
         {/* main component fills space b/w header and footer, centered vertically */}
         <main className="flex-grow flex flex-col justify-around p-5">
-          <div className="">
+          <div className="container mx-auto">
             <Route exact path="/">
               {userSessionChecked ? (
                 user._id ? (
