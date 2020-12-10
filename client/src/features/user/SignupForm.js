@@ -2,11 +2,10 @@ import React, { useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, signup, selectError } from "./userSlice";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const SignupForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const { register, handleSubmit, watch, errors } = useForm();
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
@@ -17,41 +16,43 @@ const SignupForm = () => {
     };
   }, [dispatch]);
 
-  const handleChange = (handler, e) => {
-    handler(e.target.value);
-  };
-
-  const handleSignup = (e) => {
-    e.preventDefault();
+  const handleSignup = (data) => {
+    const { email, password, name } = data;
     const credentials = { email, password, name };
     dispatch(signup(credentials));
   };
 
   return (
-    <>
+    <form
+      className="md:container mx:auto flex flex-col items-center"
+      onSubmit={handleSubmit(handleSignup)}
+    >
       <input
         className="input-text"
         name="name"
         type="text"
         placeholder="Name"
-        onChange={(e) => handleChange(setName, e)}
+        ref={register({ required: true })}
       />
+      {errors.name && <span>This field is required</span>}
 
       <input
         className="input-text"
         name="email"
-        type="text"
+        type="email"
         placeholder="E-mail"
-        onChange={(e) => handleChange(setEmail, e)}
+        ref={register({ required: true })}
       />
+      {errors.email && <span>This field is required</span>}
 
       <input
         className="input-text"
         name="password"
         type="password"
         placeholder="Password"
-        onChange={(e) => handleChange(setPassword, e)}
+        ref={register({ minLength: 8 })}
       />
+      {errors.password && <span>Password must be at least 8 characters</span>}
 
       {error ? (
         <p className="error">
@@ -62,14 +63,12 @@ const SignupForm = () => {
         ""
       )}
 
-      <button className="btn-submit" onClick={handleSignup}>
-        Create User
-      </button>
+      <button className="btn-submit">Create User</button>
       <p>Already registered?</p>
       <p>
         <Link to="/">Click here</Link> to log in.
       </p>
-    </>
+    </form>
   );
 };
 

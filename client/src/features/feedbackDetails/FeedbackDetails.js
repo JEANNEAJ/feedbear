@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Form from "../../components/form/Form";
+import TimeDifference from "../../components/timeDifference/TimeDifference";
 
 import * as api from "../../api/forms";
 
@@ -42,7 +43,9 @@ export default function FeedbackDetails(props) {
           <div className="bg-white rounded-lg shadow-md p-5">
             <h2 className="text-xl font-bold">{projectTitle}</h2>
             <p>by {name}</p>
-            <p>created at {createdAt}</p>
+            <p>
+              submitted <TimeDifference dateString={createdAt} /> ago
+            </p>
             <div className="flex space-x-4">
               <a href={liveLink}>View App</a>
               <a href={projectLink}>View Repository</a>

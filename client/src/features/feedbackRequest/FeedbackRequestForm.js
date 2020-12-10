@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
@@ -10,6 +11,7 @@ export default function FeedbackRequestForm({
   inputText,
   requestId,
 }) {
+  const { register, handleSubmit, watch, errors } = useForm();
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
   const [message, setMessage] = useState("Tear me to shreds!");
@@ -30,8 +32,7 @@ export default function FeedbackRequestForm({
   }, []);
 
   // submit the form data
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     if (inputText) {
       dispatch(
         update(
@@ -61,7 +62,10 @@ export default function FeedbackRequestForm({
   };
 
   return (
-    <>
+    <form
+      className="md:container mx:auto flex flex-col items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <label className="sr-only" htmlFor="input-title">
         Project Name
       </label>
@@ -73,7 +77,9 @@ export default function FeedbackRequestForm({
         id="input-title"
         placeholder="Project Name"
         value={projectTitle}
+        ref={register({ required: true })}
       />
+      {errors["input-title"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-projectLink">
         Project Link
@@ -86,7 +92,9 @@ export default function FeedbackRequestForm({
         id="input-projectLink"
         placeholder="Enter Project Link (eg. github)"
         value={projectLink}
+        ref={register({ required: true })}
       />
+      {errors["input-projectLink"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-liveLink">
         Project Live Link
@@ -99,7 +107,9 @@ export default function FeedbackRequestForm({
         id="input-liveLink"
         placeholder="Enter live link"
         value={liveLink}
+        ref={register({ required: true })}
       />
+      {errors["input-liveLink"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-message">
         Message
@@ -111,12 +121,13 @@ export default function FeedbackRequestForm({
         id="input-message"
         placeholder="Enter Message"
         value={message}
+        ref={register({ required: true })}
       ></textarea>
+      {errors["input-message"] && <span>This field is required</span>}
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
         {buttonText}
       </button>
-    </>
-    // </>
+    </form>
   );
 }

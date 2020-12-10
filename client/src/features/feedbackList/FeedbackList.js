@@ -12,7 +12,6 @@ export default function FeedbackList() {
   const handleRefresh = async () => {
     try {
       const { data } = await api.fetchForms();
-
       setRequests(data);
     } catch (error) {
       console.log(error);

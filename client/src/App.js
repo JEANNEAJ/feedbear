@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-import { selectUser, checkLoggedIn } from "./features/user/userSlice";
+
+import { selectUser, checkForUserSession } from "./features/user/userSlice";
 import UserPage from "./features/user/UserPage";
 import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 
@@ -17,12 +18,14 @@ import "./tailwind.output.css";
 
 function App() {
   const user = useSelector(selectUser);
-  const loginChecked = useSelector((state) => state.user.loginChecked);
+  const userSessionChecked = useSelector(
+    (state) => state.user.userSessionChecked
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkLoggedIn());
-  }, [loginChecked]);
+    dispatch(checkForUserSession());
+  }, []);
 
   return (
     <Router>
@@ -38,7 +41,7 @@ function App() {
         <main className="flex-grow flex flex-col justify-around p-5">
           <div className="">
             <Route exact path="/">
-              {loginChecked ? (
+              {userSessionChecked ? (
                 user._id ? (
                   <Dashboard />
                 ) : (

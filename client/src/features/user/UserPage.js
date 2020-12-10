@@ -50,12 +50,12 @@ export default function UserPage() {
         <ul>
           {requests.map((request) => (
             <FeedbackListItem key={request._id} request={request}>
-              <p>
+              <div className="flex space-x-2">
                 <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
                 <button onClick={() => handleDelete(request._id)}>
                   Delete
                 </button>
-              </p>
+              </div>
             </FeedbackListItem>
           ))}
         </ul>

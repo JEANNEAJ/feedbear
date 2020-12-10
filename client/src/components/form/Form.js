@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import LoginForm from "../../features/user/LoginForm";
 import SignupForm from "../../features/user/SignupForm";
@@ -12,15 +12,9 @@ export default function Form(props) {
   const { type } = props;
   const FormType = Components[type];
 
-  // console.log(...props);
   return (
     <div className="container mx-auto max-w-screen-sm bg-white p-5 rounded-lg shadow-md">
-      <form
-        className="md:container mx:auto flex flex-col items-center"
-        action="#"
-      >
-        <FormType {...props} />
-      </form>
+      <FormType {...props} />
     </div>
   );
 }
