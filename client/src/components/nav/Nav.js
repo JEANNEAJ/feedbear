@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import LogoutButton from "./LogoutButton";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
@@ -21,6 +22,9 @@ export default function Nav() {
           </li>
           <li>
             <Link to={"/"}>Back to Main Page</Link>
+          </li>
+          <li>
+            <LogoutButton />
           </li>
         </ul>
       )}
