@@ -15,43 +15,25 @@ const mapStateToProps = ({ user: { data: { _id }} }) => ({
  * @param {props} object
  * @returns if no user is logged in the provided component(s) will be rendered, otherwise redirect back to `/` route 
  */
-const Auth = ({ loggedIn, path, component: Component, children, ...props }) => {
-
-  if (Component) {
-    return (
-      <Route path={path} render={() => (
-        loggedIn 
-        ?
-        <Redirect to='/' />
-        :
-        <Component {...props} />)} 
-      />
-    )
-  }
-
-  return (
-    loggedIn
-    ?
-    <Redirect to='/' />
-    :
-    <Route path={path}> { children } </Route>
-  )
-}
+const Auth = ({ loggedIn, path, component: Component, ...props }) => (
+  loggedIn
+    ? <Redirect to='/' />
+    : Component 
+      ? <Route path={path} render={() => <Component {...props} />} />
+      : <Route path={path}> { props.children } </Route>
+);
 
 /** Wrapper component ensuring `only logged in users` can view the components passed down
  * 
  * @param {props} object
  * @returns if user is logged in the passed down component(s) will render, otherwise the user will be redirected to `/` 
  */
-const Protected = ({ loggedIn, path, component: Component }) => (
-  <Route
-    path={path}
-    render={props => (
-      loggedIn ?
-      <Component {...props} /> :
-      <Redirect to='/' />
-    )}
-  />
+const Protected = ({ loggedIn, path, component: Component, ...props }) => (
+  loggedIn
+    ? Component 
+      ? <Route path={path} render={() => <Component {...props} />} />
+      : <Route path={path}> { props.children } </Route>
+    : <Redirect to='/' />
 );
 
 export const AuthRoute = withRouter(
