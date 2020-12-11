@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 
@@ -19,6 +19,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Footer from './components/Footer/Footer';
 
 import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
+import { AuthRoute, ProtectedRoute } from './util/route';
 
 
 function App() {
@@ -39,21 +40,22 @@ function App() {
 
         <main>
           <div className="wrapper">
-            <Route exact path="/">
-
-              { 
-                userSessionChecked 
-                ? user._id ? <Dashboard /> : <Form type="LoginForm" />
-                : <p>Loading</p>  
-              }
-
-            </Route>
-            <Route path="/signup">
-              {user._id ? <Redirect to="/" /> : <Form type="SignupForm" />}
-            </Route>
-            <Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
-            <Route exact path="/user/:userId" component={UserPage} />
-            <Route exact path="/edit/:requestId" component={UpdateRequest} />
+            <Switch>
+              <Route exact path="/">
+                { 
+                  userSessionChecked 
+                  ? user._id ? <Dashboard /> : <Form type="LoginForm" />
+                  : <p>Loading</p>  
+                }
+              </Route>
+              
+              <AuthRoute path="/signup" component={Form} type="SignupForm" />
+            
+              <ProtectedRoute exact path="/feedback/:feedbackID" component={FeedbackDetails} />
+              <ProtectedRoute exact path="/user/:userId" component={UserPage} />
+              <ProtectedRoute exact path="/edit/:requestId" component={UpdateRequest} />
+              <Redirect to="/" />
+            </Switch>
           </div>
         </main>
 
