@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams } from 'react-router-dom';
 import Form from '../../components/form/Form';
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 
@@ -7,7 +7,7 @@ import * as api from "../../api/forms";
 
 export default function FeedbackDetails(props) {
   // console.log(props);
-  const { feedbackID } = props.match.params;
+  const { feedbackID } = useParams();
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
