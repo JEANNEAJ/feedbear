@@ -18,6 +18,7 @@ export default function FeedbackRequestForm({
   const [projectTitle, setProjectTitle] = useState("");
   const [projectLink, setProjectLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
+  const [file, setFile] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -56,6 +57,7 @@ export default function FeedbackRequestForm({
           projectTitle,
           projectLink,
           liveLink,
+          file,
         })
       );
     }
@@ -124,6 +126,25 @@ export default function FeedbackRequestForm({
         ref={register({ required: true })}
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
+
+      <div className="w-full flex flex-col items-center">
+        <input
+          className="opacity-0 h-1"
+          type="file"
+          name="file-input"
+          id="file-input"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+        <label
+          className="input-text flex items-center w-full"
+          htmlFor="file-input"
+        >
+          <p className="btn-submit m-0 bg-purple-200 shadow-inner">
+            Attach an image
+          </p>
+          <p className="flex-grow p-2 mt-0">{file?.name}</p>
+        </label>
+      </div>
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
         {buttonText}
