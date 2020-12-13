@@ -1,13 +1,12 @@
-import Mongoose from "mongoose";
-import Comment from "../models/comments.js";
+// import Mongoose from "mongoose";
+import FeedbackComments, { Comment } from "../models/comments.js";
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
 export const getComments = async (req, res) => {
-  const { id } = req.params;
-  // const { type } = req.query; // _id, userId
+  const { feedbackId } = req.params;
 
   try {
-    const commentList = await Comment.find();
+    const commentList = await FeedbackComments.find({ _id: feedbackId });
     res.status(200).json(commentList);
   } catch (err) {
     res.status(404).json({ message: err });
@@ -15,17 +14,22 @@ export const getComments = async (req, res) => {
 };
 
 export const createComment = async (req, res) => {
-  console.log('createComment');
-  console.log(req);
+  if (!req.session.user) throw 'Not logged in!';
+  const userId = req.session.user._id;
   const body = req.body;
-  console.log(body);
-
-  const newComment = new Comment(body);
+  const { feedbackId } = req.params;
+   
+  const newComment = new Comment({ userId, ...body })
 
   try {
-    await newComment.save();
+    await FeedbackComments.updateOne(
+      { _id: feedbackId }, // filter
+      { $push: { comments: newComment } }, // update
+      { upsert: true } // create document if not found
+    );
     res.status(201).json(newComment);
   } catch (err) {
+    console.error(err);
     res.status(409).json({ message: err });
   }
 };

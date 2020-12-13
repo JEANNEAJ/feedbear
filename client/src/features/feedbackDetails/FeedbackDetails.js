@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import Form from '../../components/form/Form';
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 
-import * as api from "../../api/forms";
+import * as formApi from "../../api/forms";
+import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
   // console.log(props);
@@ -14,17 +15,29 @@ export default function FeedbackDetails(props) {
   // console.log(request);
   const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
-  useEffect(() => {
-    const populateRequests = async () => {
-      try {
-        const { data } = await api.fetchFormByID("_id", feedbackID);
+  const populateRequests = async () => {
+    try {
+      const { data } = await formApi.fetchFormByID("_id", feedbackID);
 
-        setRequest(data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      setRequest(data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getComments = async () => {
+    try {
+      const { data } = await commentApi.fetchComments(feedbackID);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
     populateRequests();
+    getComments();
+
   }, [feedbackID]);
 
   return (
