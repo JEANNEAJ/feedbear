@@ -2,11 +2,23 @@ import React from 'react'
 
 import { useForm } from "react-hook-form";
 
-export default function CommentForm() {
+import * as api from '../../api/comments';
+
+export default function CommentForm(props) {
+  const { feedbackID } = props;
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    // const feedbackId = req.params.id
+    console.log('data: ', data);
+    const comment = data['input-feedback'];
+
+    try {
+      const {data} = await api.createComment(feedbackID, comment);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (

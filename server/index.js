@@ -14,6 +14,7 @@ import formRoutes from "./routes/forms.js";
 import authRoutes from "./routes/auth.js";
 import secureRoutes from "./routes/secure-routes.js";
 import sessionRoutes from "./routes/session.js";
+import commentRoutes from './routes/comments.js';
 
 // settings
 mongoose.Promise = global.Promise;
@@ -63,6 +64,7 @@ app.use("/forms", formRoutes);
 app.use(authRoutes);
 app.use(secureRoutes);
 app.use(sessionRoutes);
+app.use(commentRoutes);
 
 // TODO: decide if we want to use this approach for private routes
 app.use(
