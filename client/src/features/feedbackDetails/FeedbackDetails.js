@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Form from '../../components/form/Form';
 import TimeDifference from '../../components/timeDifference/TimeDifference';
+import CommentList from'./CommentList';
 
 import * as formApi from "../../api/forms";
 import * as commentApi from "../../api/comments";
@@ -12,6 +13,8 @@ export default function FeedbackDetails(props) {
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
+  const [comments, setComments] = useState([]);
+
   // console.log(request);
   const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
@@ -29,6 +32,7 @@ export default function FeedbackDetails(props) {
     try {
       const { data } = await commentApi.fetchComments(feedbackID);
       console.log(data);
+      if (data[0]) setComments(data[0].comments);
     } catch (err) {
       console.error(err);
     }
@@ -37,7 +41,6 @@ export default function FeedbackDetails(props) {
   useEffect(() => {
     populateRequests();
     getComments();
-
   }, [feedbackID]);
 
   return (
@@ -56,7 +59,9 @@ export default function FeedbackDetails(props) {
           <a href={projectLink}>View Repository</a>
           <p>{message}</p>
 
+          <CommentList comments={comments} />
           <Form type="CommentForm" feedbackID={feedbackID} />
+
         </>
       )}
     </div>

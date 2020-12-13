@@ -16,7 +16,7 @@ const feedbackCommentsSchema = mongoose.Schema({
     type: [commentSchema],
     default: []
   }
-}, { timestamps: true })
+}, { timestamps: true });
 
 export const Comment = mongoose.model("comment", commentSchema);
 const FeedbackComments = mongoose.model("feedbackComments", feedbackCommentsSchema);

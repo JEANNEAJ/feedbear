@@ -33,3 +33,11 @@ export const createComment = async (req, res) => {
     res.status(409).json({ message: err });
   }
 };
+
+export const editComment = async (req, res) => {
+
+}
+
+export const deleteComment = async (req, res) => {
+
+}
