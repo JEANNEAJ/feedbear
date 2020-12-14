@@ -22,12 +22,14 @@ import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 import { AuthRoute, ProtectedRoute } from './util/route';
 
 
-function App() {
-  const user = useSelector(selectUser);
-  const userSessionChecked = useSelector(state => state.user.userSessionChecked);
-  const dispatch = useDispatch();
 
-  useEffect(() => { dispatch(checkForUserSession()) }, []);
+
+function App() {
+  // const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => { dispatch(checkForUserSession()) }, []);
 
   return (
     <Router>
@@ -43,9 +45,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 { 
-                  userSessionChecked 
-                  ? user._id ? <Dashboard /> : <Form type="LoginForm" />
-                  : <p>Loading</p>  
+                  // userSessionChecked 
+                  isLoggedIn ? <Dashboard /> : <Form type="LoginForm" />
+                  // : <p>Loading</p>  
                 }
               </Route>
               

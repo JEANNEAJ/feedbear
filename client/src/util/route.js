@@ -6,8 +6,8 @@ import { Redirect, Route, withRouter } from "react-router-dom";
  * @param {user} object
  * @returns Prop object containing loggedIn property set to the value of _id
  */
-const mapStateToProps = ({ user: { data: { _id }} }) => ({
-  loggedIn: Boolean(_id)
+const mapStateToProps = ({ user: { isLoggedIn} }) => ({
+  isLoggedIn
 });
 
 /** Wrapper component that prevents rendering components that `only users who are not logged in` should see
@@ -15,8 +15,8 @@ const mapStateToProps = ({ user: { data: { _id }} }) => ({
  * @param {props} object
  * @returns if no user is logged in the provided component(s) will be rendered, otherwise redirect back to `/` route 
  */
-const Auth = ({ loggedIn, path, component: Component, ...props }) => (
-  loggedIn
+const Auth = ({ isLoggedIn, path, component: Component, ...props }) => (
+  isLoggedIn
     ? <Redirect to='/' />
     : Component 
       ? <Route path={path} render={() => <Component {...props} />} />
@@ -28,8 +28,8 @@ const Auth = ({ loggedIn, path, component: Component, ...props }) => (
  * @param {props} object
  * @returns if user is logged in the passed down component(s) will render, otherwise the user will be redirected to `/` 
  */
-const Protected = ({ loggedIn, path, component: Component, ...props }) => (
-  loggedIn
+const Protected = ({ isLoggedIn, path, component: Component, ...props }) => (
+  isLoggedIn
     ? Component 
       ? <Route path={path} render={() => <Component {...props} />} />
       : <Route path={path}> { props.children } </Route>
