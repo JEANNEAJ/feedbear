@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
@@ -7,9 +7,6 @@ import "./App.css";
 
 import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
 
-import LoginForm from "./features/user/LoginForm";
-import { selectUser, checkForUserSession } from "./features/user/userSlice";
-import SignupForm from "./features/user/SignupForm";
 import UserPage from "./features/user/UserPage";
 
 import Form from './components/form/Form';
@@ -21,15 +18,8 @@ import Footer from './components/Footer/Footer';
 import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 import { AuthRoute, ProtectedRoute } from './util/route';
 
-
-
-
 function App() {
-  // const user = useSelector(selectUser);
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => { dispatch(checkForUserSession()) }, []);
 
   return (
     <Router>
@@ -44,11 +34,7 @@ function App() {
           <div className="wrapper">
             <Switch>
               <Route exact path="/">
-                { 
-                  // userSessionChecked 
-                  isLoggedIn ? <Dashboard /> : <Form type="LoginForm" />
-                  // : <p>Loading</p>  
-                }
+                { isLoggedIn ? <Dashboard /> : <Form type="LoginForm" /> }
               </Route>
               
               <AuthRoute path="/signup" component={Form} type="SignupForm" />

@@ -1,25 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../../api/session";
 
-export const checkForUserSession = createAsyncThunk(
-  "user/checkForUserSession",
-  async (_ = null, { getState, requestId, rejectWithValue }) => {
-    const { currentRequestId, loading } = getState().user;
-
-    // do nothing if another request is being processed
-    if (loading !== "pending" || requestId !== currentRequestId) {
-      return;
-    }
-
-    try {
-      const response = await api.getUserSession();
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data.message);
-    }
-  }
-);
-
 export const login = createAsyncThunk(
   "user/login",
   async (credentials, { getState, requestId, rejectWithValue }) => {
@@ -73,16 +54,6 @@ const fulfilled = (state, action) => {
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
     state.currentRequestId = undefined;
-    
-    if (action.type === 'user/checkForUserSession/fulfilled') {
-      state.userSessionChecked = true;
-      
-      if (action.payload.data === undefined) {
-        // short circuit return if there was no user data in the api call response
-        return;
-      }
-    }
-
     state.data = action.payload.data;
   }
 };
@@ -106,7 +77,6 @@ const nullUser = {
 export const initialState = {
   data: nullUser,
   loading: "idle",
-  userSessionChecked: false,
   isLoggedIn: false,
   currentRequestId: undefined,
   error: null,
@@ -134,10 +104,6 @@ export const userSlice = createSlice({
     [signup.pending]: pending,
     [signup.fulfilled]: fulfilled,
     [signup.rejected]: rejected,
-
-    [checkForUserSession.pending]: pending,
-    [checkForUserSession.fulfilled]: fulfilled,
-    [checkForUserSession.rejected]: rejected,
   },
 });
 

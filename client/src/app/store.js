@@ -24,14 +24,6 @@ export async function setPreloadedUserState() {
         }
       }
     }
-    
-    preloadedState = {
-      ...preloadedState,
-      user: {
-        ...preloadedState.user,
-        userSessionChecked: true
-      }
-    }
 
   } catch (error) {
     console.log(error);
