@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
+import Form from '../../components/form/Form';
 
 import * as userApi from '../../api/user.js';
 import * as commentApi from '../../api/comments.js';
@@ -15,7 +16,9 @@ export default function CommentListItem (props) {
   const [user, setUser] = useState({});
   /** The currently logged in user */
   const currentUser = useSelector(selectUser);
-  
+  /** True if currently editing this comment */
+  const [editing, setEditing] = useState(false);
+
   /** Get user info for this comment */
   const fetchUserData = async () => {
     try {
@@ -42,7 +45,7 @@ export default function CommentListItem (props) {
   }
 
   const handleEdit = () => {
-
+    setEditing(!editing);
   }
 
   return (
@@ -55,7 +58,11 @@ export default function CommentListItem (props) {
           <div className='pl-3'>
             <h4 className='font-bold'><a href='#'>{user.name}{isUserComment() && ' (You)'}</a></h4>
             <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
-            <p>{comment}</p>
+
+            {!editing ? <p>{comment}</p> : (
+              <Form type="CommentEditForm" comment={comment} />
+            )}
+
             {isUserComment() && 
               <>
                 <button onClick={handleDelete}>delete</button>
