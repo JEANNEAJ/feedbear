@@ -7,7 +7,12 @@
   align-items: center;
 }
 
+.form form {
+  width: 100%;
+}
+
 .form input,
+.form textarea,
 .form button {
   width: 100%;
   min-width: 200px;
@@ -30,4 +35,11 @@
   width: max-content;
   padding: 5px 10px;
   border-radius: 10px;
+}
+
+.form span {
+  color: orangered;
+  display: block;
+  font-size: 1.4rem;
+  margin: -0.3rem 0 0.4rem;
 }

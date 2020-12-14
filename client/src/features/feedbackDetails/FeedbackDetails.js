@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Form from '../../components/form/Form';
+import TimeDifference from '../../components/timeDifference/TimeDifference';
 
 import * as api from "../../api/forms";
 
@@ -36,7 +37,7 @@ export default function FeedbackDetails(props) {
         <>
           <h2>{projectTitle}</h2>
           <p>by {name}</p>
-          <p>created at {createdAt}</p>
+          <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
           <img src="https://placekitten.com/200/300" alt="Placeholder" />
           <a href={liveLink}>View App</a>
           <a href={projectLink}>View Repository</a>
