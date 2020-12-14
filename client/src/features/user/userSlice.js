@@ -103,15 +103,18 @@ const nullUser = {
   name: undefined,
 };
 
+export const initialState = {
+  data: nullUser,
+  loading: "idle",
+  userSessionChecked: false,
+  isLoggedIn: false,
+  currentRequestId: undefined,
+  error: null,
+}
+
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    data: nullUser,
-    loading: "idle",
-    userSessionChecked: false,
-    currentRequestId: undefined,
-    error: null,
-  },
+  initialState,
   reducers: {
     clearErrors(state) {
       state.loading = "idle";
