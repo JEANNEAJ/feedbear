@@ -54,6 +54,11 @@ const fulfilled = (state, action) => {
   if (state.loading === "pending" && state.currentRequestId === requestId) {
     state.loading = "idle";
     state.currentRequestId = undefined;
+
+    if (action.type === 'user/login/fulfilled') {
+      state.isLoggedIn = true;
+    }
+
     state.data = action.payload.data;
   }
 };
