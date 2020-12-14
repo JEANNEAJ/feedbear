@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react'; 
+import { useSelector } from "react-redux";
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 
 import * as userApi from '../../api/user.js';
+import { selectUser } from '../user/userSlice';
 
 export default function CommentListItem (props) {
   const { _id, comment, createdAt, userId } = props.comment;
+  /** The user info for who created this comment (name, etc.) */
   const [user, setUser] = useState({});
+  /** The currently logged in user */
+  const currentUser = useSelector(selectUser);
   
+  /** Get user info for this comment */
   const fetchUserData = async () => {
     try {
       const { data } = await userApi.getUserName(userId);
@@ -17,6 +23,12 @@ export default function CommentListItem (props) {
       console.error(err);
     }
   }
+
+  /** Returns true if this comment was made by the currently logged in user */
+  const isUserComment = () => {
+    if (currentUser._id === userId) return true;
+    else return false;
+  };
 
   useEffect(() => {
     fetchUserData();
@@ -30,9 +42,15 @@ export default function CommentListItem (props) {
           <>
           {/* <img className='w-12 h-12 rounded-full flex-none' src={user.avatarUrl} alt={user.name} /> */}
           <div className='pl-3'>
-            <h4 className='font-bold'><a href='#'>{user.name}</a></h4>
+            <h4 className='font-bold'><a href='#'>{user.name}{isUserComment() && ' (You)'}</a></h4>
             <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
             <p>{comment}</p>
+            {isUserComment() && 
+              <form>
+                <button>delete</button>
+                <button>edit</button>
+              </form>
+             }
           </div>
           </>
         )
