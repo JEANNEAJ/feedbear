@@ -4,10 +4,13 @@ import { useSelector } from "react-redux";
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 
 import * as userApi from '../../api/user.js';
+import * as commentApi from '../../api/comments.js';
 import { selectUser } from '../user/userSlice';
 
 export default function CommentListItem (props) {
   const { _id, comment, createdAt, userId } = props.comment;
+  const { feedbackID } = props;
+
   /** The user info for who created this comment (name, etc.) */
   const [user, setUser] = useState({});
   /** The currently logged in user */
@@ -24,15 +27,23 @@ export default function CommentListItem (props) {
     }
   }
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   /** Returns true if this comment was made by the currently logged in user */
   const isUserComment = () => {
     if (currentUser._id === userId) return true;
     else return false;
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  const handleDelete = () => {
+    commentApi.deleteComment(feedbackID, _id);
+  }
+
+  const handleEdit = () => {
+
+  }
 
   return (
     <li className='p-3 rounded-md border flex max-w-2xl mx-auto'> 
@@ -46,10 +57,10 @@ export default function CommentListItem (props) {
             <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
             <p>{comment}</p>
             {isUserComment() && 
-              <form>
-                <button>delete</button>
-                <button>edit</button>
-              </form>
+              <>
+                <button onClick={handleDelete}>delete</button>
+                <button onClick={handleEdit}>edit</button>
+              </>
              }
           </div>
           </>

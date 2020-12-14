@@ -59,7 +59,7 @@ export default function FeedbackDetails(props) {
           <a href={projectLink}>View Repository</a>
           <p>{message}</p>
 
-          <CommentList comments={comments} />
+          <CommentList comments={comments} feedbackID={feedbackID} />
           <Form type="CommentForm" feedbackID={feedbackID} />
 
         </>

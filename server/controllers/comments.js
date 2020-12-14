@@ -39,5 +39,20 @@ export const editComment = async (req, res) => {
 }
 
 export const deleteComment = async (req, res) => {
+  // console.log('delete comment', req.params);
+  if (!req.session.user) throw 'Not logged in!';
+  //TODO add server-side validation that this comment belongs to user
+  const userId = req.session.user._id;
+  const { feedbackId, commentId } = req.params;
 
+  try {
+    const deletedComment = await FeedbackComments.updateOne(
+      { _id: feedbackId }, // filter
+      { $pull: { comments: { _id: commentId } } } // update
+    ); 
+    res.status(201).json(deletedComment);
+  } catch (err) {
+    console.error(err);
+    res.status(409).json({ message: err });
+  }
 }
