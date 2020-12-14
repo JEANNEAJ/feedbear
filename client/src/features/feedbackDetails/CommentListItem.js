@@ -60,7 +60,12 @@ export default function CommentListItem (props) {
             <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
 
             {!editing ? <p>{comment}</p> : (
-              <Form type="CommentEditForm" comment={comment} />
+              <Form
+                type="CommentEditForm"
+                comment={comment}
+                feedbackID={feedbackID}
+                commentId={_id}
+              />
             )}
 
             {isUserComment() && 
