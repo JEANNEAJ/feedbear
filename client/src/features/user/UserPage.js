@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 
 import * as api from '../../api/forms';
 
