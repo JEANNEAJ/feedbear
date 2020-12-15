@@ -8,7 +8,7 @@ import AuthenticatedApp from "./AuthenticatedApp";
 import UnauthenticatedApp from "./UnauthenticatedApp";
 import Footer from "./components/Footer/Footer";
 
-import "./App.css";
+import "./tailwind.output.css";
 
 function App() {
   const user = useSelector(selectUser);
@@ -23,11 +23,10 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      {/* arrange components in a flex-column that spans 100vh */}
+      <div className="bg-gradient-to-b from-purple-400 to-blue-400 flex flex-col justify-between min-h-screen">
         <header>
-          <div className="wrapper">
-            <Nav />
-          </div>
+          <Nav />
         </header>
 
         <main>
