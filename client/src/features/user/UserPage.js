@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 import * as api from "../../api/forms";
 
@@ -36,6 +37,18 @@ export default function UserPage() {
     }
   };
 
+  const openModal = (projectTitle, id) => {
+    Swal.fire({
+      title: `Delete ${projectTitle}?`,
+      html: '<p>Are you sure you want to delete this request?</p><p style={{ marginBottom: "1.2em" }}> This operation is irreversible</p>',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#dd6b55',
+      showCancelButton: true,
+    }).then(res => {
+      if (res.isConfirmed) handleDelete(id)
+    })
+  }
+
   return (
     <div className="container mx-auto">
       <p className="text-xl font-bold">Welcome, {name}!</p>
@@ -52,7 +65,7 @@ export default function UserPage() {
             <FeedbackListItem key={request._id} request={request}>
               <div className="flex space-x-2">
                 <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
-                <button onClick={() => handleDelete(request._id)}>
+                <button onClick={() => openModal(request.projectTitle, request._id)}>
                   Delete
                 </button>
               </div>
@@ -60,7 +73,9 @@ export default function UserPage() {
           ))}
         </ul>
       )}
+
       <button onClick={handleRefresh}>refresh 🔃</button>
+
     </div>
   );
 }

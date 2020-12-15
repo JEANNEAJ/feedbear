@@ -15,7 +15,8 @@
     "react-hook-form": "^6.12.2",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1"
+    "react-scripts": "4.0.1",
+    "sweetalert2": "^10.12.5"
   },
   "scripts": {
     "tailwind:build": "NODE_ENV=production postcss src/tailwind.css -o src/tailwind.output.css",
