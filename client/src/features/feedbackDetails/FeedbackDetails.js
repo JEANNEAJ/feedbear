@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-
-import Form from "../../components/form/Form";
+import { useParams } from "react-router-dom";
+import CommentForm from "./CommentForm";
 import TimeDifference from "../../components/timeDifference/TimeDifference";
 
 import * as api from "../../api/forms";
 
 export default function FeedbackDetails(props) {
   // console.log(props);
-  const { feedbackID } = props.match.params;
+  const { feedbackID } = useParams();
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
@@ -60,7 +60,7 @@ export default function FeedbackDetails(props) {
           </div>
           <div className="mt-10">
             <h3 className="mb-5 text-xl font-bold">Feedback</h3>
-            <Form type="CommentForm" />
+            <CommentForm />
           </div>
         </>
       )}

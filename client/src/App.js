@@ -1,17 +1,11 @@
 import React, { useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
-import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
-
-import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-
 import { selectUser, checkForUserSession } from "./features/user/userSlice";
-import UserPage from "./features/user/UserPage";
-import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
 
-import Form from "./components/form/Form";
 import Nav from "./components/nav/Nav";
-import Dashboard from "./components/Dashboard/Dashboard";
+import AuthenticatedApp from "./AuthenticatedApp";
+import UnauthenticatedApp from "./UnauthenticatedApp";
 import Footer from "./components/Footer/Footer";
 
 import "./tailwind.output.css";
@@ -25,7 +19,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkForUserSession());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>
@@ -37,29 +31,15 @@ function App() {
 
         {/* main component fills space b/w header and footer, centered vertically */}
         <main className="flex-grow flex flex-col justify-around p-5">
-          <div className="container mx-auto">
-            <Route exact path="/">
-              {userSessionChecked ? (
-                user._id ? (
-                  <Dashboard />
-                ) : (
-                  <Form type="LoginForm" />
-                )
-              ) : (
-                <p>Loading</p>
-              )}
-            </Route>
-            <Route path="/signup">
-              {user._id ? <Redirect to="/" /> : <Form type="SignupForm" />}
-            </Route>
-            <Route
-              exact
-              path="/feedback/:feedbackID"
-              component={FeedbackDetails}
-            />
-            <Route exact path="/user/:userId" component={UserPage} />
-            <Route exact path="/edit/:requestId" component={UpdateRequest} />
-          </div>
+          {userSessionChecked ? (
+            user._id ? (
+              <AuthenticatedApp />
+            ) : (
+              <UnauthenticatedApp />
+            )
+          ) : (
+            <p>Loading</p>
+          )}
         </main>
 
         <Footer />
