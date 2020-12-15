@@ -29,18 +29,17 @@ function App() {
           <Nav />
         </header>
 
-        <main>
-          <div className="wrapper">
-            {userSessionChecked ? (
-              user._id ? (
-                <AuthenticatedApp />
-              ) : (
-                <UnauthenticatedApp />
-              )
+        {/* main component fills space b/w header and footer, centered vertically */}
+        <main className="flex-grow flex flex-col justify-around p-5">
+          {userSessionChecked ? (
+            user._id ? (
+              <AuthenticatedApp />
             ) : (
-              <p>Loading</p>
-            )}
-          </div>
+              <UnauthenticatedApp />
+            )
+          ) : (
+            <p>Loading</p>
+          )}
         </main>
 
         <Footer />

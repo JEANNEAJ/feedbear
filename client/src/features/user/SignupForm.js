@@ -24,7 +24,7 @@ const SignupForm = () => {
 
   return (
     <form
-      className="md:container mx:auto flex flex-col items-center"
+      className="form flex flex-col items-center"
       onSubmit={handleSubmit(handleSignup)}
     >
       <input
