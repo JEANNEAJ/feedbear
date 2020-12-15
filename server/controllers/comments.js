@@ -36,38 +36,68 @@ export const createComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
   if (!req.session.user) throw 'Not logged in!';
-  //TODO add server-side validation that this comment belongs to user
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
-  const newComment = Object.keys(req.body)[0];
+  const validUser = await verifyUser(userId, feedbackId, commentId);
 
-  try {
-    const updatedComment = await FeedbackComments.updateOne(
-      { _id: feedbackId, "comments._id": commentId }, // filter
-      { $set: { "comments.$.comment" : newComment } } // update
-    ); 
-    res.status(201).json(updatedComment);
-  } catch (err) {
-    console.error(err);
-    res.status(409).json({ message: err });
+  if (validUser) {
+    const newComment = Object.keys(req.body)[0];
+
+    try {
+      const updatedComment = await FeedbackComments.updateOne(
+        { _id: feedbackId, "comments._id": commentId }, // filter
+        { $set: { "comments.$.comment": newComment } } // update
+      );
+      res.status(201).json(updatedComment);
+    } catch (err) {
+      console.error(err);
+      res.status(409).json({ message: err });
+    }
+  } else {
+    res.status(403).json({ message: 'Invalid user' });
   }
-
-}
+};
 
 export const deleteComment = async (req, res) => {
   if (!req.session.user) throw 'Not logged in!';
-  //TODO add server-side validation that this comment belongs to user
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
+  const validUser = await verifyUser(userId, feedbackId, commentId);
 
+  if (validUser) {
+    try {
+      const deletedComment = await FeedbackComments.updateOne(
+        { _id: feedbackId }, // filter
+        { $pull: { comments: { _id: commentId } } } // update
+      );
+      res.status(201).json(deletedComment);
+    } catch (err) {
+      console.error(err);
+      res.status(409).json({ message: err });
+    }
+  } else {
+    res.status(403).json({ message: 'Invalid user' });
+  }
+};
+
+/** 
+ * Verify that the provided comment belongs to correct user
+ * @returns true if the userId matches the id on the comment, false if it doesn't match or if there's an error
+ */
+const verifyUser = async (userId, feedbackId, commentId) => {
   try {
-    const deletedComment = await FeedbackComments.updateOne(
-      { _id: feedbackId }, // filter
-      { $pull: { comments: { _id: commentId } } } // update
-    ); 
-    res.status(201).json(deletedComment);
+    const comment = await FeedbackComments.findOne(
+      { _id: feedbackId }, // query
+      { comments: { "$elemMatch": { _id: commentId } } } // projection
+    );
+    const commentUserId = comment.comments[0].userId;
+
+    //TODO userId is a string and commentUserId is an object. Stricter type checking
+    if (userId == commentUserId) return true;
+    else return false;
+
   } catch (err) {
     console.error(err);
-    res.status(409).json({ message: err });
+    return false;
   }
 }
