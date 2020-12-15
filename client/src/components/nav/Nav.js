@@ -3,15 +3,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import LogoutButton from "./LogoutButton";
-import styles from "./Nav.module.css";
 
 export default function Nav() {
   const user = useSelector((state) => state.user);
   const { _id } = user.data;
 
   return (
-    <nav className={styles.nav}>
-      <h1>
+    <nav className="container mx-auto p-5">
+      <h1 className="text-3xl font-bold">
         <Link to={"/"}>Feedback App</Link>
       </h1>
 

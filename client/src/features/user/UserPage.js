@@ -3,11 +3,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-import * as api from '../../api/forms';
+import * as api from "../../api/forms";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
-
-import styles from './UserPage.module.css';
 
 export default function UserPage() {
   const user = useSelector((state) => state.user);
@@ -37,7 +35,7 @@ export default function UserPage() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const openModal = (projectTitle, id) => {
     Swal.fire({
@@ -52,24 +50,30 @@ export default function UserPage() {
   }
 
   return (
-    <div>
-      <p>Welcome {name}!</p>
+    <div className="container mx-auto">
+      <p className="text-xl font-bold">Welcome, {name}!</p>
 
-      <h3>Your Feedback Requests:</h3>
+      <h3 className="text-xl mt-3">Your Feedback Requests:</h3>
 
       {!requests.length ? (
         <p>
           Nothing here, try making a <Link to={"/"}>new Feedback Request</Link>
         </p>
       ) : (
-          <ul className={styles.container}>
-            {requests.map((request) => (
-              <FeedbackListItem key={request._id} request={request}>
-                <p><Link to={`/edit/${request._id}`}>Edit</Link> <button onClick={() => openModal(request.projectTitle, request._id)}>Delete</button></p>
-              </FeedbackListItem>
-            ))}
-          </ul>
-        )}
+        <ul>
+          {requests.map((request) => (
+            <FeedbackListItem key={request._id} request={request}>
+              <div className="flex space-x-2">
+                <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
+                <button onClick={() => openModal(request.projectTitle, request._id)}>
+                  Delete
+                </button>
+              </div>
+            </FeedbackListItem>
+          ))}
+        </ul>
+      )}
+
       <button onClick={handleRefresh}>refresh 🔃</button>
 
     </div>
