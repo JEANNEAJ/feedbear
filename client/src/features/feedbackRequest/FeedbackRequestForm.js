@@ -30,6 +30,7 @@ export default function FeedbackRequestForm({
       setProjectLink(inputText.projectLink);
       setLiveLink(inputText.liveLink);
       setMessage(inputText.message);
+      setFile(inputText.file);
     }
   }, []);
 
