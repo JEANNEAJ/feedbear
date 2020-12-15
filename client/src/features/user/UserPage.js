@@ -15,8 +15,6 @@ export default function UserPage() {
   // console.log(_id);
 
   const [requests, setRequests] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [deleteRequest, setDeleteRequest] = useState({ projectTitle: '', requestId: '' });
 
   useEffect(() => {
     handleRefresh();
@@ -39,27 +37,19 @@ export default function UserPage() {
     } catch (error) {
       console.log(error);
     }
-    setDeleteRequest({});
-    setModalIsOpen(false);
   }
 
   const openModal = (projectTitle, id) => {
-    setModalIsOpen(true);
-    setDeleteRequest({
-      projectTitle,
-      id
-    });
+    Swal.fire({
+      title: `Delete ${projectTitle}?`,
+      html: '<p>Are you sure you want to delete this request?</p><p style={{ marginBottom: "1.2em" }}> This operation is irreversible</p>',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#dd6b55',
+      showCancelButton: true,
+    }).then(res => {
+      if (res.isConfirmed) handleDelete(id)
+    })
   }
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  }
-
-  const customStyles = {
-    overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.7)'
-    }
-  };
 
   return (
     <div>
@@ -81,15 +71,6 @@ export default function UserPage() {
           </ul>
         )}
       <button onClick={handleRefresh}>refresh 🔃</button>
-
-      {/* inline styling for demo purposes only */}
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel='delete' style={customStyles} className='Modal'>
-        <h2 style={{ marginBottom: '0.8em' }}>Delete {deleteRequest.projectTitle}?</h2>
-        <p>Are you sure you want to delete this request?</p>
-        <p style={{ marginBottom: '1.2em' }}>This operation is irreversible</p>
-        <button onClick={() => handleDelete(deleteRequest.id)}>Delete</button>
-        <button onClick={closeModal}>Cancel</button>
-      </Modal>
 
     </div>
   );
