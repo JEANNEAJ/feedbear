@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
+import ImagePreview from "../../components/ImagePreview";
 
 export default function FeedbackRequestForm({
   buttonText,
@@ -136,14 +137,17 @@ export default function FeedbackRequestForm({
           onChange={(e) => setFile(e.target.files[0])}
         />
         <label
-          className="input-text flex items-center w-full"
+          className="input-text flex items-center w-full mt-2"
           htmlFor="file-input"
         >
           <p className="btn-submit m-0 bg-purple-200 shadow-inner">
             Attach an image
           </p>
-          <p className="flex-grow p-2 mt-0">{file?.name}</p>
+          <p className="flex-grow p-2 mt-0 text-gray-500">{file?.name}</p>
         </label>
+        {file && (
+          <ImagePreview file={file} handleDelete={() => setFile(null)} />
+        )}
       </div>
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
