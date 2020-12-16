@@ -10,15 +10,9 @@ export const formSlice = createSlice({
 
 export const { updateName, updateEmail, updateMessage } = formSlice.actions;
 
-export const submit = (input) => async () => {
+export const submit = (formData) => async () => {
   try {
-    const form = new FormData();
-    const keys = Object.keys(input);
-    for (let i in keys) {
-      form.append(keys[i], input[keys[i]]);
-    }
-
-    const { data } = await api.createForm(form);
+    const { data } = await api.createForm(formData);
     console.log("submit success");
     console.log(data);
   } catch (err) {
@@ -27,9 +21,9 @@ export const submit = (input) => async () => {
   }
 };
 
-export const update = (form, id) => async (dispatch) => {
+export const update = (id, formData) => async () => {
   try {
-    const { data } = await api.updateFeedbackDetails(id, form);
+    const { data } = await api.updateFeedbackDetails(id, formData);
     console.log("update success");
     console.log(data);
   } catch (err) {

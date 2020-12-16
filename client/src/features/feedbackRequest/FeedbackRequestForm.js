@@ -15,7 +15,7 @@ export default function FeedbackRequestForm({
   const { register, handleSubmit, watch, errors } = useForm();
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
-  const [message, setMessage] = useState("Tear me to shreds!");
+  const [message, setMessage] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectLink, setProjectLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
@@ -32,36 +32,31 @@ export default function FeedbackRequestForm({
       setMessage(inputText.message);
       setFile(inputText.file);
     }
-  }, []);
+  }, [inputText]);
 
   // submit the form data
   const onSubmit = () => {
+    // create and populate FormData object
+    const formData = new FormData();
+    const formInput = {
+      userId,
+      name,
+      message,
+      projectTitle,
+      projectLink,
+      liveLink,
+      file,
+    };
+    const keys = Object.keys(formInput);
+    keys.forEach((key) => formData.append(key, formInput[key]));
+
+    // handle form submission for FBR creation/updates
     if (inputText) {
-      dispatch(
-        update(
-          {
-            message,
-            projectTitle,
-            projectLink,
-            liveLink,
-          },
-          requestId
-        )
-      );
+      dispatch(update(requestId, formData));
       // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
       history.push("/user/:userId");
     } else {
-      dispatch(
-        submit({
-          userId,
-          name,
-          message,
-          projectTitle,
-          projectLink,
-          liveLink,
-          file,
-        })
-      );
+      dispatch(submit(formData));
     }
   };
 
