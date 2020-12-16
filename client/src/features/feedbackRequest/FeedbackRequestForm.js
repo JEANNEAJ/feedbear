@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 
-import styles from "./FeedbackRequestForm.module.css";
-
-export default function FeedbackRequestForm({ buttonText, inputText, requestId }) {
+export default function FeedbackRequestForm({
+  buttonText,
+  inputText,
+  requestId,
+}) {
   const { register, handleSubmit, watch, errors } = useForm();
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
@@ -27,21 +29,24 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
       setLiveLink(inputText.liveLink);
       setMessage(inputText.message);
     }
-  }, [])
+  }, []);
 
   // submit the form data
   const onSubmit = () => {
     if (inputText) {
       dispatch(
-        update({
-          message,
-          projectTitle,
-          projectLink,
-          liveLink,
-        }, requestId)
-      )
+        update(
+          {
+            message,
+            projectTitle,
+            projectLink,
+            liveLink,
+          },
+          requestId
+        )
+      );
       // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
-      history.push('/user/:userId');
+      history.push(`/user/${userId}`);
     } else {
       dispatch(
         submit({
@@ -57,12 +62,15 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="form flex flex-col items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <label className="sr-only" htmlFor="input-title">
         Project Name
       </label>
       <input
-        className={styles.center}
+        className="input-text"
         onChange={(e) => setProjectTitle(e.target.value)}
         type="text"
         name="input-title"
@@ -71,13 +79,13 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         value={projectTitle}
         ref={register({ required: true })}
       />
-      {errors['input-title'] && <span>This field is required</span>}
+      {errors["input-title"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-projectLink">
         Project Link
       </label>
       <input
-        className={styles.left}
+        className="input-text"
         onChange={(e) => setProjectLink(e.target.value)}
         type="text"
         name="input-projectLink"
@@ -86,13 +94,13 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         value={projectLink}
         ref={register({ required: true })}
       />
-      {errors['input-projectLink'] && <span>This field is required</span>}
+      {errors["input-projectLink"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-liveLink">
         Project Live Link
       </label>
       <input
-        className={styles.right}
+        className="input-text"
         onChange={(e) => setLiveLink(e.target.value)}
         type="text"
         name="input-liveLink"
@@ -101,13 +109,13 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         value={liveLink}
         ref={register({ required: true })}
       />
-      {errors['input-liveLink'] && <span>This field is required</span>}
+      {errors["input-liveLink"] && <span>This field is required</span>}
 
       <label className="sr-only" htmlFor="input-message">
         Message
       </label>
       <textarea
-        className={styles.message}
+        className="input-text"
         onChange={(e) => setMessage(e.target.value)}
         name="input-message"
         id="input-message"
@@ -115,11 +123,11 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
         value={message}
         ref={register({ required: true })}
       ></textarea>
-      {errors['input-message'] && <span>This field is required</span>}
+      {errors["input-message"] && <span>This field is required</span>}
 
-        <button className={styles.button} type="submit">
-          {buttonText}
-        </button>
-      </form>
+      <button className="btn-submit" onClick={handleSubmit} type="submit">
+        {buttonText}
+      </button>
+    </form>
   );
 }

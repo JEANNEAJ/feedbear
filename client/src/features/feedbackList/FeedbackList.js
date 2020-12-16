@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-// import { useSelector, useDispatch } from 'react-redux';
-import styles from "./FeedbackList.module.css";
-
-import * as api from "../../api/forms";
-
 import FeedbackListItem from "./FeedbackListItem";
+import * as api from "../../api/forms";
 
 export default function FeedbackList() {
   const [requests, setRequests] = useState([]);
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     handleRefresh();
@@ -24,14 +19,12 @@ export default function FeedbackList() {
   };
 
   return (
-    <div>
-      <div className={styles.titleSection}>
-        <h2>Feedback Requests</h2>
-        <button className={styles.refresh} onClick={handleRefresh}>
-          refresh 🔃
-      </button>
+    <div className="container mx-auto">
+      <div className="mt-10 flex justify-between">
+        <h2 className="text-xl font-bold">Feedback Requests</h2>
+        <button onClick={handleRefresh}>refresh 🔃</button>
       </div>
-      <ul className={styles.container}>
+      <ul>
         {requests.map((request) => (
           <FeedbackListItem key={request._id} request={request} />
         ))}

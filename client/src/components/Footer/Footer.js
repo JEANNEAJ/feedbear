@@ -1,14 +1,14 @@
-import React from 'react';
-
-import styles from './Footer.module.css';
+import React from "react";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <div className={`wrapper ${styles.wrapper}`}>
-        <p>Created by Andre Facey, Evan Wallace, Joey Chau, and Nathan Kanigsberg</p>
+    <footer className="text-white text-center">
+      <div className="container mx-auto p-5">
+        <p>
+          Created by Andre Facey, Evan Wallace, Joey Chau, and Nathan Kanigsberg
+        </p>
         <p>©2020</p>
       </div>
     </footer>
-  )
+  );
 }

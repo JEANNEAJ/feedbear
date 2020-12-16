@@ -23,8 +23,12 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleLogin)}>
+    <form
+      className="form flex flex-col items-center"
+      onSubmit={handleSubmit(handleLogin)}
+    >
       <input
+        className="input-text"
         name="email"
         type="email"
         placeholder="email"
@@ -33,6 +37,7 @@ const LoginForm = () => {
       {errors.email && <span>This field is required</span>}
 
       <input
+        className="input-text"
         name="password"
         type="password"
         placeholder="password"
@@ -50,8 +55,8 @@ const LoginForm = () => {
         ""
       )}
 
-      <button type="submit">Sign In</button>
-      <p>Don't have an account?</p>
+      <button className="btn-submit">Sign In</button>
+      <p> Don't have an account?</p>
       <p>
         <Link to="/signup">Click here</Link> to sign up.
       </p>
