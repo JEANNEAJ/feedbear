@@ -1,5 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setComments } from './commentSlice';
 
 import * as commentApi from '../../api/comments';
 
@@ -7,9 +9,14 @@ export default function CommentEditForm(props) {
   const { comment, feedbackID, commentId } = props;
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const handleSave = (data) => {
-    commentApi.updateComment(feedbackID, commentId, data.editComment);
-  }
+  const handleSave = async (data) => {
+    try {
+      await commentApi.updateComment(feedbackID, commentId, data.editComment);
+      
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleCancel = () => {
 

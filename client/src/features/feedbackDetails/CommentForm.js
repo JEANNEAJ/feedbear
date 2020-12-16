@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch } from "react-redux";
+import { getComments } from './commentSlice';
 
 import { useForm } from "react-hook-form";
 
@@ -6,17 +8,19 @@ import * as api from '../../api/comments';
 
 export default function CommentForm(props) {
   const { feedbackID } = props;
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch, errors, reset } = useForm();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    // console.log('data: ', data);
     const comment = data['input-feedback'];
 
     try {
       const {data} = await api.createComment(feedbackID, {comment});
       console.log(data);
 
-      
+      reset(); // clear text fields & errors
+
+      dispatch(getComments(feedbackID)); // update list
     } catch (err) {
       console.error(err);
     }

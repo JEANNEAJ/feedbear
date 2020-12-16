@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setComments, selectComments } from './commentSlice';
+import { getComments, setComments, selectComments } from './commentSlice';
 
 import Form from '../../components/form/Form';
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 import CommentList from'./CommentList';
 
 import * as formApi from "../../api/forms";
-import * as commentApi from "../../api/comments";
+// import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
   const { feedbackID } = props.match.params;
@@ -19,7 +19,7 @@ export default function FeedbackDetails(props) {
 
   const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
-  const populateRequests = async () => {
+  const populateRequest = async () => {
     try {
       const { data } = await formApi.fetchFormByID("_id", feedbackID);
 
@@ -29,18 +29,9 @@ export default function FeedbackDetails(props) {
     }
   };
 
-  const getComments = async () => {
-    try {
-      const { data } = await commentApi.fetchComments(feedbackID);
-      dispatch(setComments(data.length ? data[0].comments : []));
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   useEffect(() => {
-    populateRequests();
-    getComments();
+    populateRequest();
+    dispatch(getComments(feedbackID));
   }, [feedbackID]);
 
   return (
