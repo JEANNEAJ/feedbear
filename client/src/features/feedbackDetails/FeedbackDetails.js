@@ -32,8 +32,7 @@ export default function FeedbackDetails(props) {
   const getComments = async () => {
     try {
       const { data } = await commentApi.fetchComments(feedbackID);
-      console.log(data);
-      if (data[0]) dispatch(setComments(data[0].comments));
+      dispatch(setComments(data.length ? data[0].comments : []));
     } catch (err) {
       console.error(err);
     }
