@@ -6,37 +6,29 @@ const bucket = gc.bucket("feedbear"); // should be your bucket name
 /**
  *
  * @param { File } object file object that will be uploaded
- * @param { existingURL } String URL of resource being replaced
+ * @param { existingURL } string URL of resource being replaced
  * @description Accepts an object with keys "buffer" and "mimetype" as and
  *   uploads it to our image bucket on Google Cloud. If { existingURL } is
- *   provided, the resource at { existingURL } is deleted.
+ *   provided, the resource at { existingURL } is overwritten.
  */
-
 export const uploadImage = async (file, existingURL = null) => {
-  // if existingURL provided, extract UUID and delete the image
-  if (existingURL) {
-    try {
-      const uuid = existingURL.slice(-36);
-      const res = await bucket.file(uuid).delete();
-      console.log(`File at ${existingURL} was deleted.`);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   return new Promise((resolve, reject) => {
+    const filename = existingURL ? existingURL.slice(-36) : uuidv4();
     const { buffer, mimetype } = file;
 
-    const blob = bucket.file(uuidv4());
+    const blob = bucket.file(filename);
     const blobStream = blob.createWriteStream({
       // set the appropriate MIME type
-      metadata: { contentType: mimetype },
+      metadata: {
+        cacheControl: "no-cache, max-age=0, no-transform",
+        contentType: mimetype,
+      },
       resumable: false,
     });
     blobStream
       .on("finish", () => {
         const publicUrl = format(
-          `https://${bucket.name}.storage.googleapis.com/${blob.name}`
+          `https://storage.googleapis.com/${bucket.name}/${blob.name}`
         );
         console.log(`Successfully uploaded file to ${publicUrl}`);
         resolve(publicUrl);
