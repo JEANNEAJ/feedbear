@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setComments, selectComments } from './commentSlice';
 
 import Form from '../../components/form/Form';
 import TimeDifference from '../../components/timeDifference/TimeDifference';
@@ -13,7 +15,10 @@ export default function FeedbackDetails(props) {
   // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
+  const comments = useSelector(selectComments)
+
+  const dispatch = useDispatch();
 
   // console.log(request);
   const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
@@ -32,7 +37,8 @@ export default function FeedbackDetails(props) {
     try {
       const { data } = await commentApi.fetchComments(feedbackID);
       console.log(data);
-      if (data[0]) setComments(data[0].comments);
+      // if (data[0]) setComments(data[0].comments);
+      if (data[0]) dispatch(setComments(data[0].comments));
     } catch (err) {
       console.error(err);
     }

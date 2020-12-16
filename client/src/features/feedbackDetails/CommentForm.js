@@ -9,12 +9,14 @@ export default function CommentForm(props) {
   const { register, handleSubmit, watch, errors } = useForm();
 
   const onSubmit = async (data) => {
-    console.log('data: ', data);
+    // console.log('data: ', data);
     const comment = data['input-feedback'];
 
     try {
-      const {data} = await api.createComment(feedbackID, {comment} );
+      const {data} = await api.createComment(feedbackID, {comment});
       console.log(data);
+
+      
     } catch (err) {
       console.error(err);
     }
