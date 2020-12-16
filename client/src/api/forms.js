@@ -4,6 +4,7 @@ import axios from "axios";
 const url = "/forms";
 
 export const fetchForms = () => axios.get(url);
+
 export const fetchFormByID = (type, ID) =>
   axios.get(`${url}/${ID}`, {
     params: { type },
@@ -16,5 +17,8 @@ export const createForm = (newForm) =>
   });
 
 export const updateFeedbackDetails = (id, updatedDetails) =>
-  axios.patch(`${url}/${id}`, updatedDetails);
+  axios.patch(`${url}/${id}`, updatedDetails, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 export const deleteFeedbackRequest = (id) => axios.delete(`${url}/${id}`);

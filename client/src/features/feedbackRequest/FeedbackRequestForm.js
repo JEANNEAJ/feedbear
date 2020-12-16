@@ -48,7 +48,9 @@ export default function FeedbackRequestForm({
       file,
     };
     const keys = Object.keys(formInput);
-    keys.forEach((key) => formData.append(key, formInput[key]));
+    keys.forEach((key) => {
+      if (formInput[key]) formData.append(key, formInput[key]);
+    });
 
     // handle form submission for FBR creation/updates
     if (inputText) {
