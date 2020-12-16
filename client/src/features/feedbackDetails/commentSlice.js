@@ -12,8 +12,7 @@ export const commentSlice = createSlice({
   },
 });
 
-export const selectComments = (state) => state.comments;
-
+export const selectComments = (state) => state.comments.comments;
 const { actions, reducer } = commentSlice;
 export const { setComments } = actions;
 export default reducer;

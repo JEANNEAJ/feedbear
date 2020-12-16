@@ -10,17 +10,13 @@ import * as formApi from "../../api/forms";
 import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
-  // console.log(props);
   const { feedbackID } = props.match.params;
-  // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
-  // const [comments, setComments] = useState([]);
-  const comments = useSelector(selectComments)
+  const comments = useSelector(selectComments);
 
   const dispatch = useDispatch();
 
-  // console.log(request);
   const { name, message, projectTitle, projectLink, liveLink, createdAt } = request;
 
   const populateRequests = async () => {
@@ -37,7 +33,6 @@ export default function FeedbackDetails(props) {
     try {
       const { data } = await commentApi.fetchComments(feedbackID);
       console.log(data);
-      // if (data[0]) setComments(data[0].comments);
       if (data[0]) dispatch(setComments(data[0].comments));
     } catch (err) {
       console.error(err);
