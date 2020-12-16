@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { getComments } from './commentSlice';
+import { setEditing, getComments } from './commentSlice';
 
 import * as commentApi from '../../api/comments';
 
@@ -13,15 +13,20 @@ export default function CommentEditForm(props) {
 
   const handleSave = async (data) => {
     try {
-      await commentApi.updateComment(feedbackID, commentId, data.editComment);
-      
+      // if comment has been edited then update
+      if (data.editComment !== comment) { 
+        await commentApi.updateComment(feedbackID, commentId, data.editComment);
+        dispatch(getComments(feedbackID));
+      }
+
+      dispatch(setEditing(null));
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleCancel = () => {
-
+    dispatch(setEditing(null));
   }
 
   return (
@@ -34,7 +39,7 @@ export default function CommentEditForm(props) {
         ref={register({ required: true })}
       ></textarea>
       <button type="submit">save</button>
-      <button type="button">cancel</button>
+      <button onClick={handleCancel} type="button">cancel</button>
     </form>
   )
 }

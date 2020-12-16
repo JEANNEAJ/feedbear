@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import { useSelector, useDispatch } from "react-redux";
-import { getComments } from './commentSlice';
+import { getComments, setEditing, selectEditing } from './commentSlice';
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 import Form from '../../components/form/Form';
@@ -17,8 +17,8 @@ export default function CommentListItem (props) {
   const [user, setUser] = useState({});
   /** The currently logged in user */
   const currentUser = useSelector(selectUser);
-  /** True if currently editing this comment */
-  const [editing, setEditing] = useState(false);
+  /** The ID of the comment currently being edited */
+  const editing = useSelector(selectEditing);
 
   const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ export default function CommentListItem (props) {
   }
 
   const handleEdit = () => {
-    setEditing(!editing);
+    dispatch(setEditing(_id))
   }
 
   return (
@@ -67,7 +67,7 @@ export default function CommentListItem (props) {
             <h4 className='font-bold'><a href='#'>{user.name}{isUserComment() && ' (You)'}</a></h4>
             <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
 
-            {!editing ? <p>{comment}</p> : (
+            {editing !== _id ? <p>{comment}</p> : (
               <Form
                 type="CommentEditForm"
                 comment={comment}

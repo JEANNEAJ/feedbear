@@ -6,18 +6,27 @@ export const commentSlice = createSlice({
   name: "comments",
   initialState: {
     comments: [],
+    editing: null, // the ID of the comment being edited
   },
   reducers: {
     setComments(state, action) {
       state.comments = action.payload;
+    },
+    setEditing(state, action) {
+      if (state.editing !== action.payload) {
+        state.editing = action.payload;
+      } else {
+        state.editing = null;
+      }
     }
   },
 });
 
 export const selectComments = (state) => state.comments.comments;
+export const selectEditing = (state) => state.comments.editing;
 
 const { actions, reducer } = commentSlice;
-export const { setComments } = actions;
+export const { setComments, setEditing } = actions;
 
 export const getComments = feedbackID => async dispatch => {
   try {
