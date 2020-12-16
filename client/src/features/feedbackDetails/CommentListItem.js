@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getComments } from './commentSlice';
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
 import Form from '../../components/form/Form';
@@ -18,6 +19,8 @@ export default function CommentListItem (props) {
   const currentUser = useSelector(selectUser);
   /** True if currently editing this comment */
   const [editing, setEditing] = useState(false);
+
+  const dispatch = useDispatch();
 
   /** Get user info for this comment */
   const fetchUserData = async () => {
@@ -40,8 +43,13 @@ export default function CommentListItem (props) {
     else return false;
   };
 
-  const handleDelete = () => {
-    commentApi.deleteComment(feedbackID, _id);
+  const handleDelete = async () => {
+    try {
+      await commentApi.deleteComment(feedbackID, _id);
+      dispatch(getComments(feedbackID));
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   const handleEdit = () => {
