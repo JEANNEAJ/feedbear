@@ -14,7 +14,6 @@ export const getFormByID = async (req, res) => {
   const { id } = req.params;
   const { type } = req.query;
 
-  console.log(type);
   try {
     const formMessages = await FormMessage.find({ [type]: id });
     res.status(200).json(formMessages);

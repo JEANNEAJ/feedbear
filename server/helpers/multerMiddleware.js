@@ -6,7 +6,6 @@ const router = multer({
     fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (_, file, next) => {
-    console.log("in file filter", file);
     const allowed = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
     const isAllowed = allowed.includes(file.mimetype);
 
