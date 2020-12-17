@@ -1,12 +1,11 @@
-import { format } from "util";
 import { v4 as uuidv4 } from "uuid";
 import gc from "../config/index.js";
-const bucket = gc.bucket("feedbear"); // should be your bucket name
+const bucket = gc.bucket("feedbear");
 
 /**
  * @description Deletes the specified resource from our Google Cloud bucket.
  * @param {string}  url URL of the resource being deleted
- * @throws if delete operation fails
+ * @throws Will throw an error if the delete operation fails.
  */
 export const deleteImage = async (url) => {
   const uuid = url.slice(-36);
@@ -19,12 +18,13 @@ export const deleteImage = async (url) => {
 
 /**
  * @description - Accepts an object with keys "buffer" and "mimetype" as and
- *   uploads it to our image bucket on Google Cloud. If { existingURL } is
- *   provided, the resource at { existingURL } is overwritten.
+ *   uploads it to our image bucket on Google Cloud. If existingURL is
+ *   provided, the resource at existingURL is overwritten.
  * @param {object} file object that will be uploaded
- * @param {string} existingURL URL of resource being replaced
+ * @param {string} [existingURL=null] URL of resource being replaced
  * @returns {Promise<string>} Promise object represents the URL of the uploaded
  *   file.
+ * @throws Will throw an error if the write operation fails.
  */
 export const uploadImage = async (file, existingURL = null) => {
   return new Promise((resolve, reject) => {
@@ -33,24 +33,23 @@ export const uploadImage = async (file, existingURL = null) => {
 
     const blob = bucket.file(filename);
     const blobStream = blob.createWriteStream({
-      // set the appropriate MIME type
       metadata: {
         cacheControl: "no-cache, max-age=0, no-transform",
         contentType: mimetype,
       },
       resumable: false,
     });
+
+    // write buffer to target URL in Google Cloud Storage bucket
     blobStream
       .on("finish", () => {
-        const publicUrl = format(
-          `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-        );
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
         console.log(`Successfully uploaded file to ${publicUrl}`);
         resolve(publicUrl);
       })
       .on("error", (err) => {
         console.log(err);
-        reject(`Unable to upload image, something went wrong`);
+        reject(new Error("Image upload failed"));
       })
       .end(buffer);
   });
