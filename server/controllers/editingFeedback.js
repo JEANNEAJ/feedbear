@@ -3,43 +3,40 @@ import FormMessage from "../models/formMessage.js";
 import { deleteImage, uploadImage } from "../helpers/helpers.js";
 
 export const updateFeedbackDetails = async (req, res, next) => {
-  const { id: _id } = req.params;
-  const body = req.body;
+  try {
+    const { id: _id } = req.params;
+    const body = req.body;
 
-  // retrieve the feedback request corresponding to _id
-  const feedbackRequest = await FormMessage.findById(_id);
-  if (!feedbackRequest)
-    return res.status(404).send(`No post with ID ${_id} exists.`);
+    // retrieve the feedback request corresponding to _id
+    const feedbackRequest = await FormMessage.findById(_id);
+    if (!feedbackRequest)
+      return res.status(404).send(`No post with ID ${_id} exists.`);
 
-  // if an existing file was removed in the update, delete the file
-  const fileWasRemoved = feedbackRequest.file && !body.file;
-  if (fileWasRemoved) {
-    try {
+    // if an existing file was removed in the update, delete the file
+    const fileWasRemoved = feedbackRequest.file && !body.file;
+    if (fileWasRemoved) {
       await deleteImage(feedbackRequest.file);
       body.file = null;
-    } catch (err) {
-      return next(err);
     }
-  }
 
-  // if body.file exists but doesn't match the existing URL, remove it! XSS risk
-  if (body.file && body.file !== feedbackRequest.file) delete body.file;
+    // if body.file exists but doesn't match the existing URL, remove it! XSS risk
+    if (body.file && body.file !== feedbackRequest.file) delete body.file;
 
-  // if a new file was upload, upload it to storage
-  if (req.file) {
-    // if there's a file to replace, get its URL and target for deletion
-    const existingURL = feedbackRequest.file;
-    try {
+    // if a new file was upload, upload it to storage
+    if (req.file) {
+      // if there's a file to replace, get its URL and target for deletion
+      const existingURL = feedbackRequest.file;
       const fileURL = await uploadImage(req.file, existingURL);
       body.file = fileURL;
-    } catch (err) {
-      return next(err);
     }
+
+    const result = await FormMessage.findByIdAndUpdate(_id, body, {
+      new: true,
+    });
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
   }
-  await FormMessage.findByIdAndUpdate(_id, body, { new: true }, (err, doc) => {
-    if (err) return next(err);
-    return res.status(200).json(doc);
-  });
 };
 
 export const deleteFeedbackRequest = async (req, res) => {
