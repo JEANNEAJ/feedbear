@@ -16,7 +16,10 @@ const formSchema = mongoose.Schema(
     liveLink: {
       type: String,
     },
-    file: String,
+    file: {
+      type: String,
+      default: null,
+    },
     active: {
       type: Boolean,
       required: true,

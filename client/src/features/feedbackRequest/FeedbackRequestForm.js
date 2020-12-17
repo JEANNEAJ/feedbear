@@ -49,6 +49,7 @@ export default function FeedbackRequestForm({
     };
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
+      // null fields will be skipped; this prevents the {file: "null"} issue
       if (formInput[key]) formData.append(key, formInput[key]);
     });
 
