@@ -6,7 +6,7 @@ export const commentSlice = createSlice({
   name: "comments",
   initialState: {
     comments: [],
-    editing: null, // the ID of the comment being edited
+    editing: '', // the ID of the comment being edited
   },
   reducers: {
     setComments(state, action) {
@@ -16,7 +16,7 @@ export const commentSlice = createSlice({
       if (state.editing !== action.payload) {
         state.editing = action.payload;
       } else {
-        state.editing = null;
+        state.editing = '';
       }
     }
   },
