@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
+import ImageUpload from "../../components/ImageUpload";
 
 export default function FeedbackRequestForm({
   buttonText,
@@ -14,10 +15,11 @@ export default function FeedbackRequestForm({
   const { register, handleSubmit, watch, errors } = useForm();
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
-  const [message, setMessage] = useState("Tear me to shreds!");
+  const [message, setMessage] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectLink, setProjectLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
+  const [file, setFile] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -28,36 +30,36 @@ export default function FeedbackRequestForm({
       setProjectLink(inputText.projectLink);
       setLiveLink(inputText.liveLink);
       setMessage(inputText.message);
+      setFile(inputText.file);
     }
-  }, []);
+  }, [inputText]);
 
   // submit the form data
   const onSubmit = () => {
+    // create and populate FormData object
+    const formData = new FormData();
+    const formInput = {
+      userId,
+      name,
+      message,
+      projectTitle,
+      projectLink,
+      liveLink,
+      file,
+    };
+    const keys = Object.keys(formInput);
+    keys.forEach((key) => {
+      // null fields will be skipped; this prevents the {file: "null"} issue
+      if (formInput[key]) formData.append(key, formInput[key]);
+    });
+
+    // handle form submission for FBR creation/updates
     if (inputText) {
-      dispatch(
-        update(
-          {
-            message,
-            projectTitle,
-            projectLink,
-            liveLink,
-          },
-          requestId
-        )
-      );
+      dispatch(update(requestId, formData));
       // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
       history.push(`/user/${userId}`);
     } else {
-      dispatch(
-        submit({
-          userId,
-          name,
-          message,
-          projectTitle,
-          projectLink,
-          liveLink,
-        })
-      );
+      dispatch(submit(formData));
     }
   };
 
@@ -124,6 +126,8 @@ export default function FeedbackRequestForm({
         ref={register({ required: true })}
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
+
+      <ImageUpload file={file} handleUpload={setFile} />
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
         {buttonText}

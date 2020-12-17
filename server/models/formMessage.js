@@ -1,26 +1,33 @@
 import mongoose from "mongoose";
 
-const formSchema = mongoose.Schema({
-  userId: {
-    type: mongoose.SchemaTypes.ObjectId,
-    required: true,
+const formSchema = mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: true,
+    },
+    name: String,
+    message: String,
+    projectTitle: String,
+    projectLink: {
+      type: String,
+      required: true,
+    },
+    liveLink: {
+      type: String,
+    },
+    file: {
+      type: String,
+      default: null,
+    },
+    active: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
-  name: String,
-  message: String,
-  projectTitle: String,
-  projectLink: {
-    type: String,
-    required: true,
-  },
-  liveLink: {
-    type: String,
-  },
-  active: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 const FormMessage = mongoose.model("FormMessage", formSchema);
 

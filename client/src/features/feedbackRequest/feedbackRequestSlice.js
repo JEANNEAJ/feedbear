@@ -10,28 +10,26 @@ export const formSlice = createSlice({
 
 export const { updateName, updateEmail, updateMessage } = formSlice.actions;
 
-export const submit = (form) => async (dispatch) => {
-  console.log("form:", form);
+export const submit = (formData) => async () => {
   try {
-    const { data } = await api.createForm(form);
+    const { data } = await api.createForm(formData);
     console.log("submit success");
     console.log(data);
-    // dispatch({ name, email, message });
   } catch (err) {
     console.log("submit failed");
     console.log(err);
   }
 };
 
-export const update = (form, id) => async (dispatch) => {
+export const update = (id, formData) => async () => {
   try {
-    const { data } = await api.updateFeedbackDetails(id, form);
+    const { data } = await api.updateFeedbackDetails(id, formData);
     console.log("update success");
     console.log(data);
   } catch (err) {
     console.log("update failed");
     console.log(err);
   }
-}
+};
 
 export default formSlice.reducer;

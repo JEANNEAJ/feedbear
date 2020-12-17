@@ -25,6 +25,7 @@ export default function FeedbackDetails(props) {
     projectLink,
     liveLink,
     createdAt,
+    file,
   } = request;
 
   const populateRequest = async () => {
@@ -60,7 +61,7 @@ export default function FeedbackDetails(props) {
             </div>
             <img
               className="mx-auto max-w-full my-3"
-              src="https://placekitten.com/400/300"
+              src={file ? file : "https://placekitten.com/400/300"}
               alt="Placeholder"
             />
             <p className="mb-10">{message}</p>

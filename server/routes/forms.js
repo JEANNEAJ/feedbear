@@ -1,7 +1,8 @@
 import express from "express";
 
 import { getForms, getFormByID, createForm } from "../controllers/forms.js";
-import { updateFeedbackDetails, deleteFeedbackRequest } from '../controllers/editingFeedback.js';
+import { updateFeedbackDetails, deleteFeedbackRequest, } from "../controllers/editingFeedback.js";
+import multer from "../helpers/multerMiddleware.js";
 
 const router = express.Router();
 
@@ -11,14 +12,11 @@ router.get("/", getForms);
 // get form by ID
 router.get("/:id", getFormByID);
 
-// get forms by user ID
-// router.get('/:userId', getFormsByUserId);
-
 // create new form
-router.post("/", createForm);
+router.post("/", multer.single("file"), createForm);
 
 //update
-router.patch("/:id", updateFeedbackDetails);
+router.patch("/:id", multer.single("file"), updateFeedbackDetails);
 
 //delete
 router.delete("/:id", deleteFeedbackRequest);
