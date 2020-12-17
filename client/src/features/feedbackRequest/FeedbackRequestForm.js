@@ -57,7 +57,7 @@ export default function FeedbackRequestForm({
     if (inputText) {
       dispatch(update(requestId, formData));
       // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
-      history.push("/user/:userId");
+      history.push(`/user/${userId}`);
     } else {
       dispatch(submit(formData));
     }

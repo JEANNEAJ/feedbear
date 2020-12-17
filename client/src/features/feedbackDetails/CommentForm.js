@@ -1,13 +1,30 @@
-import React from "react";
+import React from 'react'
+import { useDispatch } from "react-redux";
+import { getComments } from './commentSlice';
 
 import { useForm } from "react-hook-form";
 
-export default function CommentForm() {
-  const { register, handleSubmit, watch, errors } = useForm();
+import * as api from '../../api/comments';
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+export default function CommentForm(props) {
+  const { feedbackID } = props;
+  const { register, handleSubmit, watch, errors, reset } = useForm();
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data) => {
+    const comment = data['input-feedback'];
+
+    try {
+      const {data} = await api.createComment(feedbackID, {comment});
+      console.log(data);
+
+      reset(); // clear text fields & errors
+
+      dispatch(getComments(feedbackID)); // update list
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <form

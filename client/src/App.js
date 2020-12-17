@@ -1,25 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser, checkForUserSession } from "./features/user/userSlice";
+import { useSelector } from "react-redux";
 
 import Nav from "./components/nav/Nav";
 import AuthenticatedApp from "./AuthenticatedApp";
 import UnauthenticatedApp from "./UnauthenticatedApp";
 import Footer from "./components/Footer/Footer";
 
-import "./tailwind.output.css";
-
+  import "./tailwind.output.css";
+  
 function App() {
-  const user = useSelector(selectUser);
-  const userSessionChecked = useSelector(
-    (state) => state.user.userSessionChecked
-  );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(checkForUserSession());
-  }, [dispatch]);
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
   return (
     <Router>
@@ -29,17 +20,16 @@ function App() {
           <Nav />
         </header>
 
+
         {/* main component fills space b/w header and footer, centered vertically */}
         <main className="flex-grow flex flex-col justify-around p-5">
-          {userSessionChecked ? (
-            user._id ? (
+          {
+            isLoggedIn ? (
               <AuthenticatedApp />
             ) : (
               <UnauthenticatedApp />
             )
-          ) : (
-            <p>Loading</p>
-          )}
+          }
         </main>
 
         <Footer />
