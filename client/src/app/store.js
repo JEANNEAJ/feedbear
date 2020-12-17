@@ -15,13 +15,9 @@ export async function setPreloadedUserState() {
     const response = await api.getUserSession();
     
     if (response.data.data) {
-      preloadedState = {
-        ...preloadedState,
-        user: {
-          ...preloadedState.user,
-          data: response.data.data,
-          isLoggedIn: true,
-        }
+      preloadedState.user.data = response.data.data;
+      preloadedState.user.isLoggedIn = true;
+    }
       }
     }
 
