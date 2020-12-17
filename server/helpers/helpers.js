@@ -5,11 +5,14 @@ const bucket = gc.bucket("feedbear"); // should be your bucket name
 
 /**
  *
- * @param { File } object file object that will be uploaded
- * @param { existingURL } string URL of resource being replaced
- * @description Accepts an object with keys "buffer" and "mimetype" as and
+/**
+ * @description - Accepts an object with keys "buffer" and "mimetype" as and
  *   uploads it to our image bucket on Google Cloud. If { existingURL } is
  *   provided, the resource at { existingURL } is overwritten.
+ * @param {object} file object that will be uploaded
+ * @param {string} existingURL URL of resource being replaced
+ * @returns {Promise<string>} Promise object represents the URL of the uploaded
+ *   file.
  */
 export const uploadImage = async (file, existingURL = null) => {
   return new Promise((resolve, reject) => {
