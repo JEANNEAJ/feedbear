@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getComments, setEditing, selectEditing } from './commentSlice';
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
-import Form from '../../components/form/Form';
+import CommentEditForm from './CommentEditForm';
 
 import * as userApi from '../../api/user.js';
 import * as commentApi from '../../api/comments.js';
@@ -57,7 +57,7 @@ export default function CommentListItem (props) {
   }
 
   return (
-    <li className='p-3 rounded-md border flex max-w-2xl mx-auto'> 
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100"> 
       {!user ? (
           "Loading..."
         ) : (
@@ -65,11 +65,10 @@ export default function CommentListItem (props) {
           {/* <img className='w-12 h-12 rounded-full flex-none' src={user.avatarUrl} alt={user.name} /> */}
           <div className='pl-3'>
             <h4 className='font-bold'><a href='#'>{user.name}{isUserComment() && ' (You)'}</a></h4>
-            <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
+            <p className="text-sm">submitted <TimeDifference dateString={createdAt} /> ago</p>
 
             {editing !== _id ? <p>{comment}</p> : (
-              <Form
-                type="CommentEditForm"
+              <CommentEditForm
                 comment={comment}
                 feedbackID={feedbackID}
                 commentId={_id}
@@ -78,8 +77,8 @@ export default function CommentListItem (props) {
 
             {isUserComment() && 
               <>
-                <button onClick={handleDelete}>delete</button>
-                <button onClick={handleEdit}>edit</button>
+                <button className="btn-options" onClick={handleDelete}>delete</button>
+                <button className="btn-options" onClick={handleEdit}>edit</button>
               </>
              }
           </div>

@@ -7,7 +7,7 @@ export default function CommentList(props) {
   return (
     <>
       {!comments.length ? <span>No comments found!</span> :
-      <ul>
+      <ul className="pb-4">
         {comments.map(comment => <CommentListItem comment={comment} feedbackID={feedbackID} key={comment._id} />)}
       </ul>}
     </>

@@ -30,16 +30,17 @@ export default function CommentEditForm(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleSave)}>
+    <form className="form" onSubmit={handleSubmit(handleSave)}>
       <label className="sr-only" htmlFor="editComment"></label>
-      <textarea 
+      <textarea
+        className="input-text"
         name="editComment"
         id="editComment"
         defaultValue={comment}
         ref={register({ required: true })}
       ></textarea>
-      <button type="submit">save</button>
-      <button onClick={handleCancel} type="button">cancel</button>
+      <button className="btn-options" type="submit">save</button>
+      <button className="btn-options" onClick={handleCancel} type="button">cancel</button>
     </form>
   )
 }

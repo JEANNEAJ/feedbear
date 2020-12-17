@@ -43,7 +43,7 @@ export default function FeedbackDetails(props) {
   }, [feedbackID]);
 
   return (
-    <div>
+    <div className="container mx-auto">
       {!request ? (
         "Loading..."
       ) : (
