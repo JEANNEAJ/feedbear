@@ -47,8 +47,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(session({
   name: process.env.SESS_NAME,
   secret: process.env.SESS_SECRET,
-  saveUninitialized: false,
+  saveUninitialized: true,
   resave: false,
+  rolling: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     collection: 'session',

@@ -27,19 +27,25 @@ export default function CommentForm(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="form flex flex-col items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <label className="sr-only" htmlFor="input-feedback">
         Your feedback
       </label>
       <textarea
+        className="input-text"
         name="input-feedback"
         id="input-feedback"
         placeholder="Leave your feedback"
         ref={register({ required: true })}
       ></textarea>
-      {errors['input-feedback'] && <span>This field is required</span>}
+      {errors["input-feedback"] && <span>This field is required</span>}
 
-      <button type="submit">Submit</button>
+      <button className="btn-submit" type="submit">
+        Submit
+      </button>
     </form>
-  )
+  );
 }

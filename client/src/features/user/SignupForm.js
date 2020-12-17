@@ -17,14 +17,18 @@ const SignupForm = () => {
   }, [dispatch]);
 
   const handleSignup = (data) => {
-    const {email, password, name} = data;
+    const { email, password, name } = data;
     const credentials = { email, password, name };
     dispatch(signup(credentials));
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSignup)}>
+    <form
+      className="form flex flex-col items-center"
+      onSubmit={handleSubmit(handleSignup)}
+    >
       <input
+        className="input-text"
         name="name"
         type="text"
         placeholder="Name"
@@ -33,6 +37,7 @@ const SignupForm = () => {
       {errors.name && <span>This field is required</span>}
 
       <input
+        className="input-text"
         name="email"
         type="email"
         placeholder="E-mail"
@@ -41,6 +46,7 @@ const SignupForm = () => {
       {errors.email && <span>This field is required</span>}
 
       <input
+        className="input-text"
         name="password"
         type="password"
         placeholder="Password"
@@ -57,7 +63,7 @@ const SignupForm = () => {
         ""
       )}
 
-      <button type="submit">Create User</button>
+      <button className="btn-submit">Create User</button>
       <p>Already registered?</p>
       <p>
         <Link to="/">Click here</Link> to log in.

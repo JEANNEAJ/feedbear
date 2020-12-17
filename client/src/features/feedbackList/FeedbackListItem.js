@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import TimeDifference from '../../components/timeDifference/TimeDifference';
-
-import styles from "./FeedbackListItem.module.css";
+import TimeDifference from "../../components/timeDifference/TimeDifference";
 
 export default function FeedbackListItem(props) {
   const {
@@ -17,19 +15,29 @@ export default function FeedbackListItem(props) {
     _id,
   } = props.request;
 
-
-
   return (
-    <li className={styles.container}>
-      <div className={styles.projectTitle}>
-        <h3><Link to={`/feedback/${_id}`}>{projectTitle}</Link></h3>
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
+      {/* feedback request title */}
+      <div className="text-lg flex justify-between">
+        <h3>
+          <Link to={`/feedback/${_id}`}>{projectTitle}</Link>
+        </h3>
+
+        {/* edit and delete button from UserPage */}
         {props.children}
       </div>
-      <p>submitted <TimeDifference dateString={createdAt} /> ago</p>
-      <p>by {name}</p>
-      <a href={projectLink}>Project Link</a>
-      <a href={liveLink}>Live Link</a>
-      <p>{message}</p>
+
+      {/* feedback request info + links */}
+      <p>
+        submitted by {name} <TimeDifference dateString={createdAt} /> ago
+      </p>
+      <div className="flex space-x-2">
+        <a href={projectLink}>Project Link</a>
+        <a href={liveLink}>Live Link</a>
+      </div>
+
+      {/* feedback request message */}
+      <p className="mt-5">{message}</p>
     </li>
   );
 }
