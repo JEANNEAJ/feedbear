@@ -1,6 +1,6 @@
 import Mongoose from "mongoose";
 import FormMessage from "../models/formMessage.js";
-import { uploadImage } from "../helpers/helpers.js";
+import { deleteImage, uploadImage } from "../helpers/helpers.js";
 
 export const updateFeedbackDetails = async (req, res) => {
   const { id: _id } = req.params;

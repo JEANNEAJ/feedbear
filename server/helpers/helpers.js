@@ -4,7 +4,19 @@ import gc from "../config/index.js";
 const bucket = gc.bucket("feedbear"); // should be your bucket name
 
 /**
- *
+ * @description Deletes the specified resource from our Google Cloud bucket.
+ * @param {string}  url URL of the resource being deleted
+ * @throws if delete operation fails
+ */
+export const deleteImage = async (url) => {
+  const uuid = url.slice(-36);
+  try {
+    await bucket.file(uuid).delete();
+  } catch (error) {
+    throw new Error("File deletion failed");
+  }
+};
+
 /**
  * @description - Accepts an object with keys "buffer" and "mimetype" as and
  *   uploads it to our image bucket on Google Cloud. If { existingURL } is
