@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getComments, setComments, selectComments } from './commentSlice';
+
+import CommentList from'./CommentList';
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import TimeDifference from "../../components/timeDifference/TimeDifference";
 
-import * as api from "../../api/forms";
+import * as formApi from "../../api/forms";
+// import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
-  // console.log(props);
-  const { feedbackID } = useParams();
-  // console.log('id', feedbackID);
 
   const [request, setRequest] = useState([]);
-  // console.log(request);
+  const comments = useSelector(selectComments);
+  const { feedbackID } = useParams();
+
+  const dispatch = useDispatch();
+
   const {
     name,
     message,
@@ -21,21 +27,23 @@ export default function FeedbackDetails(props) {
     createdAt,
   } = request;
 
-  useEffect(() => {
-    const populateRequests = async () => {
-      try {
-        const { data } = await api.fetchFormByID("_id", feedbackID);
+  const populateRequest = async () => {
+    try {
+      const { data } = await formApi.fetchFormByID("_id", feedbackID);
 
-        setRequest(data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    populateRequests();
+      setRequest(data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    populateRequest();
+    dispatch(getComments(feedbackID));
   }, [feedbackID]);
 
   return (
-    <div>
+    <div className="container mx-auto">
       {!request ? (
         "Loading..."
       ) : (
@@ -60,7 +68,8 @@ export default function FeedbackDetails(props) {
           </div>
           <div className="mt-10">
             <h3 className="mb-5 text-xl font-bold">Feedback</h3>
-            <CommentForm />
+            <CommentList comments={comments} feedbackID={feedbackID} />
+            <CommentForm feedbackID={feedbackID} />
           </div>
         </>
       )}
