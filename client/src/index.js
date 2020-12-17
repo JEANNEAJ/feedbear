@@ -1,15 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-// import store from "./app/store";
-import { configStore } from "./app/store";
+import { initializeStore } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 
-(async function loadStoreAndRenderApp() {
+(async function initializeStoreAndRenderApp() {
   
   try {
-    const store = await configStore();
+    const store = await initializeStore();
     
     return ReactDOM.render(
       <React.StrictMode>

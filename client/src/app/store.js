@@ -18,9 +18,7 @@ export async function setPreloadedUserState() {
       preloadedState.user.data = response.data.data;
       preloadedState.user.isLoggedIn = true;
     }
-      }
-    }
-
+    
   } catch (error) {
     console.log(error);
   }
@@ -31,7 +29,7 @@ export async function setPreloadedUserState() {
 /**
  * Returns the configured redux store after setting the preloaded user state object
  */
-export const configStore = async () => {
+export const initializeStore = async () => {
 
   try {
     return configureStore({
