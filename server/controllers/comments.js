@@ -1,4 +1,4 @@
-// import Mongoose from "mongoose";
+import Mongoose from "mongoose";
 import FeedbackComments, { Comment } from "../models/comments.js";
 import FormMessage from '../models/formMessage.js';
 
@@ -25,12 +25,33 @@ export const createComment = async (req, res) => {
    
   const newComment = new Comment({ userId, ...body });
 
+  // this fucking typecast goddamn - took me hours to figure out
+  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
+
   try {
+    // push comment to array
     await FormMessage.updateOne(
       { _id: feedbackId }, // filter
       { $push: { comments: newComment } }, // update
       { upsert: true } // create document if not found
     );
+    // get number of comments
+    await FormMessage.aggregate([
+      { $match: { _id: idToSearch } },
+      { $project: { comments_count: { $size: '$comments' } } }
+    ]).exec(async (err, results) => {
+      const numComments = results[0].comments_count;
+      try {
+        // set number of comments to comments_count
+        await FormMessage.updateOne(
+          { _id: idToSearch },
+          { $set: { comments_count: numComments } }
+        )
+      } catch (err) {
+        //TODO figure out error handling for this mess
+        console.log(err);
+      }
+    })
     res.status(201).json(newComment);
   } catch (err) {
     console.error(err);

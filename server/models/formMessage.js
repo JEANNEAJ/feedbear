@@ -26,7 +26,7 @@ const formSchema = mongoose.Schema(
       default: true,
     },
     comments: [commentSchema],
-    numComments: {
+    comments_count: {
       type: Number,
       default: 0,
     }
