@@ -1,12 +1,16 @@
 // import Mongoose from "mongoose";
 import FeedbackComments, { Comment } from "../models/comments.js";
+import FormMessage from '../models/formMessage.js';
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
 export const getComments = async (req, res) => {
   const { feedbackId } = req.params;
 
   try {
-    const commentList = await FeedbackComments.find({ _id: feedbackId });
+    const commentList = await FormMessage.find(
+      { _id: feedbackId },
+      { comments: 1 },
+    );
     res.status(200).json(commentList);
   } catch (err) {
     res.status(404).json({ message: err });
@@ -19,10 +23,10 @@ export const createComment = async (req, res) => {
   const body = req.body;
   const { feedbackId } = req.params;
    
-  const newComment = new Comment({ userId, ...body })
+  const newComment = new Comment({ userId, ...body });
 
   try {
-    await FeedbackComments.updateOne(
+    await FormMessage.updateOne(
       { _id: feedbackId }, // filter
       { $push: { comments: newComment } }, // update
       { upsert: true } // create document if not found
