@@ -3,7 +3,8 @@ import FormMessage from "../models/formMessage.js";
 
 export const getForms = async (req, res) => {
   try {
-    const formMessages = await FormMessage.find();
+    const formMessages = await FormMessage.find({}, { comments: 0 });
+    console.log(formMessages);
     res.status(200).json(formMessages);
   } catch (err) {
     res.status(404).json({ message: err });

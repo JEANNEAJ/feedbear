@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import commentSchema from './comments.js';
+import { commentSchema } from './comments.js';
 
 const formSchema = mongoose.Schema(
   {
@@ -26,6 +26,10 @@ const formSchema = mongoose.Schema(
       default: true,
     },
     comments: [commentSchema],
+    numComments: {
+      type: Number,
+      default: 0,
+    }
   },
   { timestamps: true }
 );
