@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
-const commentSchema = mongoose.Schema({
+export const commentSchema = mongoose.Schema({
   userId: {
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
+    ref: 'User',
   },
   comment: {
     type: String,
