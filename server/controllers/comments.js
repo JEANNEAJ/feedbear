@@ -1,5 +1,5 @@
 import Mongoose from "mongoose";
-import FeedbackComments, { Comment } from "../models/comments.js";
+import Comment from "../models/comments.js";
 import FormMessage from '../models/formMessage.js';
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
@@ -25,9 +25,6 @@ export const createComment = async (req, res) => {
    
   const newComment = new Comment({ userId, ...body });
 
-  // this fucking typecast goddamn - took me hours to figure out
-  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
-
   try {
     // push comment to array
     await FormMessage.updateOne(
@@ -36,7 +33,7 @@ export const createComment = async (req, res) => {
       { upsert: true } // create document if not found
     );
 
-    await updateNumComments(idToSearch);
+    await updateNumComments(feedbackId);
 
     res.status(201).json(newComment);
   } catch (err) {
@@ -75,15 +72,13 @@ export const deleteComment = async (req, res) => {
   const { feedbackId, commentId } = req.params;
   const validUser = await verifyUser(userId, feedbackId, commentId);
 
-  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
-
   if (validUser) {
     try {
       const deletedComment = await FormMessage.updateOne(
         { _id: feedbackId }, // filter
         { $pull: { comments: { _id: commentId } } } // update
       );
-      await updateNumComments(idToSearch);
+      await updateNumComments(feedbackId);
       res.status(201).json(deletedComment);
     } catch (err) {
       console.error(err);
@@ -119,7 +114,10 @@ const verifyUser = async (userId, feedbackId, commentId) => {
 /**
  * Update the number of comments for the provided feedbackId
  */
-const updateNumComments = async (idToSearch) => {
+const updateNumComments = async (feedbackId) => {
+    // this fucking typecast goddamn - took me hours to figure out
+  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
+
   // get number of comments
   await FormMessage.aggregate([
     { $match: { _id: idToSearch } },
