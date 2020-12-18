@@ -35,23 +35,9 @@ export const createComment = async (req, res) => {
       { $push: { comments: newComment } }, // update
       { upsert: true } // create document if not found
     );
-    // get number of comments
-    await FormMessage.aggregate([
-      { $match: { _id: idToSearch } },
-      { $project: { comments_count: { $size: '$comments' } } }
-    ]).exec(async (err, results) => {
-      const numComments = results[0].comments_count;
-      try {
-        // set number of comments to comments_count
-        await FormMessage.updateOne(
-          { _id: idToSearch },
-          { $set: { comments_count: numComments } }
-        )
-      } catch (err) {
-        //TODO figure out error handling for this mess
-        console.log(err);
-      }
-    })
+
+    await updateNumComments(idToSearch);
+
     res.status(201).json(newComment);
   } catch (err) {
     console.error(err);
@@ -89,12 +75,15 @@ export const deleteComment = async (req, res) => {
   const { feedbackId, commentId } = req.params;
   const validUser = await verifyUser(userId, feedbackId, commentId);
 
+  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
+
   if (validUser) {
     try {
-      const deletedComment = await FeedbackComments.updateOne(
+      const deletedComment = await FormMessage.updateOne(
         { _id: feedbackId }, // filter
         { $pull: { comments: { _id: commentId } } } // update
       );
+      await updateNumComments(idToSearch);
       res.status(201).json(deletedComment);
     } catch (err) {
       console.error(err);
@@ -111,7 +100,7 @@ export const deleteComment = async (req, res) => {
  */
 const verifyUser = async (userId, feedbackId, commentId) => {
   try {
-    const comment = await FeedbackComments.findOne(
+    const comment = await FormMessage.findOne(
       { _id: feedbackId }, // query
       { comments: { "$elemMatch": { _id: commentId } } } // projection
     );
@@ -126,3 +115,26 @@ const verifyUser = async (userId, feedbackId, commentId) => {
     return false;
   }
 }
+
+/**
+ * Update the number of comments for the provided feedbackId
+ */
+const updateNumComments = async (idToSearch) => {
+  // get number of comments
+  await FormMessage.aggregate([
+    { $match: { _id: idToSearch } },
+    { $project: { comments_count: { $size: '$comments' } } }
+  ]).exec(async (err, results) => {
+    const numComments = results[0].comments_count;
+    try {
+      // set number of comments to comments_count
+      await FormMessage.updateOne(
+        { _id: idToSearch },
+        { $set: { comments_count: numComments } }
+      )
+    } catch (err) {
+      //TODO figure out error handling
+      console.log(err);
+    }
+  })
+};
