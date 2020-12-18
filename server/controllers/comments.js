@@ -55,7 +55,7 @@ export const editComment = async (req, res) => {
     const newComment = Object.keys(req.body)[0];
 
     try {
-      const updatedComment = await FeedbackComments.updateOne(
+      const updatedComment = await FormMessage.updateOne(
         { _id: feedbackId, "comments._id": commentId }, // filter
         { $set: { "comments.$.comment": newComment } } // update
       );
