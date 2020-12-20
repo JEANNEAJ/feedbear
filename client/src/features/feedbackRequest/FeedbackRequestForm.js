@@ -7,11 +7,7 @@ import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
 
-export default function FeedbackRequestForm({
-  buttonText,
-  inputText,
-  requestId,
-}) {
+export default function FeedbackRequestForm({ buttonText, values, requestId }) {
   const {
     register,
     handleSubmit,
@@ -36,11 +32,11 @@ export default function FeedbackRequestForm({
 
   // if values are provided, populate the form fields accordingly
   useEffect(() => {
-    if (inputText) {
-      reset(inputText);
-      setFile(inputText.file);
+    if (values) {
+      reset(values);
+      setFile(values.file);
     }
-  }, [inputText, reset]);
+  }, [values, reset]);
 
   // when form submission succeeds, clear the form input
   useEffect(() => {
@@ -58,7 +54,7 @@ export default function FeedbackRequestForm({
       userId,
       name,
       file,
-      ...getValues(), // inputText from the text fields
+      ...getValues(), // values from the text fields
     };
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
@@ -67,7 +63,7 @@ export default function FeedbackRequestForm({
     });
 
     // handle form submission for FBR creation/updates
-    if (inputText) {
+    if (values) {
       await dispatch(update(requestId, formData));
       history.push(`/user/${userId}`);
     } else {
