@@ -67,61 +67,49 @@ export default function FeedbackRequestForm({
       className="form flex flex-col items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <label className="sr-only" htmlFor="input-title">
+      <label className="sr-only" htmlFor="projectTitle">
         Project Name
       </label>
       <input
         className="input-text"
-        onChange={(e) => setProjectTitle(e.target.value)}
         type="text"
-        name="input-title"
-        id="input-title"
+        name="projectTitle"
         placeholder="Project Name"
-        value={projectTitle}
         ref={register({ required: true })}
       />
-      {errors["input-title"] && <span>This field is required</span>}
+      {errors["projectTitle"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-projectLink">
+      <label className="sr-only" htmlFor="projectLink">
         Project Link
       </label>
       <input
         className="input-text"
-        onChange={(e) => setProjectLink(e.target.value)}
         type="text"
-        name="input-projectLink"
-        id="input-projectLink"
+        name="projectLink"
         placeholder="Enter Project Link (eg. github)"
-        value={projectLink}
         ref={register({ required: true })}
       />
-      {errors["input-projectLink"] && <span>This field is required</span>}
+      {errors["projectLink"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-liveLink">
+      <label className="sr-only" htmlFor="liveLink">
         Project Live Link
       </label>
       <input
         className="input-text"
-        onChange={(e) => setLiveLink(e.target.value)}
         type="text"
-        name="input-liveLink"
-        id="input-liveLink"
+        name="liveLink"
         placeholder="Enter live link"
-        value={liveLink}
         ref={register({ required: true })}
       />
-      {errors["input-liveLink"] && <span>This field is required</span>}
+      {errors["liveLink"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-message">
+      <label className="sr-only" htmlFor="message">
         Message
       </label>
       <textarea
         className="input-text"
-        onChange={(e) => setMessage(e.target.value)}
-        name="input-message"
-        id="input-message"
+        name="message"
         placeholder="Enter Message"
-        value={message}
         ref={register({ required: true })}
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
