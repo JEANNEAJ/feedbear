@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { getComments, setEditing, selectEditing } from './commentSlice';
 
 import TimeDifference from '../../components/timeDifference/TimeDifference';
@@ -44,14 +45,28 @@ export default function CommentListItem (props) {
     else return false;
   };
 
-  const handleDelete = async () => {
-    try {
-      await commentApi.deleteComment(feedbackID, _id);
-      dispatch(getComments(feedbackID));
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  const handleDelete = () => {
+    Swal.fire({
+      title: 'Delete this comment?',
+      html: `
+        <p>Are you sure you want to delete this comment? This operation is irreversible.</p>
+        <p><strong>Comment:</strong></p>
+        <p style={{ marginBottom: "1.2em" }}>${comment}</p>
+      `,
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#dd6b55',
+      showCancelButton: true,
+    }).then(async res => {
+      if (res.isConfirmed) {
+        try {
+          await commentApi.deleteComment(feedbackID, _id);
+          dispatch(getComments(feedbackID));
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    })
+  };
 
   const handleEdit = () => {
     dispatch(setEditing(_id))
