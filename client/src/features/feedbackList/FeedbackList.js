@@ -6,43 +6,34 @@ import * as api from "../../api/forms";
 
 export default function FeedbackList() {
   const [requests, setRequests] = useState([]);
-  const [items, setItems] = useState(Array.from({ length: 20 }));
-  // const [requestsToDisplay, setRequestsToDisplay] = useState([]);
 
   useEffect(() => {
     handleRefresh();
   }, []);
 
   const handleRefresh = async () => {
-    const numResults = 10;
+    const numResults = 20;
     const sortBy = 'createdAt';
     const last = !requests.length ? '' : requests[requests.length-1]._id;
     try {
-      const { data } = await api.fetchForms(numResults, sortBy, '5fdb8a26828d563f04186d8f');
-      setRequests(data);
-      
-    } catch (error) {
-      console.log(error);
+      const { data } = await api.fetchForms(numResults, sortBy, last);
+      setRequests([...requests, ...data]);
+    } catch (err) {
+      console.error(err);
     }
   };
-
-  const fetchNext = () => {
-    setTimeout(() => {
-      setItems(items.concat(Array.from({ length: 20 })))
-    }, 1500);
-  }
 
   return (
     <div className="container mx-auto">
       <div className="mt-10 flex justify-between">
         <h2 className="text-xl font-bold">Feedback Requests</h2>
-        <button onClick={handleRefresh}>refresh 🔃</button>
+        {/* <button onClick={handleRefresh}>refresh 🔃</button> */}
       </div>
 
       <ul>
         <InfiniteScroll
-          dataLength={items.length} //This is important field to render the next data
-          next={fetchNext}
+          dataLength={requests.length} //This is important field to render the next data
+          next={handleRefresh}
           hasMore={true}
           loader={<h4>Loading...</h4>}
           endMessage={
@@ -61,10 +52,9 @@ export default function FeedbackList() {
           //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
           // }
         >
-          {items.map((item,index)=><p>item {index}</p>)}
-          {/* {!requests.length ? 'Nothing here' : requests.map((request) => (
+          {requests.map((request) => (
             <FeedbackListItem key={request._id} request={request} />
-          ))} */}
+          ))}
         </InfiniteScroll>
       </ul>
 

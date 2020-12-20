@@ -21,7 +21,7 @@ export const getForms = async (req, res) => {
       })
       .sort({ createdAt: -1 })
       .limit(parseInt(numResults));
-      console.log(formMessages);
+      // console.log(formMessages);
     res.status(200).json(formMessages);
   } catch (err) {
     console.log(err);
