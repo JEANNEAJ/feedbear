@@ -7,12 +7,15 @@ import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
 
-export default function FeedbackRequestForm({
-  buttonText,
-  inputText,
-  requestId,
-}) {
-  const { register, handleSubmit, watch, errors } = useForm();
+export default function FeedbackRequestForm({ buttonText, inputText, requestId }) {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState,
+  } = useForm();
+
+  const { isSubmitting, isSubmitSuccessful } = formState;
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
   const [message, setMessage] = useState("");
@@ -115,6 +118,10 @@ export default function FeedbackRequestForm({
       {errors["input-message"] && <span>This field is required</span>}
 
       <ImageUpload file={file} handleUpload={setFile} />
+
+      {/* Conditionally display info about submission status */}
+      {isSubmitting && <p>Submitting...</p>}
+      {isSubmitSuccessful && <p>Submission complete!</p>}
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
         {buttonText}
