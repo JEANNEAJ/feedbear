@@ -32,6 +32,13 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
     }
   }, [inputText, reset]);
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+      setFile(null);
+    }
+  }, [isSubmitSuccessful, reset]);
+
   // submit the form data
   const onSubmit = async () => {
     // create and populate FormData object
