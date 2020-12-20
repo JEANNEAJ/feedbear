@@ -13,15 +13,13 @@ export const getForms = async (req, res) => {
       lastDate = dateObj[0].createdAt;
     } 
 
-    // const query = {};
-    // if (lastDate) query.lastDate = { $lt: ISODate(lastDate) };
-
-    const formMessages = await FormMessage.find({
-      createdAt: { $lte: lastDate }
-      })
+    const searchQuery = !last.length ? {} : { createdAt: { '$lt': lastDate } };
+    const formMessages = await FormMessage.find(searchQuery)
       .sort({ createdAt: -1 })
       .limit(parseInt(numResults));
-      // console.log(formMessages);
+
+    //Note: sort by date might skip some if they have the EXACT same date and are in between pages - need to implement some kind of checking to make sure not skipping any (maybe grab less than or equal to, then exclude ones already in array)
+
     res.status(200).json(formMessages);
   } catch (err) {
     console.log(err);
