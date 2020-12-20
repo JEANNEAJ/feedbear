@@ -13,15 +13,13 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
     handleSubmit,
     errors,
     formState,
+    reset,
+    getValues,
   } = useForm();
 
   const { isSubmitting, isSubmitSuccessful } = formState;
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
-  const [message, setMessage] = useState("");
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectLink, setProjectLink] = useState("");
-  const [liveLink, setLiveLink] = useState("");
   const [file, setFile] = useState(null);
 
   const dispatch = useDispatch();
@@ -29,13 +27,10 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
 
   useEffect(() => {
     if (inputText) {
-      setProjectTitle(inputText.projectTitle);
-      setProjectLink(inputText.projectLink);
-      setLiveLink(inputText.liveLink);
-      setMessage(inputText.message);
+      reset(inputText);
       setFile(inputText.file);
     }
-  }, [inputText]);
+  }, [inputText, reset]);
 
   // submit the form data
   const onSubmit = async () => {
@@ -44,11 +39,8 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
     const formInput = {
       userId,
       name,
-      message,
-      projectTitle,
-      projectLink,
-      liveLink,
       file,
+      ...getValues(), // inputText from the text fields
     };
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
