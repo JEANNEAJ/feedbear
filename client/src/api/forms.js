@@ -3,7 +3,19 @@ import axios from "axios";
 // const url = `${process.env.REACT_APP_API_URL}/forms`; // commented out after removing cors on backend
 const url = "/forms";
 
-export const fetchForms = () => axios.get(url);
+/**
+ * Fetch feedback requests from database
+ * @param {Number} numResults The number of feedback requests to fetch
+ * @param {String} sortBy What to sort by (createdAt by default)
+ * @param {*} last the value of the last item requested (type depending on sortBy)
+ */
+export const fetchForms = (numResults, sortBy, last) => axios.get(url, {
+    params: { 
+      numResults,
+      sortBy,
+      last,
+    },
+  });
 
 export const fetchFormByID = (type, ID) =>
   axios.get(`${url}/${ID}`, {
