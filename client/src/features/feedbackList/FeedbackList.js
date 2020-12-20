@@ -14,8 +14,11 @@ export default function FeedbackList() {
   }, []);
 
   const handleRefresh = async () => {
+    const numResults = 10;
+    const sortBy = 'createdAt';
+    const last = !requests.length ? '' : requests[requests.length-1]._id;
     try {
-      const { data } = await api.fetchForms();
+      const { data } = await api.fetchForms(numResults, sortBy, '5fdb8a26828d563f04186d8f');
       setRequests(data);
       
     } catch (error) {

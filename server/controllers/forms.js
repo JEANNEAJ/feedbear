@@ -2,10 +2,29 @@ import { uploadImage } from "../helpers/helpers.js";
 import FormMessage from "../models/formMessage.js";
 
 export const getForms = async (req, res) => {
+  const { numResults, sortBy, last } = req.query;
+  // console.log(numResults, sortBy, last);
   try {
-    const formMessages = await FormMessage.find();
+    /** The date of the last item (current date if none provided) */
+    let lastDate; 
+    if (!last.length) lastDate = new Date();
+    else {
+      const dateObj = await FormMessage.find({ _id: last }, { createdAt: 1 });
+      lastDate = dateObj[0].createdAt;
+    } 
+
+    // const query = {};
+    // if (lastDate) query.lastDate = { $lt: ISODate(lastDate) };
+
+    const formMessages = await FormMessage.find({
+      createdAt: { $lte: lastDate }
+      })
+      .sort({ createdAt: -1 })
+      .limit(parseInt(numResults));
+      console.log(formMessages);
     res.status(200).json(formMessages);
   } catch (err) {
+    console.log(err);
     res.status(404).json({ message: err });
   }
 };

@@ -7,7 +7,7 @@ const url = "/forms";
  * Fetch feedback requests from database
  * @param {Number} numResults The number of feedback requests to fetch
  * @param {String} sortBy What to sort by (createdAt by default)
- * @param {*} last the value of the last item requested (type depending on sortBy)
+ * @param {String} last the ID of the last requested item
  */
 export const fetchForms = (numResults, sortBy, last) => axios.get(url, {
     params: { 
