@@ -35,7 +35,7 @@ export default function FeedbackRequestForm({
   }, [inputText]);
 
   // submit the form data
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // create and populate FormData object
     const formData = new FormData();
     const formInput = {
@@ -55,11 +55,10 @@ export default function FeedbackRequestForm({
 
     // handle form submission for FBR creation/updates
     if (inputText) {
-      dispatch(update(requestId, formData));
-      // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
+      await dispatch(update(requestId, formData));
       history.push(`/user/${userId}`);
     } else {
-      dispatch(submit(formData));
+      await dispatch(submit(formData));
     }
   };
 
