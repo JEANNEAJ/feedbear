@@ -7,7 +7,11 @@ import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
 
-export default function FeedbackRequestForm({ buttonText, inputText, requestId }) {
+export default function FeedbackRequestForm({
+  buttonText,
+  inputText,
+  requestId,
+}) {
   const {
     register,
     handleSubmit,
@@ -20,11 +24,17 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
   const { isSubmitting, isSubmitSuccessful } = formState;
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
+
+  /* NOTE: it's difficult to incorporate image uploads/previews with RHF,
+    so we're handling the file field and the text fields separately;
+    text fields: use RHF methods (getValues, setValue, reset)
+    file: get with variable 'file' and set with 'setFile' */
   const [file, setFile] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // if values are provided, populate the form fields accordingly
   useEffect(() => {
     if (inputText) {
       reset(inputText);
@@ -32,6 +42,7 @@ export default function FeedbackRequestForm({ buttonText, inputText, requestId }
     }
   }, [inputText, reset]);
 
+  // when form submission succeeds, clear the form input
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
