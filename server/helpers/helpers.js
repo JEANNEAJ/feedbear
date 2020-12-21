@@ -34,7 +34,6 @@ export const uploadImage = async (file, existingURL = null) => {
     const blob = bucket.file(filename);
     const blobStream = blob.createWriteStream({
       metadata: {
-        cacheControl: "no-cache, max-age=0, no-transform",
         contentType: mimetype,
       },
       resumable: false,
