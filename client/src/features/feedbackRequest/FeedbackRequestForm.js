@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
-import { validateUrl } from "../../helpers/validator";
+import { validateUrl, formatToUrl } from "../../helpers";
 
 export default function FeedbackRequestForm({ buttonText, values, requestId }) {
   const {
@@ -57,6 +57,10 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
       file,
       ...getValues(), // values from the text fields
     };
+
+    formInput.projectLink = formatToUrl(formInput.projectLink)
+    formInput.liveLink = formatToUrl(formInput.liveLink)
+
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
       // null fields will be skipped; this prevents the {file: "null"} issue
