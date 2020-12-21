@@ -91,12 +91,15 @@ function UserPage() {
           <ul>
             {requests.map((request) => (
               <FeedbackListItem key={request._id} request={request}>
-                <div className="flex space-x-2">
-                  <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
-                  <button onClick={() => openModal(request.projectTitle, request._id)}>
-                    Delete
-                  </button>
-                </div>
+                {
+                  loggedInUser._id === profileId &&
+                  <div className="flex space-x-2">
+                    <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
+                    <button onClick={() => openModal(request.projectTitle, request._id)}>
+                      Delete
+                    </button>
+                  </div>
+                }
               </FeedbackListItem>
             ))}
           </ul>
