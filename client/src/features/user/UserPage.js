@@ -1,26 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-import * as api from "../../api/forms";
+import * as formApi from "../../api/forms";
+import * as userApi from "../../api/user";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
+import { selectUser } from "./userSlice";
 
-export default function UserPage() {
-  const user = useSelector((state) => state.user);
-  const { name, _id } = user.data;
-  // console.log(_id);
+function UserPage() {
+  const [ isLoading, setIsLoading ] = useState(true);
+  const { userId: profileId } = useParams();
+  const loggedInUser = useSelector(selectUser);
+  const [ name, setName ] = useState("")
+  const [ requests, setRequests ] = useState([]);
 
-  const [requests, setRequests] = useState([]);
-
-  useEffect(() => {
+  useEffect( () => {
+    setUserName();
     handleRefresh();
-  }, []);
+    setIsLoading(false);
+    
+  },[profileId])
+  
+  const setUserName = async () => {
+    if (profileId === loggedInUser._id) {
+      setName(loggedInUser.name);
+    } else {
+      (async function() {
+        try {
+          const { name } = await userApi.getUserName(profileId).then(response => response.data[0]);
+          setName(name);
+        } catch (error) {
+          console.log(error);
+        }
+      })()
+    }
+    
+  }
 
   const handleRefresh = async () => {
     try {
-      const { data } = await api.fetchFormByID("userId", _id);
+      const { data } = await formApi.fetchFormByID("userId", profileId);
       console.log(data);
       setRequests(data);
     } catch (error) {
@@ -30,7 +51,7 @@ export default function UserPage() {
 
   const handleDelete = async (requestId) => {
     try {
-      await api.deleteFeedbackRequest(requestId);
+      await formApi.deleteFeedbackRequest(requestId);
       handleRefresh();
     } catch (error) {
       console.log(error);
@@ -51,31 +72,43 @@ export default function UserPage() {
 
   return (
     <div className="container mx-auto">
-      <p className="text-xl font-bold">Welcome, {name}!</p>
+      {
+        isLoading
+        ? 
+        <h2>Loading user details</h2>
+        
+        : 
+        <>
+        <h2 className="text-xl font-bold">{name}</h2>
 
-      <h3 className="text-xl mt-3">Your Feedback Requests:</h3>
+        <h3 className="text-xl mt-3">Feedback Requests:</h3>
 
-      {!requests.length ? (
-        <p>
-          Nothing here, try making a <Link to={"/"}>new Feedback Request</Link>
-        </p>
-      ) : (
-        <ul>
-          {requests.map((request) => (
-            <FeedbackListItem key={request._id} request={request}>
-              <div className="flex space-x-2">
-                <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
-                <button onClick={() => openModal(request.projectTitle, request._id)}>
-                  Delete
-                </button>
-              </div>
-            </FeedbackListItem>
-          ))}
-        </ul>
-      )}
+        {!requests.length ? (
+          <p>
+            Nothing here, try making a <Link to={"/"}>new Feedback Request</Link>
+          </p>
+        ) : (
+          <ul>
+            {requests.map((request) => (
+              <FeedbackListItem key={request._id} request={request}>
+                <div className="flex space-x-2">
+                  <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
+                  <button onClick={() => openModal(request.projectTitle, request._id)}>
+                    Delete
+                  </button>
+                </div>
+              </FeedbackListItem>
+            ))}
+          </ul>
+        )}
 
-      <button onClick={handleRefresh}>refresh 🔃</button>
-
+        <button onClick={handleRefresh}>refresh 🔃</button>
+          
+        </>
+      }
     </div>
-  );
+  )
+
 }
+
+export default UserPage;
