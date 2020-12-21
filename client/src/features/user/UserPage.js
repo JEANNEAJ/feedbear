@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import Swal from 'sweetalert2';
 
 import * as formApi from "../../api/forms";
 import * as userApi from "../../api/user";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
+import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
 import { selectUser } from "./userSlice";
 
 function UserPage() {
@@ -49,27 +49,6 @@ function UserPage() {
     }
   };
 
-  const handleDelete = async (requestId) => {
-    try {
-      await formApi.deleteFeedbackRequest(requestId);
-      handleRefresh();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const openModal = (projectTitle, id) => {
-    Swal.fire({
-      title: `Delete ${projectTitle}?`,
-      html: '<p>Are you sure you want to delete this request?</p><p style={{ marginBottom: "1.2em" }}> This operation is irreversible</p>',
-      confirmButtonText: 'Delete',
-      confirmButtonColor: '#dd6b55',
-      showCancelButton: true,
-    }).then(res => {
-      if (res.isConfirmed) handleDelete(id)
-    })
-  }
-
   return (
     <div className="container mx-auto">
       {
@@ -93,12 +72,7 @@ function UserPage() {
               <FeedbackListItem key={request._id} request={request}>
                 {
                   loggedInUser._id === profileId &&
-                  <div className="flex space-x-2">
-                    <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
-                    <button onClick={() => openModal(request.projectTitle, request._id)}>
-                      Delete
-                    </button>
-                  </div>
+                  <FeedbackListItemOptions feedbackId={request._id} projectTitle={request.projectTitle} deleteAction={handleRefresh}/>
                 }
               </FeedbackListItem>
             ))}
