@@ -21,7 +21,7 @@ function UserPage() {
     handleRefresh();
     setIsLoading(false);
     
-  },[profileId])
+  },[requests])
   
   const setUserName = async () => {
     if (profileId === loggedInUser._id) {
@@ -72,7 +72,7 @@ function UserPage() {
               <FeedbackListItem key={request._id} request={request}>
                 {
                   loggedInUser._id === profileId &&
-                  <FeedbackListItemOptions feedbackId={request._id} projectTitle={request.projectTitle} deleteAction={handleRefresh}/>
+                  <FeedbackListItemOptions userId={loggedInUser._id} feedbackId={request._id} projectTitle={request.projectTitle} />
                 }
               </FeedbackListItem>
             ))}

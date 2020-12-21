@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getComments, setComments, selectComments } from './commentSlice';
 
 import CommentList from'./CommentList';
@@ -19,7 +19,6 @@ export default function FeedbackDetails(props) {
   const { feedbackID } = useParams();
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const {
     userId,
@@ -58,7 +57,7 @@ export default function FeedbackDetails(props) {
               <h2 className="text-xl font-bold">{projectTitle}</h2>
               {
                 loggedInUserId === userId &&
-                <FeedbackListItemOptions feedbackId={feedbackID} projectTitle={projectTitle} deleteAction={() => history.push(`/user/${userId}`)} />
+                <FeedbackListItemOptions userId={userId} feedbackId={feedbackID} projectTitle={projectTitle} />
               }
             </div>
             <p>by <Link to={`/user/${userId}`}>{name}</Link></p>
