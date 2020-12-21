@@ -11,7 +11,7 @@ import { selectUser } from "./userSlice";
 
 function UserPage() {
   const [ isLoading, setIsLoading ] = useState(true);
-  const { userId } = useParams();
+  const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [ name, setName ] = useState("")
   const [ requests, setRequests ] = useState([]);
@@ -21,15 +21,15 @@ function UserPage() {
     handleRefresh();
     setIsLoading(false);
     
-  },[userId])
+  },[profileId])
   
   const setUserName = async () => {
-    if (userId === loggedInUser._id) {
+    if (profileId === loggedInUser._id) {
       setName(loggedInUser.name);
     } else {
       (async function() {
         try {
-          const { name } = await userApi.getUserName(userId).then(response => response.data[0]);
+          const { name } = await userApi.getUserName(profileId).then(response => response.data[0]);
           setName(name);
         } catch (error) {
           console.log(error);
@@ -41,7 +41,7 @@ function UserPage() {
 
   const handleRefresh = async () => {
     try {
-      const { data } = await formApi.fetchFormByID("userId", userId);
+      const { data } = await formApi.fetchFormByID("userId", profileId);
       console.log(data);
       setRequests(data);
     } catch (error) {
@@ -79,9 +79,9 @@ function UserPage() {
         
         : 
         <>
-        <h2 className="text-xl font-bold">Welcome, {name}!</h2>
+        <h2 className="text-xl font-bold">{name}</h2>
 
-        <h3 className="text-xl mt-3">Your Feedback Requests:</h3>
+        <h3 className="text-xl mt-3">Feedback Requests:</h3>
 
         {!requests.length ? (
           <p>
