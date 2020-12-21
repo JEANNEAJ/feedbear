@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 import { getComments, setComments, selectComments } from './commentSlice';
 
 import CommentList from'./CommentList';
@@ -19,6 +20,7 @@ export default function FeedbackDetails(props) {
   const dispatch = useDispatch();
 
   const {
+    userId,
     name,
     message,
     projectTitle,
@@ -51,7 +53,7 @@ export default function FeedbackDetails(props) {
         <>
           <div className="bg-white rounded-lg shadow-md p-5">
             <h2 className="text-xl font-bold">{projectTitle}</h2>
-            <p>by {name}</p>
+            <p>by <Link to={`/user/${userId}`}>{name}</Link></p>
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago
             </p>
