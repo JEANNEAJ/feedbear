@@ -38,8 +38,8 @@ export default function FeedbackList() {
     const sortDirection = e.target.options[e.target.selectedIndex].dataset.sortdirection;
 
     dispatch(setSort({
-      by: sortBy,
-      direction: sortDirection,
+      sortBy,
+      sortDirection,
     }))
 
     resetRequests();
@@ -48,7 +48,7 @@ export default function FeedbackList() {
   const resetRequests = () => {
     dispatch(setRequests([]));
     dispatch(setHasMore(true));
-    fetchNext();
+    dispatch(fetchNext());
   };
 
   return (
