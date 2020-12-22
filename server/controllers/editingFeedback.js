@@ -4,6 +4,7 @@ import { deleteImage, uploadImage } from "../helpers/helpers.js";
 
 export const updateFeedbackDetails = async (req, res, next) => {
   try {
+    const userId = req.session.user._id;
     const { id: _id } = req.params;
     const body = req.body;
 
@@ -11,6 +12,14 @@ export const updateFeedbackDetails = async (req, res, next) => {
     const feedbackRequest = await FormMessage.findById(_id);
     if (!feedbackRequest)
       return res.status(404).send(`No post with ID ${_id} exists.`);
+
+    // verify that the user owns this document
+    if (feedbackRequest.userId != userId) {
+      // TODO: convert to generic 403 error type
+      return res
+        .status(403)
+        .send("Permission denied: you do not own this resource.");
+    }
 
     // if an existing file was removed in the update, delete the file
     const fileWasRemoved = feedbackRequest.file && !body.file;
@@ -40,12 +49,23 @@ export const updateFeedbackDetails = async (req, res, next) => {
 };
 
 export const deleteFeedbackRequest = async (req, res) => {
+  const userId = req.session.user._id;
   const { id: _id } = req.params;
 
   if (!Mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).send("No post with that id");
   else {
     try {
+      const feedbackRequest = findById(_id);
+
+      // verify that the user owns this document
+      if (feedbackRequest.userId != userId) {
+        // TODO: convert to generic 403 error type
+        return res
+          .status(403)
+          .send("Permission denied: you do not own this resource.");
+      }
+
       await FormMessage.findByIdAndRemove(_id);
       res.json({ message: "Feedback Request deleted successfully" });
     } catch (err) {
