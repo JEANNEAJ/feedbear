@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer, { initialState as userInitialState } from "../features/user/userSlice";
 import commentReducer from "../features/feedbackDetails/commentSlice";
+import feedbackListReducer from '../features/feedbackList/FeedbackListSlice';
 import * as api from "../api/session";
 
 /**
@@ -37,6 +38,7 @@ export const initializeStore = async () => {
       reducer: {
         user: userReducer,
         comments: commentReducer,
+        feedbackList: feedbackListReducer,
       },
       preloadedState: await setPreloadedUserState()
     })
