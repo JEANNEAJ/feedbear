@@ -12,6 +12,7 @@ export const getForms = async (req, res) => {
       const dateObj = await FormMessage.find({ _id: last }, { createdAt: 1 });
       lastDate = dateObj[0].createdAt;
     } 
+    // TODO if requested item is deleted during this operation, will result in error - will need to send response to client requesting the next _id up to try again
 
     const searchDirection = parseInt(sortDirection) === -1 ? '$lte' : '$gte';
     const searchQuery = !last.length ? {} : { createdAt: { [searchDirection]: lastDate } };
@@ -19,8 +20,6 @@ export const getForms = async (req, res) => {
     const formMessages = await FormMessage.find(searchQuery)
       .sort({ createdAt: sortDirection })
       .limit(parseInt(numResults));
-
-    // if deleted will throw error
 
     res.status(200).json(formMessages);
   } catch (err) {
