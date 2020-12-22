@@ -3,7 +3,7 @@ import Comment from "../models/comments.js";
 import FormMessage from '../models/formMessage.js';
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
-export const getComments = async (req, res) => {
+export const getComments = async (req, res, next) => {
   const { feedbackId } = req.params;
 
   try {
@@ -13,11 +13,13 @@ export const getComments = async (req, res) => {
     );
     res.status(200).json(commentList);
   } catch (err) {
-    res.status(404).json({ message: err });
+    console.error(err);
+    return next(err);
+    // res.status(404).json({ message: err });
   }
 };
 
-export const createComment = async (req, res) => {
+export const createComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const body = req.body;
@@ -38,11 +40,12 @@ export const createComment = async (req, res) => {
     res.status(201).json(newComment);
   } catch (err) {
     console.error(err);
-    res.status(409).json({ message: err });
+    return next(err);
+    // res.status(409).json({ message: err });
   }
 };
 
-export const editComment = async (req, res) => {
+export const editComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
@@ -59,7 +62,8 @@ export const editComment = async (req, res) => {
       res.status(201).json(updatedComment);
     } catch (err) {
       console.error(err);
-      res.status(409).json({ message: err });
+      return next(err);
+      // res.status(409).json({ message: err });
     }
   } else {
     res.status(403).json({ message: 'Invalid user' });
@@ -108,7 +112,10 @@ const verifyUser = async (userId, feedbackId, commentId) => {
 
   } catch (err) {
     console.error(err);
-    return false;
+    let error = new Error();
+    error.message = "Failed to verify user.";
+    error.status = 403;
+    throw error; 
   }
 }
 
@@ -116,7 +123,7 @@ const verifyUser = async (userId, feedbackId, commentId) => {
  * Update the number of comments for the provided feedbackId
  */
 const updateNumComments = async (feedbackId) => {
-    // this fucking typecast goddamn - took me hours to figure out
+  // important typecast, $match will not return results when provided a string
   const idToSearch = Mongoose.Types.ObjectId(feedbackId);
 
   // get number of comments
@@ -132,8 +139,16 @@ const updateNumComments = async (feedbackId) => {
         { $set: { commentsCount: numComments } }
       )
     } catch (err) {
-      //TODO figure out error handling
       console.log(err);
+      let error = new Error();
+      if (err instanceof mongoose.Error.DocumentNotFoundError) {
+        error.message = `Could not find any Feedback Request with id ${idToSearch}.`;
+        error.status = 404;
+      } else {
+        error.message = "Failed to update comment count.";
+        error.status = 500;
+      }
+      throw error;   
     }
   })
 };
