@@ -7,45 +7,54 @@ import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
 
-export default function FeedbackRequestForm({
-  buttonText,
-  inputText,
-  requestId,
-}) {
-  const { register, handleSubmit, watch, errors } = useForm();
+export default function FeedbackRequestForm({ buttonText, values, requestId }) {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState,
+    reset,
+    getValues,
+  } = useForm();
+
+  const { isSubmitting, isSubmitSuccessful } = formState;
   const user = useSelector(selectUser);
   const { _id: userId, name } = user;
-  const [message, setMessage] = useState("");
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectLink, setProjectLink] = useState("");
-  const [liveLink, setLiveLink] = useState("");
+
+  /* NOTE: it's difficult to incorporate image uploads/previews with RHF,
+    so we're handling the file field and the text fields separately;
+    text fields: use RHF methods (getValues, setValue, reset)
+    file: get with variable 'file' and set with 'setFile' */
   const [file, setFile] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // if values are provided, populate the form fields accordingly
   useEffect(() => {
-    if (inputText) {
-      setProjectTitle(inputText.projectTitle);
-      setProjectLink(inputText.projectLink);
-      setLiveLink(inputText.liveLink);
-      setMessage(inputText.message);
-      setFile(inputText.file);
+    if (values) {
+      reset(values);
+      setFile(values.file);
     }
-  }, [inputText]);
+  }, [values, reset]);
+
+  // when form submission succeeds, clear the form input
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+      setFile(null);
+    }
+  }, [isSubmitSuccessful, reset]);
 
   // submit the form data
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // create and populate FormData object
     const formData = new FormData();
     const formInput = {
       userId,
       name,
-      message,
-      projectTitle,
-      projectLink,
-      liveLink,
       file,
+      ...getValues(), // values from the text fields
     };
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
@@ -54,12 +63,11 @@ export default function FeedbackRequestForm({
     });
 
     // handle form submission for FBR creation/updates
-    if (inputText) {
-      dispatch(update(requestId, formData));
-      // TODO: synchronisity problem: updated requests does not always show on the user page -> instead of refreshisng page, update object in frontend
+    if (values) {
+      await dispatch(update(requestId, formData));
       history.push(`/user/${userId}`);
     } else {
-      dispatch(submit(formData));
+      await dispatch(submit(formData));
     }
   };
 
@@ -68,66 +76,58 @@ export default function FeedbackRequestForm({
       className="form flex flex-col items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <label className="sr-only" htmlFor="input-title">
+      <label className="sr-only" htmlFor="projectTitle">
         Project Name
       </label>
       <input
         className="input-text"
-        onChange={(e) => setProjectTitle(e.target.value)}
         type="text"
-        name="input-title"
-        id="input-title"
+        name="projectTitle"
         placeholder="Project Name"
-        value={projectTitle}
         ref={register({ required: true })}
       />
-      {errors["input-title"] && <span>This field is required</span>}
+      {errors["projectTitle"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-projectLink">
+      <label className="sr-only" htmlFor="projectLink">
         Project Link
       </label>
       <input
         className="input-text"
-        onChange={(e) => setProjectLink(e.target.value)}
         type="text"
-        name="input-projectLink"
-        id="input-projectLink"
+        name="projectLink"
         placeholder="Enter Project Link (eg. github)"
-        value={projectLink}
         ref={register({ required: true })}
       />
-      {errors["input-projectLink"] && <span>This field is required</span>}
+      {errors["projectLink"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-liveLink">
+      <label className="sr-only" htmlFor="liveLink">
         Project Live Link
       </label>
       <input
         className="input-text"
-        onChange={(e) => setLiveLink(e.target.value)}
         type="text"
-        name="input-liveLink"
-        id="input-liveLink"
+        name="liveLink"
         placeholder="Enter live link"
-        value={liveLink}
         ref={register({ required: true })}
       />
-      {errors["input-liveLink"] && <span>This field is required</span>}
+      {errors["liveLink"] && <span>This field is required</span>}
 
-      <label className="sr-only" htmlFor="input-message">
+      <label className="sr-only" htmlFor="message">
         Message
       </label>
       <textarea
         className="input-text"
-        onChange={(e) => setMessage(e.target.value)}
-        name="input-message"
-        id="input-message"
+        name="message"
         placeholder="Enter Message"
-        value={message}
         ref={register({ required: true })}
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
 
       <ImageUpload file={file} handleUpload={setFile} />
+
+      {/* Conditionally display info about submission status */}
+      {isSubmitting && <p>Submitting...</p>}
+      {isSubmitSuccessful && <p>Submission complete!</p>}
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
         {buttonText}
