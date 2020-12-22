@@ -3,8 +3,7 @@ import FormMessage from "../models/formMessage.js";
 
 export const getForms = async (req, res) => {
   const { numResults, sortBy, sortDirection, last } = req.query;
-  // console.log(numResults, sortBy, last);
-  console.log(req.query);
+
   try {
     /** The date of the last item (current date if none provided) */
     let lastDate; 
@@ -14,7 +13,6 @@ export const getForms = async (req, res) => {
       lastDate = dateObj[0].createdAt;
     } 
 
-    console.log(lastDate);
     const searchDirection = parseInt(sortDirection) === -1 ? '$lt' : '$gt';
     const searchQuery = !last.length ? {} : { createdAt: { [searchDirection]: lastDate } };
     

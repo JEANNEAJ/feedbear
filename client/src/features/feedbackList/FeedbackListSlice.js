@@ -32,34 +32,27 @@ export const selectHasMore = (state) => state.feedbackList.hasMore;
 const { actions, reducer } = feedbackListSlice;
 export const { setRequests, setSort, setHasMore } = actions;
 
+
 /** fetch the next batch of feedback requests */
 export const fetchNext = createAsyncThunk(
     'feedbackList/fetchNext',
     async (_=null, { dispatch, getState }) => {
-      console.log('fetchNext');
       const { sortBy, sortDirection } = getState().feedbackList.sort;
       const requests = getState().feedbackList.requests;
-      const numResults = 5;
+      const numResults = 20;
       /** The ID of the last feedback request, empty string if none */
       const last = !requests.length ? '' : requests[requests.length - 1]._id;
 
       try {
         const { data } = await api.fetchForms(numResults, sortBy, sortDirection, last);
-        console.log(data);
         if (!data.length) dispatch(setHasMore(false));
         else {
-          // setHasMore(true);
           dispatch(setRequests([...requests, ...data]));
-          // setNext(data);
         }
       } catch (err) {
         console.error(err);
       }
     }
 );
-
-// export const updateRequests = ()
-
-
 
 export default reducer;

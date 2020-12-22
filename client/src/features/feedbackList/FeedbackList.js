@@ -1,37 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import FeedbackListItem from "./FeedbackListItem";
-import * as api from "../../api/forms";
 
-import { setRequests, selectRequests, setSort, selectSort, fetchNext, setHasMore, selectHasMore } from './FeedbackListSlice';
+import { setRequests, selectRequests, setSort, fetchNext, setHasMore, selectHasMore } from './FeedbackListSlice';
 
 export default function FeedbackList() {
-  // const [next, setNext] = useState([]);
-  // const [requests, setRequests] = useState([]);
   /** False when there are no more requests - used to display message to user */
-  // const [hasMore, setHasMore] = useState(true);
   const hasMore = useSelector(selectHasMore);
-
-  // const [sort, setSort] = useState({
-  //   sortBy: 'createdAt', // field to sort by
-  //   sortDirection: -1, // 1 for ascending, -1 for descending
-  // })
-
   const requests = useSelector(selectRequests);
-  const sort = useSelector(selectSort);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchNext());
   }, []);
-
-  // useEffect(() => {
-  //   setRequests([...requests, ...next]);
-  // }, [next]);
-
 
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
