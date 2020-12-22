@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import * as formApi from "../../api/forms";
 import * as userApi from "../../api/user";
@@ -16,28 +16,26 @@ function UserPage() {
   const [ name, setName ] = useState("")
   const [ requests, setRequests ] = useState([]);
 
-  useEffect( () => {
-    setUserName();
-    handleRefresh();
-    setIsLoading(false);
+  const location = useLocation();
     
-  },[requests])
-  
-  const setUserName = async () => {
-    if (profileId === loggedInUser._id) {
+  // determine the display name for the current UserPage
+  useEffect(() => {
+    if (location.name && profileId !== loggedInUser._id) {
+      // if name was provided in the Link component, set name from location
+      setName(location.name);
+    } else if (profileId === loggedInUser._id) {
+      // if user is on their own profile, set name using Redux
       setName(loggedInUser.name);
     } else {
-      (async function() {
-        try {
-          const { name } = await userApi.getUserName(profileId).then(response => response.data[0]);
-          setName(name);
-        } catch (error) {
-          console.log(error);
+      // if all else fails, get the name from the API
+      const fetchName = async (profileId) => {
+        const { data } = await userApi.getUserName(profileId);
+        setName(data[0].name);
+      };
+      fetchName(profileId);
         }
-      })()
-    }
+  }, [location.name, loggedInUser, profileId]);
     
-  }
 
   const handleRefresh = async () => {
     try {
