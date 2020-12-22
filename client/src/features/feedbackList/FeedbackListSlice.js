@@ -45,14 +45,32 @@ export const fetchNext = createAsyncThunk(
 
       try {
         const { data } = await api.fetchForms(numResults, sortBy, sortDirection, last);
-        if (!data.length) dispatch(setHasMore(false));
-        else {
-          dispatch(setRequests([...requests, ...data]));
+        const newRequests = removeDuplicates(requests, data, numResults);
+
+        if (newRequests.length === requests.length) {
+          dispatch(setHasMore(false));
+        } else {
+          dispatch(setRequests(newRequests));
         }
       } catch (err) {
         console.error(err);
       }
     }
 );
+
+/**
+ * Remove items in data that already exist in requests
+ * @param {*} requests the existing requests array
+ * @param {*} data the new data array to check
+ * @param {*} numResults the number of results per batch
+ */
+const removeDuplicates = (requests, data, numResults) => {
+  //TODO not performant as array size scales - use numResults to only check last n elements of array for duplicates
+  const arrayToCheck = [...requests, ...data];
+  const result = arrayToCheck.filter(function({_id}) {
+    return !this[_id] && (this[_id] = _id)
+  }, {});
+  return result;
+}
 
 export default reducer;
