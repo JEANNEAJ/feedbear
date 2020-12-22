@@ -9,10 +9,11 @@ const url = "/forms";
  * @param {String} sortBy What to sort by (createdAt by default)
  * @param {String} last the ID of the last requested item
  */
-export const fetchForms = (numResults, sortBy, last) => axios.get(url, {
+export const fetchForms = (numResults, sortBy, sortDirection, last) => axios.get(url, {
     params: { 
       numResults,
       sortBy,
+      sortDirection,
       last,
     },
   });

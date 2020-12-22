@@ -2,8 +2,9 @@ import { uploadImage } from "../helpers/helpers.js";
 import FormMessage from "../models/formMessage.js";
 
 export const getForms = async (req, res) => {
-  const { numResults, sortBy, last } = req.query;
+  const { numResults, sortBy, sortDirection, last } = req.query;
   // console.log(numResults, sortBy, last);
+  console.log(req.query);
   try {
     /** The date of the last item (current date if none provided) */
     let lastDate; 
@@ -13,12 +14,17 @@ export const getForms = async (req, res) => {
       lastDate = dateObj[0].createdAt;
     } 
 
-    const searchQuery = !last.length ? {} : { createdAt: { '$lt': lastDate } };
+    console.log(lastDate);
+    const searchDirection = parseInt(sortDirection) === -1 ? '$lt' : '$gt';
+    const searchQuery = !last.length ? {} : { createdAt: { [searchDirection]: lastDate } };
+    
     const formMessages = await FormMessage.find(searchQuery)
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: sortDirection })
       .limit(parseInt(numResults));
 
     //Note: sort by date might skip some if they have the EXACT same date and are in between pages - need to implement some kind of checking to make sure not skipping any (maybe grab less than or equal to, then exclude ones already in array)
+
+    // if deleted will throw error
 
     res.status(200).json(formMessages);
   } catch (err) {
