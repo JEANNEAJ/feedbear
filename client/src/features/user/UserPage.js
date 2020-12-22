@@ -36,15 +36,26 @@ function UserPage() {
         }
   }, [location.name, loggedInUser, profileId]);
     
-
-  const handleRefresh = async () => {
+  // perform initial fetch of FeedbackRequests
+  useEffect(() => {
+    const fetchRequests = async () => {
     try {
       const { data } = await formApi.fetchFormByID("userId", profileId);
-      console.log(data);
       setRequests(data);
     } catch (error) {
       console.log(error);
     }
+  };
+    fetchRequests();
+    setIsLoading(false);
+  }, [profileId]);
+
+  // handle manual refreshes
+  const handleRefresh = async () => {
+    setIsLoading(true);
+    const { data } = await formApi.fetchFormByID("userId", profileId);
+    setRequests(data);
+    setIsLoading(false);
   };
 
   return (
