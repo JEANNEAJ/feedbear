@@ -8,14 +8,16 @@ export const getComments = async (req, res, next) => {
 
   try {
     const commentList = await FormMessage.find(
-      { _id: feedbackId },
+      { _id: 'abc' },
       { comments: 1 },
     );
     res.status(200).json(commentList);
   } catch (err) {
     console.error(err);
-    return next(err);
-    // res.status(404).json({ message: err });
+    const error = new Error();
+    error.message = `Failed to get comments: no Feedback Request with id ${feedbackId}.`;
+    error.status = 404;
+    return next(error);
   }
 };
 
@@ -41,7 +43,6 @@ export const createComment = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return next(err);
-    // res.status(409).json({ message: err });
   }
 };
 
@@ -63,7 +64,6 @@ export const editComment = async (req, res, next) => {
     } catch (err) {
       console.error(err);
       return next(err);
-      // res.status(409).json({ message: err });
     }
   } else {
     res.status(403).json({ message: 'Invalid user' });
@@ -86,7 +86,6 @@ export const deleteComment = async (req, res, next) => {
       res.status(201).json(deletedComment);
     } catch (err) {
       console.error(err);
-      // res.status(409).json({ message: err });
       return next(err);
     }
   } else {
@@ -140,7 +139,7 @@ const updateNumComments = async (feedbackId) => {
       )
     } catch (err) {
       console.log(err);
-      let error = new Error();
+      const error = new Error();
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
         error.message = `Could not find any Feedback Request with id ${idToSearch}.`;
         error.status = 404;
@@ -148,7 +147,7 @@ const updateNumComments = async (feedbackId) => {
         error.message = "Failed to update comment count.";
         error.status = 500;
       }
-      throw error;   
+      throw error;
     }
   })
 };
