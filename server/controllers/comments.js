@@ -66,7 +66,7 @@ export const editComment = async (req, res) => {
   }
 };
 
-export const deleteComment = async (req, res) => {
+export const deleteComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
@@ -82,7 +82,8 @@ export const deleteComment = async (req, res) => {
       res.status(201).json(deletedComment);
     } catch (err) {
       console.error(err);
-      res.status(409).json({ message: err });
+      // res.status(409).json({ message: err });
+      return next(err);
     }
   } else {
     res.status(403).json({ message: 'Invalid user' });
@@ -121,14 +122,14 @@ const updateNumComments = async (feedbackId) => {
   // get number of comments
   await FormMessage.aggregate([
     { $match: { _id: idToSearch } },
-    { $project: { comments_count: { $size: '$comments' } } }
+    { $project: { commentsCount: { $size: '$comments' } } }
   ]).exec(async (err, results) => {
-    const numComments = results[0].comments_count;
+    const numComments = results[0].commentsCount;
     try {
-      // set number of comments to comments_count
+      // set number of comments to commentsCount
       await FormMessage.updateOne(
         { _id: idToSearch },
-        { $set: { comments_count: numComments } }
+        { $set: { commentsCount: numComments } }
       )
     } catch (err) {
       //TODO figure out error handling
