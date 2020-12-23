@@ -14,7 +14,7 @@ export default function FeedbackList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchNext());
+    resetRequests();
   }, []);
 
   const handleSort = (e) => {
