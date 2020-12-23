@@ -63,9 +63,14 @@ const SignupForm = () => {
         name="password"
         type="password"
         placeholder="Password"
-        ref={register({ minLength: 8 })}
+        ref={register({
+          minLength: 8,
+          pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])/
+        })}
+
       />
-      {errors.password && <span>Password must be at least 8 characters</span>}
+      {errors.password?.type === 'minLength' && <span>Password must be at least 8 characters</span>}
+      {errors.password?.type === 'pattern' && <span>Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number</span>}
 
       <input
         className="input-text"
