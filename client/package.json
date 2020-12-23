@@ -20,7 +20,8 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "sweetalert2": "^10.12.5"
+    "sweetalert2": "^10.12.5",
+    "validator": "^13.5.2"
   },
   "scripts": {
     "tailwind:build": "NODE_ENV=production postcss src/tailwind.css -o src/tailwind.output.css",

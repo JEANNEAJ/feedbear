@@ -23,7 +23,8 @@ export const updateFeedbackDetails = async (req, res, next) => {
 
     // if an existing file was removed in the update, delete the file
     const fileWasRemoved = feedbackRequest.file && !body.file;
-    if (fileWasRemoved) {
+    const fileWasReplaced = feedbackRequest.file && req.file;
+    if (fileWasRemoved || fileWasReplaced) {
       await deleteImage(feedbackRequest.file);
       body.file = null;
     }
@@ -31,11 +32,9 @@ export const updateFeedbackDetails = async (req, res, next) => {
     // if body.file exists but doesn't match the existing URL, remove it! XSS risk
     if (body.file && body.file !== feedbackRequest.file) delete body.file;
 
-    // if a new file was upload, upload it to storage
+    // if a new file was attached, upload it to storage
     if (req.file) {
-      // if there's a file to replace, get its URL and target for deletion
-      const existingURL = feedbackRequest.file;
-      const fileURL = await uploadImage(req.file, existingURL);
+      const fileURL = await uploadImage(req.file);
       body.file = fileURL;
     }
 
