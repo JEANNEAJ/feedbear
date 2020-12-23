@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
-import { validateUrl, formatToUrl } from "../../helpers";
+import { validateUrl, formatToUrl } from "../../helpers/validation";
 
 export default function FeedbackRequestForm({ buttonText, values, requestId }) {
   const {
