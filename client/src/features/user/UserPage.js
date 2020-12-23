@@ -81,7 +81,7 @@ function UserPage() {
               <FeedbackListItem key={request._id} request={request}>
                 {
                   loggedInUser._id === profileId &&
-                  <FeedbackListItemOptions userId={loggedInUser._id} feedbackId={request._id} projectTitle={request.projectTitle} />
+                  <FeedbackListItemOptions userId={loggedInUser._id} feedbackId={request._id} projectTitle={request.projectTitle} deleteAction={handleRefresh} />
                 }
               </FeedbackListItem>
             ))}

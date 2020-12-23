@@ -4,12 +4,17 @@ import { Link, useHistory } from 'react-router-dom';
 import * as formApi from "../../api/forms";
 
 export default function FeedbackListItemOptions(props) {
-  const { userId, feedbackId, projectTitle } = props;
+  const { userId, feedbackId, projectTitle, deleteAction } = props;
   const history = useHistory();
 
   const handleDelete = async (requestId) => {
     try {
       await formApi.deleteFeedbackRequest(requestId);
+      
+      if (deleteAction && typeof deleteAction === 'function') {
+        deleteAction();
+      }
+
       history.push(`/user/${userId}`)
       
     } catch (error) {
