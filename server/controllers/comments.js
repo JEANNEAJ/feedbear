@@ -1,40 +1,52 @@
-// import Mongoose from "mongoose";
-import FeedbackComments, { Comment } from "../models/comments.js";
+import Mongoose from "mongoose";
+import Comment from "../models/comments.js";
+import FormMessage from '../models/formMessage.js';
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
-export const getComments = async (req, res) => {
+export const getComments = async (req, res, next) => {
   const { feedbackId } = req.params;
 
   try {
-    const commentList = await FeedbackComments.find({ _id: feedbackId });
+    const commentList = await FormMessage.find(
+      { _id: 'abc' },
+      { comments: 1 },
+    );
     res.status(200).json(commentList);
   } catch (err) {
-    res.status(404).json({ message: err });
+    console.error(err);
+    const error = new Error();
+    error.message = `Failed to get comments: no Feedback Request with id ${feedbackId}.`;
+    error.status = 404;
+    return next(error);
   }
 };
 
-export const createComment = async (req, res) => {
+export const createComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const body = req.body;
   const { feedbackId } = req.params;
    
-  const newComment = new Comment({ userId, ...body })
+  const newComment = new Comment({ userId, ...body });
 
   try {
-    await FeedbackComments.updateOne(
+    // push comment to array
+    await FormMessage.updateOne(
       { _id: feedbackId }, // filter
       { $push: { comments: newComment } }, // update
       { upsert: true } // create document if not found
     );
+
+    await updateNumComments(feedbackId);
+
     res.status(201).json(newComment);
   } catch (err) {
     console.error(err);
-    res.status(409).json({ message: err });
+    return next(err);
   }
 };
 
-export const editComment = async (req, res) => {
+export const editComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
@@ -44,21 +56,21 @@ export const editComment = async (req, res) => {
     const newComment = Object.keys(req.body)[0];
 
     try {
-      const updatedComment = await FeedbackComments.updateOne(
+      const updatedComment = await FormMessage.updateOne(
         { _id: feedbackId, "comments._id": commentId }, // filter
         { $set: { "comments.$.comment": newComment } } // update
       );
       res.status(201).json(updatedComment);
     } catch (err) {
       console.error(err);
-      res.status(409).json({ message: err });
+      return next(err);
     }
   } else {
     res.status(403).json({ message: 'Invalid user' });
   }
 };
 
-export const deleteComment = async (req, res) => {
+export const deleteComment = async (req, res, next) => {
   if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
@@ -66,14 +78,15 @@ export const deleteComment = async (req, res) => {
 
   if (validUser) {
     try {
-      const deletedComment = await FeedbackComments.updateOne(
+      const deletedComment = await FormMessage.updateOne(
         { _id: feedbackId }, // filter
         { $pull: { comments: { _id: commentId } } } // update
       );
+      await updateNumComments(feedbackId);
       res.status(201).json(deletedComment);
     } catch (err) {
       console.error(err);
-      res.status(409).json({ message: err });
+      return next(err);
     }
   } else {
     res.status(403).json({ message: 'Invalid user' });
@@ -86,7 +99,7 @@ export const deleteComment = async (req, res) => {
  */
 const verifyUser = async (userId, feedbackId, commentId) => {
   try {
-    const comment = await FeedbackComments.findOne(
+    const comment = await FormMessage.findOne(
       { _id: feedbackId }, // query
       { comments: { "$elemMatch": { _id: commentId } } } // projection
     );
@@ -98,6 +111,43 @@ const verifyUser = async (userId, feedbackId, commentId) => {
 
   } catch (err) {
     console.error(err);
-    return false;
+    let error = new Error();
+    error.message = "Failed to verify user.";
+    error.status = 403;
+    throw error; 
   }
 }
+
+/**
+ * Update the number of comments for the provided feedbackId
+ */
+const updateNumComments = async (feedbackId) => {
+  // important typecast, $match will not return results when provided a string
+  const idToSearch = Mongoose.Types.ObjectId(feedbackId);
+
+  // get number of comments
+  await FormMessage.aggregate([
+    { $match: { _id: idToSearch } },
+    { $project: { commentsCount: { $size: '$comments' } } }
+  ]).exec(async (err, results) => {
+    const numComments = results[0].commentsCount;
+    try {
+      // set number of comments to commentsCount
+      await FormMessage.updateOne(
+        { _id: idToSearch },
+        { $set: { commentsCount: numComments } }
+      )
+    } catch (err) {
+      console.log(err);
+      const error = new Error();
+      if (err instanceof mongoose.Error.DocumentNotFoundError) {
+        error.message = `Could not find any Feedback Request with id ${idToSearch}.`;
+        error.status = 404;
+      } else {
+        error.message = "Failed to update comment count.";
+        error.status = 500;
+      }
+      throw error;
+    }
+  })
+};

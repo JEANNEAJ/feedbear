@@ -17,8 +17,9 @@ export const getForms = async (req, res) => {
     const searchDirection = parseInt(sortDirection) === -1 ? '$lte' : '$gte';
     const searchQuery = !last.length ? {} : { createdAt: { [searchDirection]: lastDate } };
     
-    const formMessages = await FormMessage.find(searchQuery)
+    const formMessages = await FormMessage.find(searchQuery, { comments: 0 })
       .sort({ createdAt: sortDirection })
+
       .limit(parseInt(numResults));
 
     res.status(200).json(formMessages);
