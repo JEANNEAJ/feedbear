@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import Swal from 'sweetalert2';
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import * as formApi from "../../api/forms";
 import * as userApi from "../../api/user";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
+import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
 import { selectUser } from "./userSlice";
 
 function UserPage() {
@@ -16,59 +16,47 @@ function UserPage() {
   const [ name, setName ] = useState("")
   const [ requests, setRequests ] = useState([]);
 
-  useEffect( () => {
-    setUserName();
-    handleRefresh();
-    setIsLoading(false);
+  const location = useLocation();
     
-  },[profileId])
-  
-  const setUserName = async () => {
-    if (profileId === loggedInUser._id) {
+  // determine the display name for the current UserPage
+  useEffect(() => {
+    if (location.name && profileId !== loggedInUser._id) {
+      // if name was provided in the Link component, set name from location
+      setName(location.name);
+    } else if (profileId === loggedInUser._id) {
+      // if user is on their own profile, set name using Redux
       setName(loggedInUser.name);
     } else {
-      (async function() {
-        try {
-          const { name } = await userApi.getUserName(profileId).then(response => response.data[0]);
-          setName(name);
-        } catch (error) {
-          console.log(error);
+      // if all else fails, get the name from the API
+      const fetchName = async (profileId) => {
+        const { data } = await userApi.getUserName(profileId);
+        setName(data[0].name);
+      };
+      fetchName(profileId);
         }
-      })()
-    }
+  }, [location.name, loggedInUser, profileId]);
     
-  }
-
-  const handleRefresh = async () => {
+  // perform initial fetch of FeedbackRequests
+  useEffect(() => {
+    const fetchRequests = async () => {
     try {
       const { data } = await formApi.fetchFormByID("userId", profileId);
-      console.log(data);
       setRequests(data);
     } catch (error) {
       console.log(error);
     }
   };
+    fetchRequests();
+    setIsLoading(false);
+  }, [profileId]);
 
-  const handleDelete = async (requestId) => {
-    try {
-      await formApi.deleteFeedbackRequest(requestId);
-      handleRefresh();
-    } catch (error) {
-      console.log(error);
-    }
+  // handle manual refreshes
+  const handleRefresh = async () => {
+    setIsLoading(true);
+    const { data } = await formApi.fetchFormByID("userId", profileId);
+    setRequests(data);
+    setIsLoading(false);
   };
-
-  const openModal = (projectTitle, id) => {
-    Swal.fire({
-      title: `Delete ${projectTitle}?`,
-      html: '<p>Are you sure you want to delete this request?</p><p style={{ marginBottom: "1.2em" }}> This operation is irreversible</p>',
-      confirmButtonText: 'Delete',
-      confirmButtonColor: '#dd6b55',
-      showCancelButton: true,
-    }).then(res => {
-      if (res.isConfirmed) handleDelete(id)
-    })
-  }
 
   return (
     <div className="container mx-auto">
@@ -91,12 +79,10 @@ function UserPage() {
           <ul>
             {requests.map((request) => (
               <FeedbackListItem key={request._id} request={request}>
-                <div className="flex space-x-2">
-                  <Link to={`/edit/${request._id}`}>Edit</Link>{" "}
-                  <button onClick={() => openModal(request.projectTitle, request._id)}>
-                    Delete
-                  </button>
-                </div>
+                {
+                  loggedInUser._id === profileId &&
+                  <FeedbackListItemOptions userId={loggedInUser._id} feedbackId={request._id} projectTitle={request.projectTitle} deleteAction={handleRefresh} />
+                }
               </FeedbackListItem>
             ))}
           </ul>

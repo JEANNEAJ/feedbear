@@ -36,7 +36,9 @@ export default function FeedbackListItem(props) {
 
       {/* feedback request info + links */}
       <p>
-        submitted by <Link to={`/user/${userId}`}>{name}</Link> <TimeDifference dateString={createdAt} /> ago
+        submitted by{" "}
+        <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
+        <TimeDifference dateString={createdAt} /> ago
       </p>
       <div className="flex space-x-2">
         <a href={projectLink}>Project Link</a>

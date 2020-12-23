@@ -7,12 +7,13 @@ import CommentList from'./CommentList';
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import TimeDifference from "../../components/timeDifference/TimeDifference";
+import FeedbackListItemOptions from '../feedbackList/FeedbackListItemOptions';
 
 import * as formApi from "../../api/forms";
 // import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
-
+  const loggedInUserId = useSelector(state => state.user.data._id);
   const [request, setRequest] = useState([]);
   const comments = useSelector(selectComments);
   const { feedbackID } = useParams();
@@ -52,7 +53,13 @@ export default function FeedbackDetails(props) {
       ) : (
         <>
           <div className="bg-white rounded-lg shadow-md p-5">
-            <h2 className="text-xl font-bold">{projectTitle}</h2>
+            <div className="text-lg flex justify-between">
+              <h2 className="text-xl font-bold">{projectTitle}</h2>
+              {
+                loggedInUserId === userId &&
+                <FeedbackListItemOptions userId={userId} feedbackId={feedbackID} projectTitle={projectTitle} />
+              }
+            </div>
             <p>by <Link to={`/user/${userId}`}>{name}</Link></p>
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago
