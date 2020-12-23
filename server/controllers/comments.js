@@ -8,7 +8,7 @@ export const getComments = async (req, res, next) => {
 
   try {
     const commentList = await FormMessage.find(
-      { _id: 'abc' },
+      { _id: feedbackId },
       { comments: 1 },
     );
     res.status(200).json(commentList);
