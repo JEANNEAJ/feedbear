@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const SignupForm = () => {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch, errors, getValues } = useForm();
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
@@ -47,12 +47,38 @@ const SignupForm = () => {
 
       <input
         className="input-text"
+        name="matchEmail"
+        type="email"
+        placeholder="Re-enter E-mail"
+        ref={register({
+          required: true,
+          validate: value => value === getValues('email')
+        })}
+      />
+      {errors.matchEmail?.type === 'required' && <span>This field is required</span>}
+      {errors.matchEmail?.type === 'validate' && <span>Email does not match</span>}
+
+      <input
+        className="input-text"
         name="password"
         type="password"
         placeholder="Password"
         ref={register({ minLength: 8 })}
       />
       {errors.password && <span>Password must be at least 8 characters</span>}
+
+      <input
+        className="input-text"
+        name="matchPassword"
+        type="password"
+        placeholder="Re-enter Password"
+        ref={register({
+          required: true,
+          validate: value => value === getValues('password')
+        })}
+      />
+      {errors.matchPassword?.type === 'required' && <span>This field is required</span>}
+      {errors.matchPassword?.type === 'validate' && <span>Password does not match</span>}
 
       {error ? (
         <p className="error">
