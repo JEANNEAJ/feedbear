@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { submit, update } from "./feedbackRequestSlice";
 import { selectUser } from "../user/userSlice";
 import ImageUpload from "../../components/ImageUpload";
+import { validateUrl, formatToUrl } from "../../helpers/validation";
 
 export default function FeedbackRequestForm({ buttonText, values, requestId }) {
   const {
@@ -56,6 +57,10 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
       file,
       ...getValues(), // values from the text fields
     };
+
+    formInput.projectLink = formatToUrl(formInput.projectLink)
+    formInput.liveLink = formatToUrl(formInput.liveLink)
+
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
       // null fields will be skipped; this prevents the {file: "null"} issue
@@ -96,9 +101,9 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
         type="text"
         name="projectLink"
         placeholder="Enter Project Link (eg. github)"
-        ref={register({ required: true })}
+        ref={register({ required: true, validate: { validUrl: validateUrl}})}
       />
-      {errors["projectLink"] && <span>This field is required</span>}
+      {errors["projectLink"] && <span>This field is required and must be a valid URL</span>}
 
       <label className="sr-only" htmlFor="liveLink">
         Project Live Link
@@ -108,9 +113,9 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
         type="text"
         name="liveLink"
         placeholder="Enter live link"
-        ref={register({ required: true })}
+        ref={register({ required: true, validate: { validUrl: validateUrl} })}
       />
-      {errors["liveLink"] && <span>This field is required</span>}
+      {errors["liveLink"] && <span>This field is required and must be a valid URL</span>}
 
       <label className="sr-only" htmlFor="message">
         Message
