@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { commentSchema } from './comments.js';
 
 const formSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
       required: true,
+      ref: 'User',
     },
     name: String,
     message: String,
@@ -13,9 +15,7 @@ const formSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    liveLink: {
-      type: String,
-    },
+    liveLink: String,
     file: {
       type: String,
       default: null,
@@ -25,6 +25,11 @@ const formSchema = mongoose.Schema(
       required: true,
       default: true,
     },
+    comments: [commentSchema],
+    commentsCount: {
+      type: Number,
+      default: 0,
+    }
   },
   { timestamps: true }
 );

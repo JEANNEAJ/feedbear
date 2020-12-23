@@ -13,6 +13,7 @@ export default function FeedbackListItem(props) {
     message,
     createdAt,
     _id,
+    commentsCount,
   } = props.request;
 
   return (
@@ -23,8 +24,14 @@ export default function FeedbackListItem(props) {
           <Link to={`/feedback/${_id}`}>{projectTitle}</Link>
         </h3>
 
-        {/* edit and delete button from UserPage */}
-        {props.children}
+        <div className="flex flex-col items-end">
+          {/* Comment count */}
+          <Link to={`/feedback/${_id}`} title='Number of comments'>💬{commentsCount || 0}</Link>
+
+          {/* edit and delete button from UserPage */}
+          {props.children}
+        </div>
+
       </div>
 
       {/* feedback request info + links */}

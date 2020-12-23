@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
-const commentSchema = mongoose.Schema({
+export const commentSchema = mongoose.Schema({
   userId: {
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
+    ref: 'User',
   },
   comment: {
     type: String,
@@ -11,14 +12,6 @@ const commentSchema = mongoose.Schema({
   }
 }, { timestamps: true });
 
-const feedbackCommentsSchema = mongoose.Schema({
-  comments: {
-    type: [commentSchema],
-    default: []
-  }
-}, { timestamps: true });
+const Comment = mongoose.model("comment", commentSchema);
 
-export const Comment = mongoose.model("comment", commentSchema);
-const FeedbackComments = mongoose.model("feedbackComments", feedbackCommentsSchema);
-
-export default FeedbackComments;
+export default Comment;

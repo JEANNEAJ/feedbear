@@ -14,7 +14,7 @@ export const getForms = async (req, res) => {
     } 
 
     const searchQuery = !last.length ? {} : { createdAt: { '$lt': lastDate } };
-    const formMessages = await FormMessage.find(searchQuery)
+    const formMessages = await FormMessage.find(searchQuery, { comments: 0 })
       .sort({ createdAt: -1 })
       .limit(parseInt(numResults));
 
