@@ -6,7 +6,7 @@ export const getForms = async (req, res) => {
 
   try {
     /** The date of the last item (current date if none provided) */
-    let lastDate; 
+    let lastDate;
     if (!last.length) lastDate = new Date();
     else {
       const dateObj = await FormMessage.find({ _id: last }, { createdAt: 1 });
@@ -43,6 +43,7 @@ export const getFormByID = async (req, res) => {
 
 export const createForm = async (req, res) => {
   const body = req.body;
+  body.userId = req.session.user._id;
   console.log(body);
 
   // if a file was included, upload to GCS and store the URL

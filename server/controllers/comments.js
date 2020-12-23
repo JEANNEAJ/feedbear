@@ -21,8 +21,8 @@ export const getComments = async (req, res, next) => {
   }
 };
 
+
 export const createComment = async (req, res, next) => {
-  if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const body = req.body;
   const { feedbackId } = req.params;
@@ -47,7 +47,6 @@ export const createComment = async (req, res, next) => {
 };
 
 export const editComment = async (req, res, next) => {
-  if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
   const validUser = await verifyUser(userId, feedbackId, commentId);
@@ -71,7 +70,6 @@ export const editComment = async (req, res, next) => {
 };
 
 export const deleteComment = async (req, res, next) => {
-  if (!req.session.user) throw 'Not logged in!';
   const userId = req.session.user._id;
   const { feedbackId, commentId } = req.params;
   const validUser = await verifyUser(userId, feedbackId, commentId);
