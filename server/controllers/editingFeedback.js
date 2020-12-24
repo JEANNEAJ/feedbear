@@ -55,8 +55,7 @@ export const deleteFeedbackRequest = async (req, res) => {
     return res.status(404).send("No post with that id");
   else {
     try {
-      const feedbackRequest = findById(_id);
-
+      const feedbackRequest = await FormMessage.findById(_id);      
       // verify that the user owns this document
       if (feedbackRequest.userId != userId) {
         // TODO: convert to generic 403 error type
