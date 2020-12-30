@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import * as api from "../api/projects";
 
-export const ProjectListSlice = createSlice({
-  name: "ProjectList",
+export const projectListSlice = createSlice({
+  name: "projectList",
   initialState: {
     projects: [],
     sort: {
@@ -25,19 +25,19 @@ export const ProjectListSlice = createSlice({
   },
 });
 
-export const selectProjects = (state) => state.ProjectList.projects;
-export const selectSort = (state) => state.ProjectList.sort;
-export const selectHasMore = (state) => state.ProjectList.hasMore;
+export const selectProjects = (state) => state.projectList.projects;
+export const selectSort = (state) => state.projectList.sort;
+export const selectHasMore = (state) => state.projectList.hasMore;
 
-const { actions, reducer } = ProjectListSlice;
+const { actions, reducer } = projectListSlice;
 export const { setProjects, setSort, setHasMore } = actions;
 
 /** fetch the next batch of projects */
 export const fetchNext = createAsyncThunk(
-  "ProjectList/fetchNext",
+  "projectList/fetchNext",
   async (_ = null, { dispatch, getState }) => {
-    const { sortBy, sortDirection } = getState().ProjectList.sort;
-    const projects = getState().ProjectList.projects;
+    const { sortBy, sortDirection } = getState().projectList.sort;
+    const projects = getState().projectList.projects;
     const numResults = 20;
     /** The ID of the last project, empty string if none */
     const last = !projects.length ? "" : projects[projects.length - 1]._id;
