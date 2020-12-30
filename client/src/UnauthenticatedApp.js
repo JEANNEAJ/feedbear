@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import LoginForm from "./features/user/LoginForm";
-import SignupForm from "./features/user/SignupForm";
+import LoginForm from "./components/forms/LoginForm";
+import SignupForm from "./components/forms/SignupForm";
 
 const UnauthenticatedApp = () => {
   return (

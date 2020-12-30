@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as api from "../../api/session";
+import * as api from "../api/session";
 
 export const login = createAsyncThunk(
   "user/login",
@@ -55,7 +55,7 @@ const fulfilled = (state, action) => {
     state.loading = "idle";
     state.currentRequestId = undefined;
 
-    if (action.type === 'user/login/fulfilled') {
+    if (action.type === "user/login/fulfilled") {
       state.isLoggedIn = true;
     }
 
@@ -85,7 +85,7 @@ export const initialState = {
   isLoggedIn: false,
   currentRequestId: undefined,
   error: null,
-}
+};
 
 export const userSlice = createSlice({
   name: "user",

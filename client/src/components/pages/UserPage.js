@@ -7,17 +7,17 @@ import * as userApi from "../../api/user";
 
 import FeedbackListItem from "../feedbackList/FeedbackListItem";
 import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
-import { selectUser } from "./userSlice";
+import { selectUser } from "../../slices/userSlice";
 
 function UserPage() {
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
-  const [ name, setName ] = useState("")
-  const [ requests, setRequests ] = useState([]);
+  const [name, setName] = useState("");
+  const [requests, setRequests] = useState([]);
 
   const location = useLocation();
-    
+
   // determine the display name for the current UserPage
   useEffect(() => {
     if (location.name && profileId !== loggedInUser._id) {
@@ -33,19 +33,19 @@ function UserPage() {
         setName(data[0].name);
       };
       fetchName(profileId);
-        }
+    }
   }, [location.name, loggedInUser, profileId]);
-    
+
   // perform initial fetch of FeedbackRequests
   useEffect(() => {
     const fetchRequests = async () => {
-    try {
-      const { data } = await formApi.fetchFormByID("userId", profileId);
-      setRequests(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      try {
+        const { data } = await formApi.fetchFormByID("userId", profileId);
+        setRequests(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchRequests();
     setIsLoading(false);
   }, [profileId]);
@@ -60,41 +60,41 @@ function UserPage() {
 
   return (
     <div className="container mx-auto">
-      {
-        isLoading
-        ? 
+      {isLoading ? (
         <h2>Loading user details</h2>
-        
-        : 
+      ) : (
         <>
-        <h2 className="text-xl font-bold">{name}</h2>
+          <h2 className="text-xl font-bold">{name}</h2>
 
-        <h3 className="text-xl mt-3">Feedback Requests:</h3>
+          <h3 className="text-xl mt-3">Feedback Requests:</h3>
 
-        {!requests.length ? (
-          <p>
-            Nothing here, try making a <Link to={"/"}>new Feedback Request</Link>
-          </p>
-        ) : (
-          <ul>
-            {requests.map((request) => (
-              <FeedbackListItem key={request._id} request={request}>
-                {
-                  loggedInUser._id === profileId &&
-                  <FeedbackListItemOptions userId={loggedInUser._id} feedbackId={request._id} projectTitle={request.projectTitle} deleteAction={handleRefresh} />
-                }
-              </FeedbackListItem>
-            ))}
-          </ul>
-        )}
+          {!requests.length ? (
+            <p>
+              Nothing here, try making a{" "}
+              <Link to={"/"}>new Feedback Request</Link>
+            </p>
+          ) : (
+            <ul>
+              {requests.map((request) => (
+                <FeedbackListItem key={request._id} request={request}>
+                  {loggedInUser._id === profileId && (
+                    <FeedbackListItemOptions
+                      userId={loggedInUser._id}
+                      feedbackId={request._id}
+                      projectTitle={request.projectTitle}
+                      deleteAction={handleRefresh}
+                    />
+                  )}
+                </FeedbackListItem>
+              ))}
+            </ul>
+          )}
 
-        <button onClick={handleRefresh}>refresh 🔃</button>
-          
+          <button onClick={handleRefresh}>refresh 🔃</button>
         </>
-      }
+      )}
     </div>
-  )
-
+  );
 }
 
 export default UserPage;

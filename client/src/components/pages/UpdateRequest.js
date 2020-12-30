@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import FeedbackRequestForm from './FeedbackRequestForm';
-import { useRouteMatch } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import FeedbackRequestForm from "../forms/FeedbackRequestForm";
+import { useRouteMatch } from "react-router-dom";
 import * as api from "../../api/forms";
 
 export const UpdateRequest = () => {
-
-  const { params: { requestId } } = useRouteMatch();
-  const [request, setRequest] = useState('');
+  const {
+    params: { requestId },
+  } = useRouteMatch();
+  const [request, setRequest] = useState("");
 
   useEffect(() => {
     const getSavedRequest = async () => {
@@ -18,12 +19,20 @@ export const UpdateRequest = () => {
       }
     };
     getSavedRequest();
-  }, [])
+  }, []);
 
   return (
     <div>
       <h3>Edit Your Requests:</h3>
-      {request ? <FeedbackRequestForm buttonText='Save' values={request} requestId={requestId} /> : <p>Loading ...</p>}
+      {request ? (
+        <FeedbackRequestForm
+          buttonText="Save"
+          values={request}
+          requestId={requestId}
+        />
+      ) : (
+        <p>Loading ...</p>
+      )}
     </div>
-  )
-}
+  );
+};

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import * as api from "../../api/session";
-import { logout } from "../../features/user/userSlice";
+import { logout } from "../../slices/userSlice";
 
 const LogoutButton = () => {
   const dispatch = useDispatch();

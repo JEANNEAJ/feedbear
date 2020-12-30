@@ -1,6 +1,6 @@
 import { React } from "react";
-import FeedbackList from "../../features/feedbackList/FeedbackList";
-import FeedbackRequestForm from "../../features/feedbackRequest/FeedbackRequestForm";
+import FeedbackList from "../feedbackList/FeedbackList";
+import FeedbackRequestForm from "../forms/FeedbackRequestForm";
 
 const Dashboard = () => {
   return (

@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { getComments, setEditing, selectEditing } from './commentSlice';
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  getComments,
+  setEditing,
+  selectEditing,
+} from "../../slices/commentSlice";
 
-import TimeDifference from '../../components/timeDifference/TimeDifference';
-import CommentEditForm from './CommentEditForm';
+import TimeDifference from "../util/TimeDifference";
+import CommentEditForm from "../forms/CommentEditForm";
 
-import * as userApi from '../../api/user.js';
-import * as commentApi from '../../api/comments.js';
-import { selectUser } from '../user/userSlice';
+import * as userApi from "../../api/user.js";
+import * as commentApi from "../../api/comments.js";
+import { selectUser } from "../../slices/userSlice";
 
-export default function CommentListItem (props) {
+export default function CommentListItem(props) {
   const { _id, comment, createdAt, userId } = props.comment;
   const { feedbackID } = props;
 
@@ -33,7 +37,7 @@ export default function CommentListItem (props) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   useEffect(() => {
     fetchUserData();
@@ -47,16 +51,16 @@ export default function CommentListItem (props) {
 
   const handleDelete = () => {
     Swal.fire({
-      title: 'Delete this comment?',
+      title: "Delete this comment?",
       html: `
         <p>Are you sure you want to delete this comment? This operation is irreversible.</p>
         <p><strong>Comment:</strong></p>
         <p style={{ marginBottom: "1.2em" }}>${comment}</p>
       `,
-      confirmButtonText: 'Delete',
-      confirmButtonColor: '#dd6b55',
+      confirmButtonText: "Delete",
+      confirmButtonColor: "#dd6b55",
       showCancelButton: true,
-    }).then(async res => {
+    }).then(async (res) => {
       if (res.isConfirmed) {
         try {
           await commentApi.deleteComment(feedbackID, _id);
@@ -65,25 +69,34 @@ export default function CommentListItem (props) {
           console.error(err);
         }
       }
-    })
+    });
   };
 
   const handleEdit = () => {
-    dispatch(setEditing(_id))
-  }
+    dispatch(setEditing(_id));
+  };
 
   return (
-    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100"> 
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
       {!user ? (
-          "Loading..."
-        ) : (
-          <>
+        "Loading..."
+      ) : (
+        <>
           {/* <img className='w-12 h-12 rounded-full flex-none' src={user.avatarUrl} alt={user.name} /> */}
-          <div className='pl-3'>
-            <h4 className='font-bold'><Link to={`/user/${userId}`}>{user.name}{isUserComment() && ' (You)'}</Link></h4>
-            <p className="text-sm">submitted <TimeDifference dateString={createdAt} /> ago</p>
+          <div className="pl-3">
+            <h4 className="font-bold">
+              <Link to={`/user/${userId}`}>
+                {user.name}
+                {isUserComment() && " (You)"}
+              </Link>
+            </h4>
+            <p className="text-sm">
+              submitted <TimeDifference dateString={createdAt} /> ago
+            </p>
 
-            {editing !== _id ? <p>{comment}</p> : (
+            {editing !== _id ? (
+              <p>{comment}</p>
+            ) : (
               <CommentEditForm
                 comment={comment}
                 feedbackID={feedbackID}
@@ -91,16 +104,19 @@ export default function CommentListItem (props) {
               />
             )}
 
-            {isUserComment() && 
+            {isUserComment() && (
               <>
-                <button className="btn-options" onClick={handleDelete}>delete</button>
-                <button className="btn-options" onClick={handleEdit}>edit</button>
+                <button className="btn-options" onClick={handleDelete}>
+                  delete
+                </button>
+                <button className="btn-options" onClick={handleEdit}>
+                  edit
+                </button>
               </>
-            }
+            )}
           </div>
-          </>
-        )
-      }
+        </>
+      )}
     </li>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../buttons/LogoutButton";
 
 export default function Nav() {
   const user = useSelector((state) => state.user);

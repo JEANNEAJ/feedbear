@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import * as commentApi from "../../api/comments";
+import * as commentApi from "../api/comments";
 
 export const commentSlice = createSlice({
   name: "comments",
   initialState: {
     comments: [],
-    editing: '', // the ID of the comment being edited
+    editing: "", // the ID of the comment being edited
   },
   reducers: {
     setComments(state, action) {
@@ -16,9 +16,9 @@ export const commentSlice = createSlice({
       if (state.editing !== action.payload) {
         state.editing = action.payload;
       } else {
-        state.editing = '';
+        state.editing = "";
       }
-    }
+    },
   },
 });
 
@@ -28,7 +28,7 @@ export const selectEditing = (state) => state.comments.editing;
 const { actions, reducer } = commentSlice;
 export const { setComments, setEditing } = actions;
 
-export const getComments = feedbackID => async dispatch => {
+export const getComments = (feedbackID) => async (dispatch) => {
   try {
     const { data } = await commentApi.fetchComments(feedbackID);
     dispatch(setComments(data.length ? data[0].comments : []));

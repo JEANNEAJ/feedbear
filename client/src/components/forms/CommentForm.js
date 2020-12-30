@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import { useDispatch } from "react-redux";
-import { getComments } from './commentSlice';
+import { getComments } from "../../slices/commentSlice";
 
 import { useForm } from "react-hook-form";
 
-import * as api from '../../api/comments';
+import * as api from "../../api/comments";
 
 export default function CommentForm(props) {
   const { feedbackID } = props;
@@ -12,10 +12,10 @@ export default function CommentForm(props) {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    const comment = data['input-feedback'];
+    const comment = data["input-feedback"];
 
     try {
-      const {data} = await api.createComment(feedbackID, {comment});
+      const { data } = await api.createComment(feedbackID, { comment });
       console.log(data);
 
       reset(); // clear text fields & errors
@@ -24,7 +24,7 @@ export default function CommentForm(props) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <form

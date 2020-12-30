@@ -1,10 +1,10 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import Dashboard from "./components/Dashboard/Dashboard";
-import FeedbackDetails from "./features/feedbackDetails/FeedbackDetails";
-import UserPage from "./features/user/UserPage";
-import { UpdateRequest } from "./features/feedbackRequest/UpdateRequest";
+import Dashboard from "./components/pages/Dashboard";
+import FeedbackDetails from "./components/pages/FeedbackDetails";
+import UserPage from "./components/pages/UserPage";
+import { UpdateRequest } from "./components/pages/UpdateRequest";
 
 const AuthenticatedApp = () => {
   return (

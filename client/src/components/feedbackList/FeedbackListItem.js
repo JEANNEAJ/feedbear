@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import TimeDifference from "../../components/timeDifference/TimeDifference";
+import TimeDifference from "../util/TimeDifference";
 
 export default function FeedbackListItem(props) {
   const {
@@ -26,12 +26,13 @@ export default function FeedbackListItem(props) {
 
         <div className="flex flex-col items-end">
           {/* Comment count */}
-          <Link to={`/feedback/${_id}`} title='Number of comments'>💬{commentsCount || 0}</Link>
+          <Link to={`/feedback/${_id}`} title="Number of comments">
+            💬{commentsCount || 0}
+          </Link>
 
           {/* edit and delete button from UserPage */}
           {props.children}
         </div>
-
       </div>
 
       {/* feedback request info + links */}

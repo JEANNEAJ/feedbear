@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
-import { getComments, setComments, selectComments } from './commentSlice';
+import { Link } from "react-router-dom";
+import {
+  getComments,
+  setComments,
+  selectComments,
+} from "../../slices/commentSlice";
 
-import CommentList from'./CommentList';
+import CommentList from "../comments/CommentList";
 import { useParams } from "react-router-dom";
-import CommentForm from "./CommentForm";
-import TimeDifference from "../../components/timeDifference/TimeDifference";
-import FeedbackListItemOptions from '../feedbackList/FeedbackListItemOptions';
+import CommentForm from "../forms/CommentForm";
+import TimeDifference from "../util/TimeDifference";
+import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
 
 import * as formApi from "../../api/forms";
 // import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
-  const loggedInUserId = useSelector(state => state.user.data._id);
+  const loggedInUserId = useSelector((state) => state.user.data._id);
   const [request, setRequest] = useState([]);
   const comments = useSelector(selectComments);
   const { feedbackID } = useParams();
@@ -55,12 +59,17 @@ export default function FeedbackDetails(props) {
           <div className="bg-white rounded-lg shadow-md p-5">
             <div className="text-lg flex justify-between">
               <h2 className="text-xl font-bold">{projectTitle}</h2>
-              {
-                loggedInUserId === userId &&
-                <FeedbackListItemOptions userId={userId} feedbackId={feedbackID} projectTitle={projectTitle} />
-              }
+              {loggedInUserId === userId && (
+                <FeedbackListItemOptions
+                  userId={userId}
+                  feedbackId={feedbackID}
+                  projectTitle={projectTitle}
+                />
+              )}
             </div>
-            <p>by <Link to={`/user/${userId}`}>{name}</Link></p>
+            <p>
+              by <Link to={`/user/${userId}`}>{name}</Link>
+            </p>
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago
             </p>

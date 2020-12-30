@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { submit, update } from "./feedbackRequestSlice";
-import { selectUser } from "../user/userSlice";
-import ImageUpload from "../../components/ImageUpload";
+import { submit, update } from "../../slices/feedbackRequestSlice";
+import { selectUser } from "../../slices/userSlice";
+import ImageUpload from "./ImageUpload";
 import { validateUrl, formatToUrl } from "../../helpers/validation";
 
 export default function FeedbackRequestForm({ buttonText, values, requestId }) {
@@ -58,8 +58,8 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
       ...getValues(), // values from the text fields
     };
 
-    formInput.projectLink = formatToUrl(formInput.projectLink)
-    formInput.liveLink = formatToUrl(formInput.liveLink)
+    formInput.projectLink = formatToUrl(formInput.projectLink);
+    formInput.liveLink = formatToUrl(formInput.liveLink);
 
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
@@ -101,9 +101,11 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
         type="text"
         name="projectLink"
         placeholder="Enter Project Link (eg. github)"
-        ref={register({ required: true, validate: { validUrl: validateUrl}})}
+        ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
-      {errors["projectLink"] && <span>This field is required and must be a valid URL</span>}
+      {errors["projectLink"] && (
+        <span>This field is required and must be a valid URL</span>
+      )}
 
       <label className="sr-only" htmlFor="liveLink">
         Project Live Link
@@ -113,9 +115,11 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
         type="text"
         name="liveLink"
         placeholder="Enter live link"
-        ref={register({ required: true, validate: { validUrl: validateUrl} })}
+        ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
-      {errors["liveLink"] && <span>This field is required and must be a valid URL</span>}
+      {errors["liveLink"] && (
+        <span>This field is required and must be a valid URL</span>
+      )}
 
       <label className="sr-only" htmlFor="message">
         Message

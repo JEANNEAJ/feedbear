@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setEditing, getComments } from './commentSlice';
+import { setEditing, getComments } from "../../slices/commentSlice";
 
-import * as commentApi from '../../api/comments';
+import * as commentApi from "../../api/comments";
 
 export default function CommentEditForm(props) {
   const { comment, feedbackID, commentId } = props;
@@ -14,7 +14,7 @@ export default function CommentEditForm(props) {
   const handleSave = async (data) => {
     try {
       // if comment has been edited then update
-      if (data.editComment !== comment) { 
+      if (data.editComment !== comment) {
         await commentApi.updateComment(feedbackID, commentId, data.editComment);
         dispatch(getComments(feedbackID));
       }
@@ -27,7 +27,7 @@ export default function CommentEditForm(props) {
 
   const handleCancel = () => {
     dispatch(setEditing(null));
-  }
+  };
 
   return (
     <form className="form" onSubmit={handleSubmit(handleSave)}>
@@ -39,8 +39,12 @@ export default function CommentEditForm(props) {
         defaultValue={comment}
         ref={register({ required: true })}
       ></textarea>
-      <button className="btn-options" type="submit">save</button>
-      <button className="btn-options" onClick={handleCancel} type="button">cancel</button>
+      <button className="btn-options" type="submit">
+        save
+      </button>
+      <button className="btn-options" onClick={handleCancel} type="button">
+        cancel
+      </button>
     </form>
-  )
+  );
 }

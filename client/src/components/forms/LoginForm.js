@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { clearErrors, login, selectError } from "./userSlice";
+import { clearErrors, login, selectError } from "../../slices/userSlice";
 import { useForm } from "react-hook-form";
 
 const LoginForm = () => {
