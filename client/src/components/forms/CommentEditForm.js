@@ -6,7 +6,7 @@ import { setEditing, getComments } from "../../slices/commentSlice";
 import * as commentApi from "../../api/comments";
 
 export default function CommentEditForm(props) {
-  const { comment, feedbackID, commentId } = props;
+  const { comment, projectId, commentId } = props;
   const { register, handleSubmit, watch, errors } = useForm();
 
   const dispatch = useDispatch();
@@ -15,8 +15,8 @@ export default function CommentEditForm(props) {
     try {
       // if comment has been edited then update
       if (data.editComment !== comment) {
-        await commentApi.updateComment(feedbackID, commentId, data.editComment);
-        dispatch(getComments(feedbackID));
+        await commentApi.updateComment(projectId, commentId, data.editComment);
+        dispatch(getComments(projectId));
       }
 
       dispatch(setEditing(null));

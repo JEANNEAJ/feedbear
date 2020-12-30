@@ -17,7 +17,7 @@ export default function Nav() {
       {_id && (
         <ul>
           <li>
-            <Link to={`/user/${_id}`}>My Feedback Requests</Link>
+            <Link to={`/user/${_id}`}>My Projects</Link>
           </li>
           <li>
             <Link to={"/"}>Back to Main Page</Link>

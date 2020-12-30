@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import * as api from "../api/projects";
 
-export const feedbackListSlice = createSlice({
-  name: "feedbackList",
+export const ProjectListSlice = createSlice({
+  name: "ProjectList",
   initialState: {
-    requests: [],
+    projects: [],
     sort: {
       sortBy: "createdAt", // field to sort by
       sortDirection: -1, // 1 for ascending, -1 for descending
@@ -13,8 +13,8 @@ export const feedbackListSlice = createSlice({
     hasMore: true,
   },
   reducers: {
-    setRequests(state, action) {
-      state.requests = action.payload;
+    setProjects(state, action) {
+      state.projects = action.payload;
     },
     setSort(state, action) {
       state.sort = action.payload;
@@ -25,22 +25,22 @@ export const feedbackListSlice = createSlice({
   },
 });
 
-export const selectRequests = (state) => state.feedbackList.requests;
-export const selectSort = (state) => state.feedbackList.sort;
-export const selectHasMore = (state) => state.feedbackList.hasMore;
+export const selectProjects = (state) => state.ProjectList.projects;
+export const selectSort = (state) => state.ProjectList.sort;
+export const selectHasMore = (state) => state.ProjectList.hasMore;
 
-const { actions, reducer } = feedbackListSlice;
-export const { setRequests, setSort, setHasMore } = actions;
+const { actions, reducer } = ProjectListSlice;
+export const { setProjects, setSort, setHasMore } = actions;
 
-/** fetch the next batch of feedback requests */
+/** fetch the next batch of projects */
 export const fetchNext = createAsyncThunk(
-  "feedbackList/fetchNext",
+  "ProjectList/fetchNext",
   async (_ = null, { dispatch, getState }) => {
-    const { sortBy, sortDirection } = getState().feedbackList.sort;
-    const requests = getState().feedbackList.requests;
+    const { sortBy, sortDirection } = getState().ProjectList.sort;
+    const projects = getState().ProjectList.projects;
     const numResults = 20;
-    /** The ID of the last feedback request, empty string if none */
-    const last = !requests.length ? "" : requests[requests.length - 1]._id;
+    /** The ID of the last project, empty string if none */
+    const last = !projects.length ? "" : projects[projects.length - 1]._id;
 
     try {
       const { data } = await api.fetchProjects(
@@ -49,12 +49,12 @@ export const fetchNext = createAsyncThunk(
         sortDirection,
         last
       );
-      const newRequests = removeDuplicates(requests, data, numResults);
+      const newProjects = removeDuplicates(projects, data, numResults);
 
-      if (newRequests.length === requests.length) {
+      if (newProjects.length === projects.length) {
         dispatch(setHasMore(false));
       } else {
-        dispatch(setRequests(newRequests));
+        dispatch(setProjects(newProjects));
       }
     } catch (err) {
       console.error(err);
@@ -63,14 +63,14 @@ export const fetchNext = createAsyncThunk(
 );
 
 /**
- * Remove items in data that already exist in requests
- * @param {*} requests the existing requests array
+ * Remove items in data that already exist in projects
+ * @param {*} projects the existing projects array
  * @param {*} data the new data array to check
  * @param {*} numResults the number of results per batch
  */
-const removeDuplicates = (requests, data, numResults) => {
+const removeDuplicates = (projects, data, numResults) => {
   //TODO not performant as array size scales - use numResults to only check last n elements of array for duplicates
-  const arrayToCheck = [...requests, ...data];
+  const arrayToCheck = [...projects, ...data];
   const result = arrayToCheck.filter(function ({ _id }) {
     return !this[_id] && (this[_id] = _id);
   }, {});

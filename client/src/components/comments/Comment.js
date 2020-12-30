@@ -15,9 +15,9 @@ import * as userApi from "../../api/user.js";
 import * as commentApi from "../../api/comments.js";
 import { selectUser } from "../../slices/userSlice";
 
-export default function CommentListItem(props) {
+export default function Comment(props) {
   const { _id, comment, createdAt, userId } = props.comment;
-  const { feedbackID } = props;
+  const { projectId } = props;
 
   /** The user info for who created this comment (name, etc.) */
   const [user, setUser] = useState({});
@@ -63,8 +63,8 @@ export default function CommentListItem(props) {
     }).then(async (res) => {
       if (res.isConfirmed) {
         try {
-          await commentApi.deleteComment(feedbackID, _id);
-          dispatch(getComments(feedbackID));
+          await commentApi.deleteComment(projectId, _id);
+          dispatch(getComments(projectId));
         } catch (err) {
           console.error(err);
         }
@@ -99,7 +99,7 @@ export default function CommentListItem(props) {
             ) : (
               <CommentEditForm
                 comment={comment}
-                feedbackID={feedbackID}
+                projectId={projectId}
                 commentId={_id}
               />
             )}

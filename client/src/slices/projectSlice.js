@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import * as api from "../api/projects";
 
-export const formSlice = createSlice({
+export const projectSlice = createSlice({
   name: "form",
   initialState: {},
   reducers: {},
 });
 
-export const { updateName, updateEmail, updateMessage } = formSlice.actions;
+export const { updateName, updateEmail, updateMessage } = projectSlice.actions;
 
 export const submit = (formData) => async () => {
   try {
@@ -32,4 +32,4 @@ export const update = (id, formData) => async () => {
   }
 };
 
-export default formSlice.reducer;
+export default projectSlice.reducer;

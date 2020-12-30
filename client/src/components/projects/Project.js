@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import TimeDifference from "../util/TimeDifference";
 
-export default function FeedbackListItem(props) {
+export default function Project(props) {
   const {
     name,
     userId,
@@ -14,19 +14,19 @@ export default function FeedbackListItem(props) {
     createdAt,
     _id,
     commentsCount,
-  } = props.request;
+  } = props.project;
 
   return (
     <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
-      {/* feedback request title */}
+      {/* project title */}
       <div className="text-lg flex justify-between">
         <h3>
-          <Link to={`/feedback/${_id}`}>{projectTitle}</Link>
+          <Link to={`/project/${_id}`}>{projectTitle}</Link>
         </h3>
 
         <div className="flex flex-col items-end">
           {/* Comment count */}
-          <Link to={`/feedback/${_id}`} title="Number of comments">
+          <Link to={`/project/${_id}`} title="Number of comments">
             💬{commentsCount || 0}
           </Link>
 
@@ -35,7 +35,7 @@ export default function FeedbackListItem(props) {
         </div>
       </div>
 
-      {/* feedback request info + links */}
+      {/* project info + links */}
       <p>
         submitted by{" "}
         <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
@@ -46,7 +46,7 @@ export default function FeedbackListItem(props) {
         <a href={liveLink}>Live Link</a>
       </div>
 
-      {/* feedback request message */}
+      {/* project message */}
       <p className="mt-5">{message}</p>
     </li>
   );

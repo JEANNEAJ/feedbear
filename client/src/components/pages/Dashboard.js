@@ -1,15 +1,12 @@
 import { React } from "react";
-import FeedbackList from "../feedbackList/FeedbackList";
-import FeedbackRequestForm from "../forms/FeedbackRequestForm";
+import ProjectList from "../projects/ProjectList";
+import ProjectForm from "../forms/ProjectForm";
 
 const Dashboard = () => {
   return (
     <div>
-      <FeedbackRequestForm buttonText="Submit" />
-
-      {/* //       <FeedbackRequestForm buttonText='Submit' /> */}
-
-      <FeedbackList />
+      <ProjectForm buttonText="Submit" />
+      <ProjectList />
     </div>
   );
 };

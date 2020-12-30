@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as api from "../../api/comments";
 
 export default function CommentForm(props) {
-  const { feedbackID } = props;
+  const { projectId } = props;
   const { register, handleSubmit, watch, errors, reset } = useForm();
   const dispatch = useDispatch();
 
@@ -15,12 +15,12 @@ export default function CommentForm(props) {
     const comment = data["input-feedback"];
 
     try {
-      const { data } = await api.createComment(feedbackID, { comment });
+      const { data } = await api.createComment(projectId, { comment });
       console.log(data);
 
       reset(); // clear text fields & errors
 
-      dispatch(getComments(feedbackID)); // update list
+      dispatch(getComments(projectId)); // update list
     } catch (err) {
       console.error(err);
     }

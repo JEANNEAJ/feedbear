@@ -5,8 +5,8 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import * as formApi from "../../api/projects";
 import * as userApi from "../../api/user";
 
-import FeedbackListItem from "../feedbackList/FeedbackListItem";
-import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
+import Project from "../projects/Project";
+import ProjectOptions from "../projects/ProjectOptions";
 import { selectUser } from "../../slices/userSlice";
 
 function UserPage() {
@@ -14,7 +14,7 @@ function UserPage() {
   const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [name, setName] = useState("");
-  const [requests, setRequests] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   const location = useLocation();
 
@@ -36,17 +36,17 @@ function UserPage() {
     }
   }, [location.name, loggedInUser, profileId]);
 
-  // perform initial fetch of FeedbackRequests
+  // perform initial fetch of projects
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchProjects = async () => {
       try {
         const { data } = await formApi.fetchProjectByID("userId", profileId);
-        setRequests(data);
+        setProjects(data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchRequests();
+    fetchProjects();
     setIsLoading(false);
   }, [profileId]);
 
@@ -54,7 +54,7 @@ function UserPage() {
   const handleRefresh = async () => {
     setIsLoading(true);
     const { data } = await formApi.fetchProjectByID("userId", profileId);
-    setRequests(data);
+    setProjects(data);
     setIsLoading(false);
   };
 
@@ -66,26 +66,25 @@ function UserPage() {
         <>
           <h2 className="text-xl font-bold">{name}</h2>
 
-          <h3 className="text-xl mt-3">Feedback Requests:</h3>
+          <h3 className="text-xl mt-3">Projects:</h3>
 
-          {!requests.length ? (
+          {!projects.length ? (
             <p>
-              Nothing here, try making a{" "}
-              <Link to={"/"}>new Feedback Request</Link>
+              Nothing here, try making a <Link to={"/"}>new Project</Link>
             </p>
           ) : (
             <ul>
-              {requests.map((request) => (
-                <FeedbackListItem key={request._id} request={request}>
+              {projects.map((project) => (
+                <Project key={project._id} project={project}>
                   {loggedInUser._id === profileId && (
-                    <FeedbackListItemOptions
+                    <ProjectOptions
                       userId={loggedInUser._id}
-                      feedbackId={request._id}
-                      projectTitle={request.projectTitle}
+                      projectId={project._id}
+                      projectTitle={project.projectTitle}
                       deleteAction={handleRefresh}
                     />
                   )}
-                </FeedbackListItem>
+                </Project>
               ))}
             </ul>
           )}

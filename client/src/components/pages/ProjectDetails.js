@@ -11,16 +11,16 @@ import CommentList from "../comments/CommentList";
 import { useParams } from "react-router-dom";
 import CommentForm from "../forms/CommentForm";
 import TimeDifference from "../util/TimeDifference";
-import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
+import ProjectOptions from "../projects/ProjectOptions";
 
 import * as formApi from "../../api/projects";
 // import * as commentApi from "../../api/comments";
 
-export default function FeedbackDetails(props) {
+export default function ProjectDetails(props) {
   const loggedInUserId = useSelector((state) => state.user.data._id);
-  const [request, setRequest] = useState([]);
+  const [project, setProject] = useState([]);
   const comments = useSelector(selectComments);
-  const { feedbackID } = useParams();
+  const { projectId } = useParams();
 
   const dispatch = useDispatch();
 
@@ -33,26 +33,26 @@ export default function FeedbackDetails(props) {
     liveLink,
     createdAt,
     file,
-  } = request;
+  } = project;
 
-  const populateRequest = async () => {
+  const populateProject = async () => {
     try {
-      const { data } = await formApi.fetchProjectByID("_id", feedbackID);
+      const { data } = await formApi.fetchProjectByID("_id", projectId);
 
-      setRequest(data[0]);
+      setProject(data[0]);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    populateRequest();
-    dispatch(getComments(feedbackID));
-  }, [feedbackID]);
+    populateProject();
+    dispatch(getComments(projectId));
+  }, [projectId]);
 
   return (
     <div className="container mx-auto">
-      {!request ? (
+      {!project ? (
         "Loading..."
       ) : (
         <>
@@ -60,9 +60,9 @@ export default function FeedbackDetails(props) {
             <div className="text-lg flex justify-between">
               <h2 className="text-xl font-bold">{projectTitle}</h2>
               {loggedInUserId === userId && (
-                <FeedbackListItemOptions
+                <ProjectOptions
                   userId={userId}
-                  feedbackId={feedbackID}
+                  projectId={projectId}
                   projectTitle={projectTitle}
                 />
               )}
@@ -83,12 +83,12 @@ export default function FeedbackDetails(props) {
               alt="Placeholder"
             />
             <p className="mb-10">{message}</p>
-            <p className="text-sm">ID: {feedbackID}</p>
+            <p className="text-sm">ID: {projectId}</p>
           </div>
           <div className="mt-10">
             <h3 className="mb-5 text-xl font-bold">Feedback</h3>
-            <CommentList comments={comments} feedbackID={feedbackID} />
-            <CommentForm feedbackID={feedbackID} />
+            <CommentList comments={comments} projectId={projectId} />
+            <CommentForm projectId={projectId} />
           </div>
         </>
       )}

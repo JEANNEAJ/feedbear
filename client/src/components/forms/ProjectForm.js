@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { submit, update } from "../../slices/feedbackRequestSlice";
+import { submit, update } from "../../slices/projectSlice";
 import { selectUser } from "../../slices/userSlice";
 import ImageUpload from "./ImageUpload";
 import { validateUrl, formatToUrl } from "../../helpers/validation";
 
-export default function FeedbackRequestForm({ buttonText, values, requestId }) {
+export default function ProjectForm({ buttonText, values, projectId }) {
   const {
     register,
     handleSubmit,
@@ -67,9 +67,9 @@ export default function FeedbackRequestForm({ buttonText, values, requestId }) {
       if (formInput[key]) formData.append(key, formInput[key]);
     });
 
-    // handle form submission for FBR creation/updates
+    // handle form submission for project creation/updates
     if (values) {
-      await dispatch(update(requestId, formData));
+      await dispatch(update(projectId, formData));
       history.push(`/user/${userId}`);
     } else {
       await dispatch(submit(formData));

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import FeedbackRequestForm from "../forms/FeedbackRequestForm";
+import ProjectForm from "../forms/ProjectForm";
 import { useRouteMatch } from "react-router-dom";
 import * as api from "../../api/projects";
 
-export const UpdateRequest = () => {
+export const UpdateProject = () => {
   const {
-    params: { requestId },
+    params: { projectId },
   } = useRouteMatch();
-  const [request, setRequest] = useState("");
+  const [project, setProject] = useState("");
 
   useEffect(() => {
     const getSavedRequest = async () => {
       try {
-        const { data } = await api.fetchProjectByID("_id", requestId);
-        setRequest(data[0]);
+        const { data } = await api.fetchProjectByID("_id", projectId);
+        setProject(data[0]);
       } catch (error) {
         console.error(error);
       }
@@ -24,15 +24,13 @@ export const UpdateRequest = () => {
   return (
     <div>
       <h3>Edit Your Requests:</h3>
-      {request ? (
-        <FeedbackRequestForm
-          buttonText="Save"
-          values={request}
-          requestId={requestId}
-        />
+      {project ? (
+        <ProjectForm buttonText="Save" values={project} projectId={projectId} />
       ) : (
         <p>Loading ...</p>
       )}
     </div>
   );
 };
+
+export default UpdateProject;

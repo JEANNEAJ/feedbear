@@ -28,9 +28,9 @@ export const selectEditing = (state) => state.comments.editing;
 const { actions, reducer } = commentSlice;
 export const { setComments, setEditing } = actions;
 
-export const getComments = (feedbackID) => async (dispatch) => {
+export const getComments = (projectId) => async (dispatch) => {
   try {
-    const { data } = await commentApi.fetchComments(feedbackID);
+    const { data } = await commentApi.fetchComments(projectId);
     dispatch(setComments(data.length ? data[0].comments : []));
   } catch (err) {
     console.error(err);

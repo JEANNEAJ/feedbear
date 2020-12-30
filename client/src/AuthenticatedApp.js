@@ -2,17 +2,17 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import Dashboard from "./components/pages/Dashboard";
-import FeedbackDetails from "./components/pages/FeedbackDetails";
+import ProjectDetails from "./components/pages/ProjectDetails";
 import UserPage from "./components/pages/UserPage";
-import { UpdateRequest } from "./components/pages/UpdateRequest";
+import UpdateProject from "./components/pages/UpdateProject";
 
 const AuthenticatedApp = () => {
   return (
     <Switch>
       <Route exact path="/" component={Dashboard} />
-      <Route exact path="/feedback/:feedbackID" component={FeedbackDetails} />
+      <Route exact path="/project/:projectId" component={ProjectDetails} />
       <Route exact path="/user/:userId" component={UserPage} />
-      <Route exact path="/edit/:requestId" component={UpdateRequest} />
+      <Route exact path="/edit/:projectId" component={UpdateProject} />
       <Redirect to="/" />
     </Switch>
   );

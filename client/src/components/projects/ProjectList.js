@@ -2,21 +2,21 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import FeedbackListItem from "./FeedbackListItem";
+import Project from "./Project";
 
 import {
-  setRequests,
-  selectRequests,
+  setProjects,
+  selectProjects,
   setSort,
   fetchNext,
   setHasMore,
   selectHasMore,
-} from "../../slices/feedbackListSlice";
+} from "../../slices/projectListSlice";
 
-export default function FeedbackList() {
-  /** False when there are no more requests - used to display message to user */
+export default function ProjectList() {
+  /** False when there are no more projects - used to display message to user */
   const hasMore = useSelector(selectHasMore);
-  const requests = useSelector(selectRequests);
+  const projects = useSelector(selectProjects);
 
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ export default function FeedbackList() {
   };
 
   const resetRequests = () => {
-    dispatch(setRequests([]));
+    dispatch(setProjects([]));
     dispatch(setHasMore(true));
     dispatch(fetchNext());
   };
@@ -48,7 +48,7 @@ export default function FeedbackList() {
   return (
     <div className="container mx-auto">
       <div className="mt-10 flex justify-between">
-        <h2 className="text-xl font-bold">Feedback Requests</h2>
+        <h2 className="text-xl font-bold">Projects</h2>
         {/* <button onClick={handleRefresh}>refresh 🔃</button> */}
       </div>
 
@@ -64,7 +64,7 @@ export default function FeedbackList() {
 
       <ul>
         <InfiniteScroll
-          dataLength={requests.length} //This is important field to render the next data
+          dataLength={projects.length} //This is important field to render the next data
           next={() => dispatch(fetchNext())}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
@@ -85,8 +85,8 @@ export default function FeedbackList() {
           //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
           // }
         >
-          {requests.map((request) => (
-            <FeedbackListItem key={request._id} request={request} />
+          {projects.map((project) => (
+            <Project key={project._id} project={project} />
           ))}
         </InfiniteScroll>
       </ul>
