@@ -1,10 +1,12 @@
 import express from "express";
 
-import { getForms, getFormByID, createForm } from "../controllers/forms.js";
 import {
+  getForms,
+  getFormByID,
+  createForm,
   updateFeedbackDetails,
   deleteFeedbackRequest,
-} from "../controllers/editingFeedback.js";
+} from "../controllers/forms.js";
 import multer from "../helpers/multerMiddleware.js";
 import requireLogin from "../helpers/sessionChecker.js";
 
