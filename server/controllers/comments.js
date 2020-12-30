@@ -1,15 +1,15 @@
 import Mongoose from "mongoose";
 import Comment from "../models/comments.js";
-import FormMessage from '../models/formMessage.js';
+import Project from "../models/projects.js";
 
 // getting all comments for feedback with id of feedbackId (where feedbackId is already part of the route)
 export const getComments = async (req, res, next) => {
   const { feedbackId } = req.params;
 
   try {
-    const commentList = await FormMessage.find(
+    const commentList = await Project.find(
       { _id: feedbackId },
-      { comments: 1 },
+      { comments: 1 }
     );
     res.status(200).json(commentList);
   } catch (err) {
@@ -21,17 +21,16 @@ export const getComments = async (req, res, next) => {
   }
 };
 
-
 export const createComment = async (req, res, next) => {
   const userId = req.session.user._id;
   const body = req.body;
   const { feedbackId } = req.params;
-   
+
   const newComment = new Comment({ userId, ...body });
 
   try {
     // push comment to array
-    await FormMessage.updateOne(
+    await Project.updateOne(
       { _id: feedbackId }, // filter
       { $push: { comments: newComment } }, // update
       { upsert: true } // create document if not found
@@ -55,7 +54,7 @@ export const editComment = async (req, res, next) => {
     const newComment = Object.keys(req.body)[0];
 
     try {
-      const updatedComment = await FormMessage.updateOne(
+      const updatedComment = await Project.updateOne(
         { _id: feedbackId, "comments._id": commentId }, // filter
         { $set: { "comments.$.comment": newComment } } // update
       );
@@ -65,7 +64,7 @@ export const editComment = async (req, res, next) => {
       return next(err);
     }
   } else {
-    res.status(403).json({ message: 'Invalid user' });
+    res.status(403).json({ message: "Invalid user" });
   }
 };
 
@@ -76,7 +75,7 @@ export const deleteComment = async (req, res, next) => {
 
   if (validUser) {
     try {
-      const deletedComment = await FormMessage.updateOne(
+      const deletedComment = await Project.updateOne(
         { _id: feedbackId }, // filter
         { $pull: { comments: { _id: commentId } } } // update
       );
@@ -87,34 +86,33 @@ export const deleteComment = async (req, res, next) => {
       return next(err);
     }
   } else {
-    res.status(403).json({ message: 'Invalid user' });
+    res.status(403).json({ message: "Invalid user" });
   }
 };
 
-/** 
+/**
  * Verify that the provided comment belongs to correct user
  * @returns true if the userId matches the id on the comment, false if it doesn't match or if there's an error
  */
 const verifyUser = async (userId, feedbackId, commentId) => {
   try {
-    const comment = await FormMessage.findOne(
+    const comment = await Project.findOne(
       { _id: feedbackId }, // query
-      { comments: { "$elemMatch": { _id: commentId } } } // projection
+      { comments: { $elemMatch: { _id: commentId } } } // projection
     );
     const commentUserId = comment.comments[0].userId;
 
     //TODO userId is a string and commentUserId is an object. Stricter type checking
     if (userId == commentUserId) return true;
     else return false;
-
   } catch (err) {
     console.error(err);
     let error = new Error();
     error.message = "Failed to verify user.";
     error.status = 403;
-    throw error; 
+    throw error;
   }
-}
+};
 
 /**
  * Update the number of comments for the provided feedbackId
@@ -124,17 +122,17 @@ const updateNumComments = async (feedbackId) => {
   const idToSearch = Mongoose.Types.ObjectId(feedbackId);
 
   // get number of comments
-  await FormMessage.aggregate([
+  await Project.aggregate([
     { $match: { _id: idToSearch } },
-    { $project: { commentsCount: { $size: '$comments' } } }
+    { $project: { commentsCount: { $size: "$comments" } } },
   ]).exec(async (err, results) => {
     const numComments = results[0].commentsCount;
     try {
       // set number of comments to commentsCount
-      await FormMessage.updateOne(
+      await Project.updateOne(
         { _id: idToSearch },
         { $set: { commentsCount: numComments } }
-      )
+      );
     } catch (err) {
       console.log(err);
       const error = new Error();
@@ -147,5 +145,5 @@ const updateNumComments = async (feedbackId) => {
       }
       throw error;
     }
-  })
+  });
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FeedbackRequestForm from "../forms/FeedbackRequestForm";
 import { useRouteMatch } from "react-router-dom";
-import * as api from "../../api/forms";
+import * as api from "../../api/projects";
 
 export const UpdateRequest = () => {
   const {
@@ -12,7 +12,7 @@ export const UpdateRequest = () => {
   useEffect(() => {
     const getSavedRequest = async () => {
       try {
-        const { data } = await api.fetchFormByID("_id", requestId);
+        const { data } = await api.fetchProjectByID("_id", requestId);
         setRequest(data[0]);
       } catch (error) {
         console.error(error);

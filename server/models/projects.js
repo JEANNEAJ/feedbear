@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-import { commentSchema } from './comments.js';
+import { commentSchema } from "./comments.js";
 
-const formSchema = mongoose.Schema(
+const projectSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     name: String,
     message: String,
@@ -29,11 +29,11 @@ const formSchema = mongoose.Schema(
     commentsCount: {
       type: Number,
       default: 0,
-    }
+    },
   },
   { timestamps: true }
 );
 
-const FormMessage = mongoose.model("FormMessage", formSchema);
+const Project = mongoose.model("Project", projectSchema);
 
-export default FormMessage;
+export default Project;

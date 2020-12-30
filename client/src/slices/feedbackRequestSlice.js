@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import * as api from "../api/forms";
+import * as api from "../api/projects";
 
 export const formSlice = createSlice({
   name: "form",
@@ -12,7 +12,7 @@ export const { updateName, updateEmail, updateMessage } = formSlice.actions;
 
 export const submit = (formData) => async () => {
   try {
-    const { data } = await api.createForm(formData);
+    const { data } = await api.createProject(formData);
     console.log("submit success");
     console.log(data);
   } catch (err) {
@@ -23,7 +23,7 @@ export const submit = (formData) => async () => {
 
 export const update = (id, formData) => async () => {
   try {
-    const { data } = await api.updateFeedbackDetails(id, formData);
+    const { data } = await api.updateProject(id, formData);
     console.log("update success");
     console.log(data);
   } catch (err) {

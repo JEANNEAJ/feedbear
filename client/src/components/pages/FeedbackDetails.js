@@ -13,7 +13,7 @@ import CommentForm from "../forms/CommentForm";
 import TimeDifference from "../util/TimeDifference";
 import FeedbackListItemOptions from "../feedbackList/FeedbackListItemOptions";
 
-import * as formApi from "../../api/forms";
+import * as formApi from "../../api/projects";
 // import * as commentApi from "../../api/comments";
 
 export default function FeedbackDetails(props) {
@@ -37,7 +37,7 @@ export default function FeedbackDetails(props) {
 
   const populateRequest = async () => {
     try {
-      const { data } = await formApi.fetchFormByID("_id", feedbackID);
+      const { data } = await formApi.fetchProjectByID("_id", feedbackID);
 
       setRequest(data[0]);
     } catch (error) {
