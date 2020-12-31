@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer, { initialState as userInitialState } from "../features/user/userSlice";
-import commentReducer from "../features/feedbackDetails/commentSlice";
-import feedbackListReducer from '../features/feedbackList/FeedbackListSlice';
+import userReducer, {
+  initialState as userInitialState,
+} from "../slices/userSlice";
+import commentReducer from "../slices/commentSlice";
+import projectListReducer from "../slices/projectListSlice";
 import * as api from "../api/session";
 
 /**
@@ -10,17 +12,16 @@ import * as api from "../api/session";
  */
 export async function setPreloadedUserState() {
   let preloadedState = {
-    user: { ...userInitialState }
+    user: { ...userInitialState },
   };
-  
+
   try {
     const response = await api.getUserSession();
-    
+
     if (response.data.data) {
       preloadedState.user.data = response.data.data;
       preloadedState.user.isLoggedIn = true;
     }
-    
   } catch (error) {
     console.log(error);
   }
@@ -32,17 +33,16 @@ export async function setPreloadedUserState() {
  * Returns the configured redux store after setting the preloaded user state object
  */
 export const initializeStore = async () => {
-
   try {
     return configureStore({
       reducer: {
         user: userReducer,
         comments: commentReducer,
-        feedbackList: feedbackListReducer,
+        projectList: projectListReducer,
       },
-      preloadedState: await setPreloadedUserState()
-    })
+      preloadedState: await setPreloadedUserState(),
+    });
   } catch (error) {
     console.log(error);
   }
-}
+};

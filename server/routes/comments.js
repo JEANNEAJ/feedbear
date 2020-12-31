@@ -9,14 +9,14 @@ import requireLogin from "../helpers/sessionChecker.js";
 
 const router = express.Router();
 
-router.get("/comments/:feedbackId", getComments);
+router.get("/comments/:projectId", getComments);
 
-router.post("/comments/:feedbackId", requireLogin, createComment);
+router.post("/comments/:projectId", requireLogin, createComment);
 
 //update
-router.patch("/comments/:feedbackId/:commentId", requireLogin, editComment);
+router.patch("/comments/:projectId/:commentId", requireLogin, editComment);
 
 //delete
-router.delete("/comments/:feedbackId/:commentId", requireLogin, deleteComment);
+router.delete("/comments/:projectId/:commentId", requireLogin, deleteComment);
 
 export default router;

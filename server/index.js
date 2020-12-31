@@ -10,7 +10,7 @@ import session from "express-session";
 import connectStore from "connect-mongo";
 
 // routes
-import formRoutes from "./routes/forms.js";
+import projectRoutes from "./routes/projects.js";
 import authRoutes from "./routes/auth.js";
 import sessionRoutes from "./routes/session.js";
 import commentRoutes from "./routes/comments.js";
@@ -42,26 +42,27 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // app.use(cors()); // disabling for now
 // -- creates a mongodb collection to store sessions
-app.use(session({
-  name: process.env.SESS_NAME,
-  secret: process.env.SESS_SECRET,
-  saveUninitialized: true,
-  resave: false,
-  rolling: true,
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    collection: 'session',
-    ttl: parseInt(process.env.SESS_LIFETIME) / 1000
-  }),
-  cookie: {
-    sameSite: true,
+app.use(
+  session({
+    name: process.env.SESS_NAME,
+    secret: process.env.SESS_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    rolling: true,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      collection: "session",
+      ttl: parseInt(process.env.SESS_LIFETIME) / 1000,
+    }),
+    cookie: {
+      sameSite: true,
       secure: process.env.NODE_ENV === "production", // when set to true the cookie will only work on HTTPS
       maxAge: parseInt(process.env.SESS_LIFETIME),
     },
   })
 );
 
-app.use("/forms", formRoutes);
+app.use("/projects", projectRoutes);
 app.use(authRoutes);
 app.use(sessionRoutes);
 app.use(commentRoutes);
