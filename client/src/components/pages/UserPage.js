@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams, useLocation } from "react-router-dom";
 
-import * as formApi from "../../api/projects";
+import * as projectApi from "../../api/projects";
 import * as userApi from "../../api/user";
 
 import Project from "../projects/Project";
@@ -40,7 +40,7 @@ function UserPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const { data } = await formApi.fetchProjectByID("userId", profileId);
+        const { data } = await projectApi.fetchProjectByID("userId", profileId);
         setProjects(data);
       } catch (error) {
         console.log(error);
@@ -53,7 +53,7 @@ function UserPage() {
   // handle manual refreshes
   const handleRefresh = async () => {
     setIsLoading(true);
-    const { data } = await formApi.fetchProjectByID("userId", profileId);
+    const { data } = await projectApi.fetchProjectByID("userId", profileId);
     setProjects(data);
     setIsLoading(false);
   };

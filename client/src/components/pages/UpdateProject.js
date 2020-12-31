@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProjectForm from "../forms/ProjectForm";
 import { useRouteMatch } from "react-router-dom";
-import * as api from "../../api/projects";
+import * as projectApi from "../../api/projects";
 
 export const UpdateProject = () => {
   const {
@@ -12,7 +12,7 @@ export const UpdateProject = () => {
   useEffect(() => {
     const getSavedRequest = async () => {
       try {
-        const { data } = await api.fetchProjectByID("_id", projectId);
+        const { data } = await projectApi.fetchProjectByID("_id", projectId);
         setProject(data[0]);
       } catch (error) {
         console.error(error);

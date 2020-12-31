@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import * as api from "../../api/session";
+import * as sessionApi from "../../api/session";
 import { logout } from "../../slices/userSlice";
 
 const LogoutButton = () => {
@@ -11,7 +11,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await api.logout();
+      const res = await sessionApi.logout();
       if (res.status === 204) {
         dispatch(logout());
         history.push("/");

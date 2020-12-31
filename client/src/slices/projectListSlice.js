@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import * as api from "../api/projects";
+import * as projectApi from "../api/projects";
 
 export const projectListSlice = createSlice({
   name: "projectList",
@@ -43,7 +43,7 @@ export const fetchNext = createAsyncThunk(
     const last = !projects.length ? "" : projects[projects.length - 1]._id;
 
     try {
-      const { data } = await api.fetchProjects(
+      const { data } = await projectApi.fetchProjects(
         numResults,
         sortBy,
         sortDirection,

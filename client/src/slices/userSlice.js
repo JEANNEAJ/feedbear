@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as api from "../api/session";
+import * as sessionApi from "../api/session";
 
 export const login = createAsyncThunk(
   "user/login",
@@ -12,7 +12,7 @@ export const login = createAsyncThunk(
     }
 
     try {
-      const response = await api.login(credentials);
+      const response = await sessionApi.login(credentials);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.message);
@@ -31,7 +31,7 @@ export const signup = createAsyncThunk(
     }
 
     try {
-      const response = await api.signup(credentials);
+      const response = await sessionApi.signup(credentials);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.message);

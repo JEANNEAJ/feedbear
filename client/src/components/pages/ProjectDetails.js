@@ -13,7 +13,7 @@ import CommentForm from "../forms/CommentForm";
 import TimeDifference from "../util/TimeDifference";
 import ProjectOptions from "../projects/ProjectOptions";
 
-import * as formApi from "../../api/projects";
+import * as projectApi from "../../api/projects";
 // import * as commentApi from "../../api/comments";
 
 export default function ProjectDetails(props) {
@@ -37,7 +37,7 @@ export default function ProjectDetails(props) {
 
   const populateProject = async () => {
     try {
-      const { data } = await formApi.fetchProjectByID("_id", projectId);
+      const { data } = await projectApi.fetchProjectByID("_id", projectId);
 
       setProject(data[0]);
     } catch (error) {

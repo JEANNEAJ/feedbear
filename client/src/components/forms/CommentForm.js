@@ -4,7 +4,7 @@ import { getComments } from "../../slices/commentSlice";
 
 import { useForm } from "react-hook-form";
 
-import * as api from "../../api/comments";
+import * as commentApi from "../../api/comments";
 
 export default function CommentForm(props) {
   const { projectId } = props;
@@ -15,7 +15,7 @@ export default function CommentForm(props) {
     const comment = data["input-feedback"];
 
     try {
-      const { data } = await api.createComment(projectId, { comment });
+      const { data } = await commentApi.createComment(projectId, { comment });
       console.log(data);
 
       reset(); // clear text fields & errors
