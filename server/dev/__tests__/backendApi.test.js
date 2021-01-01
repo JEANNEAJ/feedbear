@@ -58,7 +58,7 @@ describe('Feedback App Testing', () => {
 
       expect(status).toBe(200)
       // check that user.cookie got set
-      expect(user.cookie).toBeTruthy()
+      expect(user.cookie).toBeDefined()
       
     })
   })
@@ -71,7 +71,7 @@ describe('Feedback App Testing', () => {
       
       expect(status).toBe(201)
       // if project was created successfully, an _id will be returned
-      expect(project._id).toBeTruthy()
+      expect(project._id).toBeDefined()
     })
     
     test('Read Project', async () => {
@@ -103,7 +103,7 @@ describe('Feedback App Testing', () => {
       comment = { ...addedComment }
 
       expect(status).toBe(201)
-      expect(comment._id).toBeTruthy()
+      expect(comment._id).toBeDefined()
     })
 
     test('Get Comments', async () => {
