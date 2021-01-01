@@ -22,14 +22,16 @@ export const getUserName = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   const { userId } = req.params
   
-  if (userId !== req.session.user._id) {
-    throw {
-      status: 401,
-      message: "Permission denied: you do not own this resource."
-    }
-  }
   
   try {
+    
+    if (userId !== req.session.user._id) {
+      throw {
+        status: 401,
+        message: "Permission denied: you do not own this resource."
+      }
+    }
+
     const user = await User.findById(userId)
 
     if (user) {
