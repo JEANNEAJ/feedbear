@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, signup, selectError } from "../../slices/userSlice";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { validateEmail, validatePassword } from "../../helpers/validation";
 
 const SignupForm = () => {
   const { register, handleSubmit, watch, errors, getValues } = useForm();
@@ -26,6 +27,7 @@ const SignupForm = () => {
     <form
       className="form flex flex-col items-center"
       onSubmit={handleSubmit(handleSignup)}
+      noValidate='true'
     >
       <input
         className="input-text"
@@ -41,9 +43,13 @@ const SignupForm = () => {
         name="email"
         type="email"
         placeholder="E-mail"
-        ref={register({ required: true })}
+        ref={register({
+          required: true,
+          validate: value => validateEmail(value)
+        })}
       />
-      {errors.email && <span>This field is required</span>}
+      {errors.email?.type === 'required' && <span>This field is required</span>}
+      {errors.email?.type === 'validate' && <span>Please enter a valid email</span>}
 
       <input
         className="input-text"
@@ -65,12 +71,12 @@ const SignupForm = () => {
         placeholder="Password"
         ref={register({
           minLength: 8,
-          pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])/
+          validate: value => validatePassword(value)
         })}
 
       />
       {errors.password?.type === 'minLength' && <span>Password must be at least 8 characters</span>}
-      {errors.password?.type === 'pattern' && <span>Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number</span>}
+      {errors.password?.type === 'validate' && <span>Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number</span>}
 
       <input
         className="input-text"
