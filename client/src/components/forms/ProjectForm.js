@@ -85,7 +85,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         Project Name
       </label>
       <input
-        className="input-text"
         type="text"
         name="projectTitle"
         placeholder="Project Name"
@@ -97,7 +96,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         Project Link
       </label>
       <input
-        className="input-text"
         type="text"
         name="projectLink"
         placeholder="Enter Project Link (eg. github)"
@@ -111,7 +109,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         Project Live Link
       </label>
       <input
-        className="input-text"
         type="text"
         name="liveLink"
         placeholder="Enter live link"
@@ -125,7 +122,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         Message
       </label>
       <textarea
-        className="input-text"
         name="message"
         placeholder="Enter Message"
         ref={register({ required: true })}

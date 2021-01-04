@@ -28,7 +28,6 @@ const LoginForm = () => {
       onSubmit={handleSubmit(handleLogin)}
     >
       <input
-        className="input-text"
         name="email"
         type="email"
         placeholder="email"
@@ -37,7 +36,6 @@ const LoginForm = () => {
       {errors.email && <span>This field is required</span>}
 
       <input
-        className="input-text"
         name="password"
         type="password"
         placeholder="password"

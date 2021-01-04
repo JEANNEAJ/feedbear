@@ -30,7 +30,6 @@ const SignupForm = () => {
       noValidate='true'
     >
       <input
-        className="input-text"
         name="name"
         type="text"
         placeholder="Name"
@@ -39,7 +38,6 @@ const SignupForm = () => {
       {errors.name && <span>This field is required</span>}
 
       <input
-        className="input-text"
         name="email"
         type="email"
         placeholder="E-mail"
@@ -52,7 +50,6 @@ const SignupForm = () => {
       {errors.email?.type === 'validate' && <span>Please enter a valid email</span>}
 
       <input
-        className="input-text"
         name="matchEmail"
         type="email"
         placeholder="Re-enter E-mail"
@@ -65,7 +62,6 @@ const SignupForm = () => {
       {errors.matchEmail?.type === 'validate' && <span>Email does not match</span>}
 
       <input
-        className="input-text"
         name="password"
         type="password"
         placeholder="Password"
@@ -79,7 +75,6 @@ const SignupForm = () => {
       {errors.password?.type === 'validate' && <span>Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number</span>}
 
       <input
-        className="input-text"
         name="matchPassword"
         type="password"
         placeholder="Re-enter Password"
