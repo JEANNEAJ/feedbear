@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import passport from "passport";
+import path from "path";
+import { fileURLToPath } from "url";
 import "./strategies/strategies.js";
 
 import session from "express-session";
@@ -62,11 +64,19 @@ app.use(
   })
 );
 
+// serve react app statically
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "client/build")));
+
 app.use("/projects", projectRoutes);
 app.use(authRoutes);
 app.use(sessionRoutes);
 app.use(commentRoutes);
 app.use(userRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 // error-handling middleware
 app.use(function (err, req, res, next) {
