@@ -21,7 +21,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "sweetalert2": "^10.12.5",
-    "validator": "^13.5.2"
+    "validator": "^13.5.2",
+    "@fullhuman/postcss-purgecss": "^3.0.0",
+    "postcss-cli": "^8.3.0",
+    "tailwindcss": "^2.0.1"
   },
   "scripts": {
     "tailwind:build": "NODE_ENV=production postcss src/tailwind.css -o src/tailwind.output.css",
