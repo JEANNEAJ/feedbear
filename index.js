@@ -42,8 +42,9 @@ mongoose.set("useCreateIndex", true);
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-// app.use(cors()); // disabling for now
-// -- creates a mongodb collection to store sessions
+
+// required for setting 'secure: true' in session cookies on heroku
+app.set("trust proxy", 1);
 app.use(
   session({
     name: process.env.SESS_NAME,
