@@ -149,8 +149,7 @@ describe("Feedback App Testing", () => {
       );
       const commentsList = commentsListData[0].comments;
 
-      expect(status).toBe(201);
-      expect(data).toBe(comment._id);
+      expect(status).toBe(204);
       expect(commentsList).toHaveLength(0);
     });
   });
