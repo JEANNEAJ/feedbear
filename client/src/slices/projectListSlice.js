@@ -38,6 +38,7 @@ export const fetchNext = createAsyncThunk(
   async (_ = null, { dispatch, getState }) => {
     const { sortBy, sortDirection } = getState().projectList.sort;
     const projects = getState().projectList.projects;
+    /** How many results to fetch and display per batch */
     const numResults = 20;
     /** The ID of the last project, empty string if none */
     const last = !projects.length ? "" : projects[projects.length - 1]._id;

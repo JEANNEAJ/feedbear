@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import ListItem from './ListItem';
+import Project from '../projects/Project';
 
 import {
   setProjects,
@@ -15,11 +16,13 @@ import {
 
 /** List component with infinite scroll */
 export default function List(props) {
-  const { listItems } = props;
+  const { type } = props;
 
   /** False when there are no more projects - used to display message to user */
   const hasMore = useSelector(selectHasMore);
   const listItems = useSelector(selectProjects);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     resetRequests();
@@ -76,7 +79,10 @@ export default function List(props) {
           }
         >
           {listItems.map((listItem) => (
-            <ListItem key={listItem._id} listItem={listItem} />
+            <ListItem key={listItem._id} listItem={listItem}>
+              {/* Conditionally render type of list item depending on type of list */}
+              <Project project={listItem} />
+            </ListItem>
           ))}
         </InfiniteScroll>
       </ul>

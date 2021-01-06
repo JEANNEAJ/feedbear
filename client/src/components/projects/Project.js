@@ -17,7 +17,7 @@ export default function Project(props) {
   } = props.project;
 
   return (
-    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
+    <>
       {/* project title */}
       <div className="text-lg flex justify-between">
         <h3>
@@ -48,6 +48,6 @@ export default function Project(props) {
 
       {/* project message */}
       <p className="mt-5">{message}</p>
-    </li>
+    </>
   );
 }

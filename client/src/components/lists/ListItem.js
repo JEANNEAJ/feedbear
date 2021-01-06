@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function ListItem() {
+/** ListItems for use in List component */
+export default function ListItem(props) {
+
   return (
-    <div>
-      
-    </div>
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
+      {props.children}
+    </li>
   )
 }
