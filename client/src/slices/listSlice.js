@@ -11,6 +11,7 @@ export const listSlice = createSlice({
       sortDirection: -1, // 1 for ascending, -1 for descending
     },
     hasMore: true,
+    listType: '',
   },
   reducers: {
     setListItems(state, action) {
@@ -22,26 +23,30 @@ export const listSlice = createSlice({
     setHasMore(state, action) {
       state.hasMore = action.payload;
     },
+    setListType(state, action) {
+      state.listType = action.payload;
+    }
   },
 });
 
-export const selectListItems = (state) => state.list.projects;
+export const selectListItems = (state) => state.list.listItems;
 export const selectSort = (state) => state.list.sort;
 export const selectHasMore = (state) => state.list.hasMore;
+export const selectListType = (state) => state.list.listType;
 
 const { actions, reducer } = listSlice;
-export const { setListItems, setSort, setHasMore } = actions;
+export const { setListItems, setSort, setHasMore, setListType } = actions;
 
-/** fetch the next batch of projects */
+/** fetch the next batch of listItems */
 export const fetchNext = createAsyncThunk(
-  "projectList/fetchNext",
+  "list/fetchNext",
   async (_ = null, { dispatch, getState }) => {
-    const { sortBy, sortDirection } = getState().projectList.sort;
-    const projects = getState().projectList.projects;
+    const { sortBy, sortDirection } = getState().list.sort;
+    const listItems = getState().list.listItems;
     /** How many results to fetch and display per batch */
     const numResults = 20;
     /** The ID of the last project, empty string if none */
-    const last = !projects.length ? "" : projects[projects.length - 1]._id;
+    const last = !listItems.length ? "" : listItems[listItems.length - 1]._id;
 
     try {
       const { data } = await projectApi.fetchProjects(
@@ -50,12 +55,12 @@ export const fetchNext = createAsyncThunk(
         sortDirection,
         last
       );
-      const newProjects = removeDuplicates(projects, data, numResults);
+      const newListItems = removeDuplicates(listItems, data, numResults);
 
-      if (newProjects.length === projects.length) {
+      if (newListItems.length === listItems.length) {
         dispatch(setHasMore(false));
       } else {
-        dispatch(setProjects(newProjects));
+        dispatch(setListItems(newListItems));
       }
     } catch (err) {
       console.error(err);
