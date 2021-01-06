@@ -88,6 +88,7 @@ export default function List(props) {
           }
         >
           {listItems.map((listItem) => (
+            listItem._id !== '5ff63422551e1e10ac0a44a1' && //omit pinned project from list
             <ListItem key={listItem._id} listItem={listItem}>
               {/* Conditionally render type of list item depending on type of list */}
               <Project project={listItem}>

@@ -73,10 +73,13 @@ export default function ProjectDetails(props) {
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago
             </p>
+
+            {projectId !== '5ff63422551e1e10ac0a44a1' && //omit links from pinned project
             <div className="flex space-x-4">
               <a href={liveLink}>View App</a>
               <a href={projectLink}>View Repository</a>
-            </div>
+            </div>}
+
             <img
               className="mx-auto max-w-full my-3"
               src={file ? file : "https://placekitten.com/400/300"}
