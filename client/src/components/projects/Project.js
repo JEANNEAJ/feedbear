@@ -18,36 +18,37 @@ export default function Project(props) {
 
   return (
     <>
-      {/* project title */}
-      <div className="text-lg flex justify-between">
-        <h3>
-          <Link to={`/project/${_id}`}>{projectTitle}</Link>
-        </h3>
-
-        <div className="flex flex-col items-end">
-          {/* Comment count */}
-          <Link to={`/project/${_id}`} title="Number of comments">
-            💬{commentsCount || 0}
-          </Link>
-
-          {/* edit and delete button from UserPage */}
-          {props.children}
+      <div>
+        {/* project title */}
+        <div className="text-lg flex justify-between">
+          <h3>
+            <Link to={`/project/${_id}`}>{projectTitle}</Link>
+          </h3>
         </div>
-      </div>
 
-      {/* project info + links */}
-      <p>
-        submitted by{" "}
-        <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
-        <TimeDifference dateString={createdAt} /> ago
-      </p>
-      <div className="flex space-x-2">
-        <a href={projectLink}>Project Link</a>
-        <a href={liveLink}>Live Link</a>
-      </div>
+        {/* project info + links */}
+        <p>
+          submitted by{" "}
+          <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
+          <TimeDifference dateString={createdAt} /> ago
+        </p>
+        <div className="flex space-x-2">
+          <a href={projectLink}>Project Link</a>
+          <a href={liveLink}>Live Link</a>
+        </div>
 
-      {/* project message */}
-      <p className="mt-5">{message}</p>
+        {/* project message */}
+        <p className="mt-5">{message}</p>
+      </div>
+      <div className="flex flex-col items-end">
+        {/* Comment count */}
+        <Link to={`/project/${_id}`} title="Number of comments">
+        💬{commentsCount || 0}
+        </Link>
+
+        {/* edit and delete button from UserPage */}
+        {props.children}
+      </div>
     </>
   );
 }
