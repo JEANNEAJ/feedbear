@@ -12,11 +12,7 @@ import {
   setSort,
   setListType,
   fetchNext,
-  setHasMore,
   selectHasMore,
-  selectListType,
-  setSearchParams,
-  selectSearchParams,
   resetList,
 } from "../../slices/listSlice";
 
@@ -61,12 +57,6 @@ export default function List(props) {
       dispatch(fetchNext());
     });
   };
-
-  // const resetList = () => {
-  //   dispatch(setListItems([]));
-  //   dispatch(setHasMore(true));
-  //   dispatch(fetchNext());
-  // };
 
   return (
     <div className="container mx-auto">

@@ -43,14 +43,6 @@ export const listSlice = createSlice({
       state.searchParams = action.payload;
     }
   },
-  // extraReducers: {
-  //   [resetList.fulfilled]: (state, action) => {console.log('reset fulfilled')},
-  // }
-  // extraReducers: {
-  //   [resetList.fulfilled]: (state, action) => {
-  //     dispatch(fetchNext());
-  //   }
-  // },
 });
 
 export const selectListItems = (state) => state.list.listItems;
@@ -67,7 +59,6 @@ export const { setListItems, setSort, setHasMore, setListType, setSearchParams }
 export const fetchNext = createAsyncThunk(
   "list/fetchNext",
   async (_ = null, { dispatch, getState }) => {
-    // console.trace();
     const { sortBy, sortDirection } = getState().list.sort;
     const listItems = getState().list.listItems;
     const listType = getState().list.listType;
@@ -76,8 +67,6 @@ export const fetchNext = createAsyncThunk(
     const numResults = 20;
     /** The ID of the last project, empty string if none */
     const last = !listItems.length ? "" : listItems[listItems.length - 1]._id;
-
-    console.log(idType, id);
 
     try {
       const { data } = await projectApi.fetchProjects(
