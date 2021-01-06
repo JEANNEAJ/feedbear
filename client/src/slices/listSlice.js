@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import * as projectApi from "../api/projects";
 
-export const projectListSlice = createSlice({
-  name: "projectList",
+export const listSlice = createSlice({
+  name: "list",
   initialState: {
-    projects: [],
+    listItems: [],
     sort: {
       sortBy: "createdAt", // field to sort by
       sortDirection: -1, // 1 for ascending, -1 for descending
@@ -13,8 +13,8 @@ export const projectListSlice = createSlice({
     hasMore: true,
   },
   reducers: {
-    setProjects(state, action) {
-      state.projects = action.payload;
+    setListItems(state, action) {
+      state.listItems = action.payload;
     },
     setSort(state, action) {
       state.sort = action.payload;
@@ -25,12 +25,12 @@ export const projectListSlice = createSlice({
   },
 });
 
-export const selectProjects = (state) => state.projectList.projects;
-export const selectSort = (state) => state.projectList.sort;
-export const selectHasMore = (state) => state.projectList.hasMore;
+export const selectListItems = (state) => state.list.projects;
+export const selectSort = (state) => state.list.sort;
+export const selectHasMore = (state) => state.list.hasMore;
 
-const { actions, reducer } = projectListSlice;
-export const { setProjects, setSort, setHasMore } = actions;
+const { actions, reducer } = listSlice;
+export const { setListItems, setSort, setHasMore } = actions;
 
 /** fetch the next batch of projects */
 export const fetchNext = createAsyncThunk(
