@@ -43,19 +43,26 @@ export const fetchNext = createAsyncThunk(
   async (_ = null, { dispatch, getState }) => {
     const { sortBy, sortDirection } = getState().list.sort;
     const listItems = getState().list.listItems;
+    const listType = getState().list.listType;
     /** How many results to fetch and display per batch */
     const numResults = 20;
     /** The ID of the last project, empty string if none */
     const last = !listItems.length ? "" : listItems[listItems.length - 1]._id;
 
     try {
-      const { data } = await projectApi.fetchProjects(
-        numResults,
-        sortBy,
-        sortDirection,
-        last
-      );
-      const newListItems = removeDuplicates(listItems, data, numResults);
+      let fetchedData = [];
+      if (listType === 'projects') {
+        const { data } = await projectApi.fetchProjects(
+          numResults,
+          sortBy,
+          sortDirection,
+          last
+        );
+        fetchedData = data;
+      } else if (listType === 'userProjects') {
+        
+      }
+      const newListItems = removeDuplicates(listItems, fetchedData, numResults);
 
       if (newListItems.length === listItems.length) {
         dispatch(setHasMore(false));

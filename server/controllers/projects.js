@@ -3,7 +3,14 @@ import { deleteImage, uploadImage } from "../helpers/helpers.js";
 import Project from "../models/projects.js";
 
 export const getProjects = async (req, res) => {
-  const { numResults, sortBy, sortDirection, last } = req.query;
+  const { 
+    numResults, 
+    sortBy, 
+    sortDirection, 
+    last,
+    idType,
+    id,
+   } = req.query;
 
   try {
     /** The date of the last item (current date if none provided) */
@@ -17,15 +24,19 @@ export const getProjects = async (req, res) => {
 
     const searchDirection = parseInt(sortDirection) === -1 ? "$lte" : "$gte";
     const searchQuery = !last.length
-      ? {}
-      : { createdAt: { [searchDirection]: lastDate } };
+      ? !idType ? {} : { [idType]: id }
+      : !idType
+        ? { createdAt: { [searchDirection]: lastDate } }
+        : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
 
-    const projects = await Project.find(searchQuery, { comments: 0 })
-      .sort({ createdAt: sortDirection })
+    // if an id search type is not provided, fetch all projects according to search parameters
+      const projects = await Project.find(searchQuery, { comments: 0 })
+        .sort({ createdAt: sortDirection })
+        .limit(parseInt(numResults));
 
-      .limit(parseInt(numResults));
+      res.status(200).json(projects);
+    // if an id search type IS provided, only fetch 
 
-    res.status(200).json(projects);
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: err });

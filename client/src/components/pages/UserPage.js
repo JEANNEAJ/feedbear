@@ -9,6 +9,19 @@ import Project from "../projects/Project";
 import ProjectOptions from "../projects/ProjectOptions";
 import { selectUser } from "../../slices/userSlice";
 
+import List from '../lists/List';
+
+import {
+  setListItems,
+  selectListItems,
+  setSort,
+  setListType,
+  fetchNext,
+  setHasMore,
+  selectHasMore,
+  selectListType,
+} from "../../slices/listSlice";
+
 function UserPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { userId: profileId } = useParams();
@@ -40,7 +53,14 @@ function UserPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const { data } = await projectApi.fetchProjectByID("userId", profileId);
+        const { data } = await projectApi.fetchProjects(
+          20,
+          "createdAt",
+          -1,
+          '',
+          "userId",
+          profileId
+          );
         setProjects(data);
       } catch (error) {
         console.log(error);
@@ -68,7 +88,7 @@ function UserPage() {
 
           <h3 className="text-xl mt-3">Projects:</h3>
 
-          {!projects.length ? (
+          {/* {!projects.length ? (
             <p>
               Nothing here, try making a <Link to={"/"}>new Project</Link>
             </p>
@@ -87,9 +107,11 @@ function UserPage() {
                 </Project>
               ))}
             </ul>
-          )}
+          )} */}
 
-          <button onClick={handleRefresh}>refresh 🔃</button>
+          {/* <button onClick={handleRefresh}>refresh 🔃</button> */}
+
+          <List type="userProjects" />
         </>
       )}
     </div>

@@ -6,13 +6,15 @@ import ListItem from './ListItem';
 import Project from '../projects/Project';
 
 import {
-  setProjects,
-  selectProjects,
+  setListItems,
+  selectListItems,
   setSort,
+  setListType,
   fetchNext,
   setHasMore,
   selectHasMore,
-} from "../../slices/projectListSlice";
+  selectListType,
+} from "../../slices/listSlice";
 
 /** List component with infinite scroll */
 export default function List(props) {
@@ -20,11 +22,12 @@ export default function List(props) {
 
   /** False when there are no more projects - used to display message to user */
   const hasMore = useSelector(selectHasMore);
-  const listItems = useSelector(selectProjects);
+  const listItems = useSelector(selectListItems);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setListType(type));
     resetRequests();
   }, []);
 
@@ -44,7 +47,7 @@ export default function List(props) {
   };
 
   const resetRequests = () => {
-    dispatch(setProjects([]));
+    dispatch(setListItems([]));
     dispatch(setHasMore(true));
     dispatch(fetchNext());
   };
