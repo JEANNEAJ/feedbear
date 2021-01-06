@@ -1,27 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import Project from "./Project";
+import ListItem from './ListItem';
+import Project from '../projects/Project';
+import ProjectOptions from "../projects/ProjectOptions";
 
 import {
-  setProjects,
-  selectProjects,
+  setListItems,
+  selectListItems,
   setSort,
+  setListType,
   fetchNext,
-  setHasMore,
   selectHasMore,
-} from "../../slices/projectListSlice";
+  resetList,
+} from "../../slices/listSlice";
 
-export default function ProjectList() {
+import { selectUser } from "../../slices/userSlice";
+
+/** List component with infinite scroll */
+export default function List(props) {
+  const { type } = props;
+
   /** False when there are no more projects - used to display message to user */
   const hasMore = useSelector(selectHasMore);
-  const projects = useSelector(selectProjects);
+  const listItems = useSelector(selectListItems);
+  const loggedInUser = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    resetRequests();
+    dispatch(setListType(type));
+    dispatch(resetList()).then(() => {
+      dispatch(fetchNext());
+    });
+
+    // cleanup
+    return function cleanup() {
+      dispatch(setListItems([]));
+    }
   }, []);
 
   const handleSort = (e) => {
@@ -36,20 +53,15 @@ export default function ProjectList() {
       })
     );
 
-    resetRequests();
-  };
-
-  const resetRequests = () => {
-    dispatch(setProjects([]));
-    dispatch(setHasMore(true));
-    dispatch(fetchNext());
+    dispatch(resetList()).then(() => {
+      dispatch(fetchNext());
+    });
   };
 
   return (
     <div className="container mx-auto">
       <div className="mt-10 flex justify-between">
         <h2 className="text-xl font-bold">Projects</h2>
-        {/* <button onClick={handleRefresh}>refresh 🔃</button> */}
       </div>
 
       <label htmlFor="sort">Sort: </label>
@@ -64,7 +76,7 @@ export default function ProjectList() {
 
       <ul>
         <InfiniteScroll
-          dataLength={projects.length} //This is important field to render the next data
+          dataLength={listItems.length}
           next={() => dispatch(fetchNext())}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
@@ -74,22 +86,24 @@ export default function ProjectList() {
               <b>Yay! You have seen it all</b>
             </p>
           }
-          // below props only if you need pull down functionality
-          // refreshFunction={this.refresh}
-          // pullDownToRefresh
-          // pullDownToRefreshThreshold={50}
-          // pullDownToRefreshContent={
-          //   <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-          // }
-          // releaseToRefreshContent={
-          //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-          // }
         >
-          {projects.map((project) => (
-            <Project key={project._id} project={project} />
+          {listItems.map((listItem) => (
+            <ListItem key={listItem._id} listItem={listItem}>
+              {/* Conditionally render type of list item depending on type of list */}
+              <Project project={listItem}>
+                {loggedInUser._id === listItem.userId && (
+                  <ProjectOptions
+                    userId={loggedInUser._id}
+                    projectId={listItem._id}
+                    projectTitle={listItem.projectTitle}
+                    // deleteAction={handleRefresh}
+                  />
+                )}
+              </Project>
+            </ListItem>
           ))}
         </InfiniteScroll>
       </ul>
     </div>
-  );
+  )
 }
