@@ -29,13 +29,14 @@ export const getProjects = async (req, res) => {
         ? { createdAt: { [searchDirection]: lastDate } }
         : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
 
-    // if an id search type is not provided, fetch all projects according to search parameters
-      const projects = await Project.find(searchQuery, { comments: 0 })
-        .sort({ createdAt: sortDirection })
-        .limit(parseInt(numResults));
+    console.log(idType);
+    console.log(searchQuery);
+
+    const projects = await Project.find(searchQuery, { comments: 0 })
+      .sort({ createdAt: sortDirection })
+      .limit(parseInt(numResults));
 
       res.status(200).json(projects);
-    // if an id search type IS provided, only fetch 
 
   } catch (err) {
     console.log(err);

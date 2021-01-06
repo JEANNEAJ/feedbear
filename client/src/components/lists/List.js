@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import ListItem from './ListItem';
 import Project from '../projects/Project';
+import ProjectOptions from "../projects/ProjectOptions";
 
 import {
   setListItems,
@@ -14,7 +15,12 @@ import {
   setHasMore,
   selectHasMore,
   selectListType,
+  setSearchParams,
+  selectSearchParams,
+  resetList,
 } from "../../slices/listSlice";
+
+import { selectUser } from "../../slices/userSlice";
 
 /** List component with infinite scroll */
 export default function List(props) {
@@ -23,12 +29,20 @@ export default function List(props) {
   /** False when there are no more projects - used to display message to user */
   const hasMore = useSelector(selectHasMore);
   const listItems = useSelector(selectListItems);
+  const loggedInUser = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setListType(type));
-    resetRequests();
+    dispatch(resetList()).then(() => {
+      dispatch(fetchNext());
+    });
+
+    // cleanup
+    return function cleanup() {
+      dispatch(setListItems([]));
+    }
   }, []);
 
   const handleSort = (e) => {
@@ -43,14 +57,16 @@ export default function List(props) {
       })
     );
 
-    resetRequests();
+    dispatch(resetList()).then(() => {
+      dispatch(fetchNext());
+    });
   };
 
-  const resetRequests = () => {
-    dispatch(setListItems([]));
-    dispatch(setHasMore(true));
-    dispatch(fetchNext());
-  };
+  // const resetList = () => {
+  //   dispatch(setListItems([]));
+  //   dispatch(setHasMore(true));
+  //   dispatch(fetchNext());
+  // };
 
   return (
     <div className="container mx-auto">
@@ -84,7 +100,16 @@ export default function List(props) {
           {listItems.map((listItem) => (
             <ListItem key={listItem._id} listItem={listItem}>
               {/* Conditionally render type of list item depending on type of list */}
-              <Project project={listItem} />
+              <Project project={listItem}>
+                {loggedInUser._id === listItem.userId && (
+                  <ProjectOptions
+                    userId={loggedInUser._id}
+                    projectId={listItem._id}
+                    projectTitle={listItem.projectTitle}
+                    // deleteAction={handleRefresh}
+                  />
+                )}
+              </Project>
             </ListItem>
           ))}
         </InfiniteScroll>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useLocation } from "react-router-dom";
 
 import * as projectApi from "../../api/projects";
@@ -20,6 +20,8 @@ import {
   setHasMore,
   selectHasMore,
   selectListType,
+  setSearchParams,
+  selectSearchParams
 } from "../../slices/listSlice";
 
 function UserPage() {
@@ -30,6 +32,8 @@ function UserPage() {
   const [projects, setProjects] = useState([]);
 
   const location = useLocation();
+
+  const dispatch = useDispatch();
 
   // determine the display name for the current UserPage
   useEffect(() => {
@@ -47,46 +51,59 @@ function UserPage() {
       };
       fetchName(profileId);
     }
+
+    dispatch(setSearchParams({
+      idType: 'userId',
+      id: profileId,
+    }));
+
+    // cleanup
+    return function cleanup() {
+      dispatch(setSearchParams({
+        idType: '',
+        id: '',
+      }));
+    }
   }, [location.name, loggedInUser, profileId]);
 
-  // perform initial fetch of projects
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const { data } = await projectApi.fetchProjects(
-          20,
-          "createdAt",
-          -1,
-          '',
-          "userId",
-          profileId
-          );
-        setProjects(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProjects();
-    setIsLoading(false);
-  }, [profileId]);
+  // // perform initial fetch of projects
+  // useEffect(() => {
+  //   const fetchProjects = async () => {
+  //     try {
+  //       const { data } = await projectApi.fetchProjects(
+  //         20,
+  //         "createdAt",
+  //         -1,
+  //         '',
+  //         "userId",
+  //         profileId
+  //         );
+  //       setProjects(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchProjects();
+  //   setIsLoading(false);
+  // }, [profileId]);
 
-  // handle manual refreshes
-  const handleRefresh = async () => {
-    setIsLoading(true);
-    const { data } = await projectApi.fetchProjectByID("userId", profileId);
-    setProjects(data);
-    setIsLoading(false);
-  };
+  // // handle manual refreshes
+  // const handleRefresh = async () => {
+  //   setIsLoading(true);
+  //   const { data } = await projectApi.fetchProjectByID("userId", profileId);
+  //   setProjects(data);
+  //   setIsLoading(false);
+  // };
 
   return (
     <div className="container mx-auto">
-      {isLoading ? (
+      {/* {isLoading ? (
         <h2>Loading user details</h2>
-      ) : (
+      ) : ( */}
         <>
           <h2 className="text-xl font-bold">{name}</h2>
 
-          <h3 className="text-xl mt-3">Projects:</h3>
+          {/* <h3 className="text-xl mt-3">Projects:</h3> */}
 
           {/* {!projects.length ? (
             <p>
@@ -113,7 +130,6 @@ function UserPage() {
 
           <List type="userProjects" />
         </>
-      )}
     </div>
   );
 }

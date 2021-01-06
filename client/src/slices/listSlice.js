@@ -2,6 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import * as projectApi from "../api/projects";
 
+/** reset the list */
+export const resetList = createAsyncThunk(
+  "list/resetList",
+  async (_ = null, { dispatch }) => {
+    dispatch(setListItems([]));
+    dispatch(setHasMore(true));
+  }
+);
+
 export const listSlice = createSlice({
   name: "list",
   initialState: {
@@ -12,6 +21,10 @@ export const listSlice = createSlice({
     },
     hasMore: true,
     listType: '',
+    searchParams: {
+      idType: '',
+      id: '',
+    },
   },
   reducers: {
     setListItems(state, action) {
@@ -25,55 +38,70 @@ export const listSlice = createSlice({
     },
     setListType(state, action) {
       state.listType = action.payload;
+    },
+    setSearchParams(state, action) {
+      state.searchParams = action.payload;
     }
   },
+  // extraReducers: {
+  //   [resetList.fulfilled]: (state, action) => {console.log('reset fulfilled')},
+  // }
+  // extraReducers: {
+  //   [resetList.fulfilled]: (state, action) => {
+  //     dispatch(fetchNext());
+  //   }
+  // },
 });
 
 export const selectListItems = (state) => state.list.listItems;
 export const selectSort = (state) => state.list.sort;
 export const selectHasMore = (state) => state.list.hasMore;
 export const selectListType = (state) => state.list.listType;
+export const selectSearchParams = (state) => state.list.searchParams;
 
 const { actions, reducer } = listSlice;
-export const { setListItems, setSort, setHasMore, setListType } = actions;
+export const { setListItems, setSort, setHasMore, setListType, setSearchParams } = actions;
+
 
 /** fetch the next batch of listItems */
 export const fetchNext = createAsyncThunk(
   "list/fetchNext",
   async (_ = null, { dispatch, getState }) => {
+    // console.trace();
     const { sortBy, sortDirection } = getState().list.sort;
     const listItems = getState().list.listItems;
     const listType = getState().list.listType;
+    const { idType, id } = getState().list.searchParams;
     /** How many results to fetch and display per batch */
     const numResults = 20;
     /** The ID of the last project, empty string if none */
     const last = !listItems.length ? "" : listItems[listItems.length - 1]._id;
 
+    console.log(idType, id);
+
     try {
-      let fetchedData = [];
-      if (listType === 'projects') {
-        const { data } = await projectApi.fetchProjects(
-          numResults,
-          sortBy,
-          sortDirection,
-          last
-        );
-        fetchedData = data;
-      } else if (listType === 'userProjects') {
-        
-      }
-      const newListItems = removeDuplicates(listItems, fetchedData, numResults);
+      const { data } = await projectApi.fetchProjects(
+        numResults,
+        sortBy,
+        sortDirection,
+        last,
+        idType,
+        id,
+      );
+      const newListItems = removeDuplicates(listItems, data, numResults);
 
       if (newListItems.length === listItems.length) {
         dispatch(setHasMore(false));
       } else {
         dispatch(setListItems(newListItems));
       }
+
     } catch (err) {
       console.error(err);
     }
   }
 );
+
 
 /**
  * Remove items in data that already exist in projects
