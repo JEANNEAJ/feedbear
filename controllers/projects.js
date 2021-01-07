@@ -57,7 +57,7 @@ export const createProject = async (req, res) => {
       body.file = fileURL;
     }
   } catch (error) {
-    throw new Error("file upload failed, project was not created");
+    return next(new Error("file upload failed, project was not created"));
   }
 
   const newProject = new Project(body);
