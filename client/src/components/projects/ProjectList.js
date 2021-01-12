@@ -1,49 +1,79 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+import * as projectApi from "../../api/projects";
 
 import Project from "./Project";
 
-import {
-  setProjects,
-  selectProjects,
-  setSort,
-  fetchNext,
-  setHasMore,
-  selectHasMore,
-} from "../../slices/projectListSlice";
+import { removeDuplicates } from "../../slices/projectListSlice";
 
 export default function ProjectList() {
   /** False when there are no more projects - used to display message to user */
-  const hasMore = useSelector(selectHasMore);
-  const projects = useSelector(selectProjects);
+  const [hasMore, setHasMore] = useState(true)
+  const [projects, setProjects] = useState([])
+  const [sort, setSort] = useState({ sortyBy: 'createdAt', sortDirection: -1 })
 
-  const dispatch = useDispatch();
+
+  console.log('projects', projects);
 
   useEffect(() => {
-    resetRequests();
-  }, []);
+    console.log('in use effect');
+    fetchNext()
 
+  }, [sort]);
+
+      
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
     const sortDirection =
-      e.target.options[e.target.selectedIndex].dataset.sortdirection;
+    e.target.options[e.target.selectedIndex].dataset.sortdirection;
+  
+    setSort({ 
+      sortBy,
+      sortDirection,
+    })
+    
+    resetRequests()
+    console.log('sort changed to', sort);
+    
+  };
 
-    dispatch(
-      setSort({
+  
+  const resetRequests = () => {
+    setProjects([])
+    setHasMore(true)
+  };
+
+  const fetchNext = async () => {
+    const { sortBy, sortDirection } = sort;
+    // const projects = projects;
+    const numResults = 20;
+    /** The ID of the last project, empty string if none */
+    const last = !projects.length ? "" : projects[projects.length - 1]._id;
+
+    try {
+      const { data } = await projectApi.fetchProjects(
+        numResults,
         sortBy,
         sortDirection,
-      })
-    );
+        last
+      );
+      const newProjects = removeDuplicates(projects, data, numResults);
 
-    resetRequests();
-  };
 
-  const resetRequests = () => {
-    dispatch(setProjects([]));
-    dispatch(setHasMore(true));
-    dispatch(fetchNext());
-  };
+      console.log('fetched projects', newProjects)
+      console.log('current projects', projects)
+      if (newProjects.length === projects.length) {
+        console.log('setting has more to false')
+        setHasMore(false);
+      } else {
+        console.log('setting projects to fetched projects')
+        setProjects(newProjects);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="container mx-auto">
@@ -65,7 +95,8 @@ export default function ProjectList() {
       <ul>
         <InfiniteScroll
           dataLength={projects.length} //This is important field to render the next data
-          next={() => dispatch(fetchNext())}
+          // next={() => dispatch(fetchNext())}
+          next={fetchNext}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
           scrollThreshold={1} // how far down to scroll before fetching more

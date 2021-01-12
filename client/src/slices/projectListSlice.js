@@ -68,7 +68,7 @@ export const fetchNext = createAsyncThunk(
  * @param {*} data the new data array to check
  * @param {*} numResults the number of results per batch
  */
-const removeDuplicates = (projects, data, numResults) => {
+export const removeDuplicates = (projects, data, numResults) => {
   //TODO not performant as array size scales - use numResults to only check last n elements of array for duplicates
   const arrayToCheck = [...projects, ...data];
   const result = arrayToCheck.filter(function ({ _id }) {
