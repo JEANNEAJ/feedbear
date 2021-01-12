@@ -3,14 +3,20 @@ import { Storage } from "@google-cloud/storage";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// construct path to GCS key
+// construct path to GCS config
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const serviceKey = path.join(__dirname, "./keys.json");
 
 // construct storage object used in ../helpers/helper.js
 const storage = new Storage({
+  credentials: {
+    client_email: process.env.GCS_CLIENT_EMAIL,
+    private_key: process.env.GCS_PRIVATE_KEY.replace(
+      new RegExp("\\\\n", "g"),
+      "\n"
+    ),
+  },
   keyFilename: serviceKey,
-  projectId: "feedbear-298219",
 });
 
 export default storage;
