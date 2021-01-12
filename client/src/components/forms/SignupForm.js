@@ -86,14 +86,12 @@ const SignupForm = () => {
       />
       {errors.matchPassword && <span>Password does not match</span>}
 
-      {error ? (
+      {error &&
         <p className="error">
           <strong>Error: </strong>
           {error}
         </p>
-      ) : (
-        ""
-      )}
+      }
 
       <button className="btn-submit">Create User</button>
       <p>Already registered?</p>

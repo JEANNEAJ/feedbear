@@ -44,14 +44,12 @@ const LoginForm = () => {
       {errors.password && <span>This field is required</span>}
 
       {/* TODO: refactor this into an error message component? FormError or something? */}
-      {error ? (
+      {error &&
         <p className="error">
           <strong>Error: </strong>
           {error}
         </p>
-      ) : (
-        ""
-      )}
+      }
 
       <button className="btn-submit">Sign In</button>
       <p> Don't have an account?</p>
