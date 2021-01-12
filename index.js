@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import passport from "passport";
+import path from "path";
+import { fileURLToPath } from "url";
 import "./strategies/strategies.js";
 
 import session from "express-session";
@@ -40,8 +42,9 @@ mongoose.set("useCreateIndex", true);
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-// app.use(cors()); // disabling for now
-// -- creates a mongodb collection to store sessions
+
+// required for setting 'secure: true' in session cookies on heroku
+app.set("trust proxy", 1);
 app.use(
   session({
     name: process.env.SESS_NAME,
@@ -62,11 +65,19 @@ app.use(
   })
 );
 
+// serve react app statically
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "client/build")));
+
 app.use("/projects", projectRoutes);
 app.use(authRoutes);
 app.use(sessionRoutes);
 app.use(commentRoutes);
 app.use(userRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 // error-handling middleware
 app.use(function (err, req, res, next) {
