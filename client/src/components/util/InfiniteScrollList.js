@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { removeDuplicates } from "../../slices/projectListSlice";
+import { removeDuplicates } from "../../helpers";
 
 export default function InfiniteScrollList({List, fetchApi}) {
   /** False when there are no more items - used to display message to user */
