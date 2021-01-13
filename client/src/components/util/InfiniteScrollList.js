@@ -39,7 +39,7 @@ export default function InfiniteScrollList({List, fetchApi}) {
     setHasMore(true)
   };
 
-  const fetchNext = async (sort, previousItems = items) => {
+  const fetchNext = async (sort = { sortBy: 'createdAt', sortDirection: DESCENDING}, previousItems = items) => {
     const { sortBy, sortDirection } = sort;
 
     const numResults = 20;
