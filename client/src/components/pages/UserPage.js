@@ -5,9 +5,8 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import * as projectApi from "../../api/projects";
 import * as userApi from "../../api/user";
 
-import Project from "../projects/Project";
-import ProjectOptions from "../projects/ProjectOptions";
 import { selectUser } from "../../slices/userSlice";
+import ProjectList from "../projects/ProjectList";
 
 function UserPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +47,7 @@ function UserPage() {
     };
     fetchProjects();
     setIsLoading(false);
-  }, [profileId]);
+  }, [profileId, location.key]);
 
   // handle manual refreshes
   const handleRefresh = async () => {
@@ -73,20 +72,7 @@ function UserPage() {
               Nothing here, try making a <Link to={"/"}>new Project</Link>
             </p>
           ) : (
-            <ul>
-              {projects.map((project) => (
-                <Project key={project._id} project={project}>
-                  {loggedInUser._id === profileId && (
-                    <ProjectOptions
-                      userId={loggedInUser._id}
-                      projectId={project._id}
-                      projectTitle={project.projectTitle}
-                      deleteAction={handleRefresh}
-                    />
-                  )}
-                </Project>
-              ))}
-            </ul>
+            <ProjectList items={projects} />
           )}
 
           <button onClick={handleRefresh}>refresh 🔃</button>

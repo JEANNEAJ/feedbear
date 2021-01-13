@@ -3,7 +3,7 @@ import { deleteImage, uploadImage } from "../helpers/helpers.js";
 import Project from "../models/projects.js";
 
 export const getProjects = async (req, res) => {
-  const { numResults, sortBy, sortDirection, last } = req.query;
+  const { numResults, sortBy, sortDirection, last, idType, id } = req.query;
 
   try {
     /** The date of the last item (current date if none provided) */
@@ -17,8 +17,12 @@ export const getProjects = async (req, res) => {
 
     const searchDirection = parseInt(sortDirection) === -1 ? "$lte" : "$gte";
     const searchQuery = !last.length
-      ? {}
-      : { createdAt: { [searchDirection]: lastDate } };
+      ? !idType ? {} : { [idType]: id }
+      : !idType
+        ? { createdAt: { [searchDirection]: lastDate } }
+        : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
+      // ? {}
+      // : { createdAt: { [searchDirection]: lastDate } };
 
     const projects = await Project.find(searchQuery, { comments: 0 })
       .sort({ createdAt: sortDirection })

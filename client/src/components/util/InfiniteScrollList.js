@@ -4,19 +4,22 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { removeDuplicates } from "../../helpers";
 
 export default function InfiniteScrollList({List, fetchApi}) {
+  const ASCENDING = 1;
+  const DESCENDING = -1;
+
   /** False when there are no more items - used to display message to user */
   const [hasMore, setHasMore] = useState(true)
   const [items, setItems] = useState([])
-  const [sort, setSort] = useState({ sortyBy: 'createdAt', sortDirection: -1 })
+  const [sort, setSort] = useState({ sortBy: 'createdAt', sortDirection: DESCENDING })
 
   useEffect(() => {
     fetchNext()
 
   }, [sort]);
 
-      
   const handleSort = (e) => {
-    const {sortBy, sortDirection} = e.target.options[e.target.selectedIndex].dataset;
+    const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
+    const sortDirection = e.target.options[e.target.selectedIndex].dataset.sortdirection;
   
     setSort({ 
       sortBy,
@@ -26,7 +29,6 @@ export default function InfiniteScrollList({List, fetchApi}) {
     resetRequests()
   };
 
-  
   const resetRequests = () => {
     setItems([])
     setHasMore(true)
@@ -40,12 +42,15 @@ export default function InfiniteScrollList({List, fetchApi}) {
     const last = !items.length ? "" : items[items.length - 1]._id;
 
     try {
-      const { data } = await fetchApi(
+      const options = {
         numResults,
         sortBy,
         sortDirection,
         last
-      );
+      }
+
+      const { data } = await fetchApi(options);
+
       const fetchedItems = removeDuplicates(items, data, numResults);
 
       if (fetchedItems.length === items.length) {
@@ -62,17 +67,16 @@ export default function InfiniteScrollList({List, fetchApi}) {
     <>
       <label htmlFor="sort">Sort: </label>
       <select onChange={handleSort} id="sort">
-        <option data-sortby="createdAt" data-sortdirection="-1">
+        <option data-sortby="createdAt" data-sortdirection={DESCENDING}>
           Date (descending)
         </option>
-        <option data-sortby="createdAt" data-sortdirection="1">
+        <option data-sortby="createdAt" data-sortdirection={ASCENDING}>
           Date (ascending)
         </option>
       </select>
 
       <InfiniteScroll
         dataLength={items.length} //This is important field to render the next data
-        // next={() => dispatch(fetchNext())}
         next={fetchNext}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}

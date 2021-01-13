@@ -10,14 +10,9 @@ const url = "/projects";
  * @param {Number} sortDirection -1 for decending, 1 for ascending
  * @param {String} last the ID of the last requested item
  */
-export const fetchProjects = (numResults, sortBy, sortDirection, last) =>
+export const fetchProjects = (options) =>
   axios.get(url, {
-    params: {
-      numResults,
-      sortBy,
-      sortDirection,
-      last,
-    },
+    params: { ...options },
   });
 
 export const fetchProjectByID = (type, ID) =>
