@@ -13,9 +13,14 @@ export default function InfiniteScrollList({List, fetchApi}) {
   const [sort, setSort] = useState({ sortBy: 'createdAt', sortDirection: DESCENDING })
 
   useEffect(() => {
-    fetchNext()
+    fetchNext(sort);
 
   }, [sort]);
+  
+  useEffect(() => {
+    fetchNext(sort, []);
+
+  }, [fetchApi])
 
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
@@ -34,7 +39,7 @@ export default function InfiniteScrollList({List, fetchApi}) {
     setHasMore(true)
   };
 
-  const fetchNext = async () => {
+  const fetchNext = async (sort, previousItems = items) => {
     const { sortBy, sortDirection } = sort;
 
     const numResults = 20;
@@ -51,9 +56,11 @@ export default function InfiniteScrollList({List, fetchApi}) {
 
       const { data } = await fetchApi(options);
 
-      const fetchedItems = removeDuplicates(items, data, numResults);
+      // const fetchedItems = removeDuplicates(items, data, numResults);
+      const fetchedItems = removeDuplicates(previousItems, data, numResults);
 
-      if (fetchedItems.length === items.length) {
+      // if (fetchedItems.length === items.length) {
+      if (fetchedItems.length === previousItems.length) {
         setHasMore(false);
       } else {
         setItems(fetchedItems);

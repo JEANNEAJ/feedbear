@@ -8,7 +8,7 @@ export const getProjects = async (req, res) => {
   try {
     /** The date of the last item (current date if none provided) */
     let lastDate;
-    if (!last.length) lastDate = new Date();
+    if (!last?.length) lastDate = new Date();
     else {
       const dateObj = await Project.find({ _id: last }, { createdAt: 1 });
       lastDate = dateObj[0].createdAt;
