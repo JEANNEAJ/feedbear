@@ -33,8 +33,13 @@ passport.use(
         return done(null, user);
       } catch (err) {
 
+        // handles failed registration due to invalid email format
+        if (err.errors.email) {
+          err.message = err.errors.email.properties.message;
+        }
+
         // handles failed registration due to incorrect password format (min. char, pattern)
-        if (err.errors.password.path) {
+        if (err.errors.password) {
           err.message = err.errors.password.properties.message;
         }
 

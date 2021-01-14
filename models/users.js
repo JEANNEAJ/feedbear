@@ -7,6 +7,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    validate: {
+      validator: function (v) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
+      },
+      message: "Please enter a valid e-mail"
+    }
   },
   password: {
     type: String,
