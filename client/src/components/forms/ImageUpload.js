@@ -15,7 +15,7 @@ const ImageUpload = ({ file, handleUpload }) => {
 
       {/* label: contains upload button + displays file name */}
       <label
-        className="input-text flex items-center w-full mt-2"
+        className="flex items-center w-full mt-2"
         htmlFor="file-input"
       >
         {/* upload button */}
