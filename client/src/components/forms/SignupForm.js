@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { validateEmail, validatePassword } from "../../helpers/validation";
 
 const SignupForm = () => {
-  const { register, handleSubmit, watch, errors, getValues } = useForm();
+  const { register, handleSubmit, watch, errors, getValues } = useForm({ mode: 'onBlur' });
   const error = useSelector(selectError);
   const dispatch = useDispatch();
 
