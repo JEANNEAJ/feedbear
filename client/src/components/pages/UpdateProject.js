@@ -10,7 +10,7 @@ export const UpdateProject = () => {
     params: { projectId },
   } = useRouteMatch();
   
-  const [validUser, setValidUser] = useState({check: false, valid: false})
+  const [authUserCheck, setAuthUserCheck] = useState({checked: false, authorized: false})
   const [project, setProject] = useState("");
 
   const currentUser = useSelector(selectUser)
@@ -26,9 +26,9 @@ export const UpdateProject = () => {
 
       if (data[0]?.userId === currentUser._id) {
         setProject(data[0]);
-        setValidUser({check: true, valid: true})
+        setAuthUserCheck({checked: true, authorized: true})
       } else {
-        setValidUser({check: true, valid: false})
+        setAuthUserCheck({checked: true, authorized: false})
       }
       
     } catch (error) {
@@ -36,11 +36,11 @@ export const UpdateProject = () => {
     }
   };
 
-  if (validUser.check === false) {
+  if (authUserCheck.checked === false) {
     return <h2>Loading...</h2>
   }
 
-  if (validUser.check && validUser.valid === false) {
+  if (authUserCheck.checked && authUserCheck.authorized === false) {
     return <Redirect to="/" />
   }
 
