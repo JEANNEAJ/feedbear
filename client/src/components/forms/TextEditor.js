@@ -39,6 +39,9 @@ export default function TextEditor({ onChange }) {
           editorState={editorState}
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
+          placeholder="Message"
+          ariaLabel="Message"
+          tabIndex="0"
         />
     </div>
   </>

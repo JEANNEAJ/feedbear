@@ -9,7 +9,6 @@ import { submit, update } from "../../slices/projectSlice";
 import { selectUser } from "../../slices/userSlice";
 import ImageUpload from "./ImageUpload";
 import { validateUrl, formatToUrl } from "../../helpers/validation";
-
 import TextEditor from './TextEditor';
 
 export default function ProjectForm({ buttonText, values, projectId }) {
