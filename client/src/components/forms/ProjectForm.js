@@ -30,6 +30,9 @@ export default function ProjectForm({ buttonText, values, projectId }) {
     file: get with variable 'file' and set with 'setFile' */
   const [file, setFile] = useState(null);
 
+  /** The current markup in the text editor */
+  const [editorMarkup, setEditorMarkup] = useState('');
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -57,8 +60,11 @@ export default function ProjectForm({ buttonText, values, projectId }) {
       userId,
       name,
       file,
+      message: editorMarkup,
       ...getValues(), // values from the text fields
     };
+
+    console.log(formInput);
 
     formInput.projectLink = formatToUrl(formInput.projectLink);
     formInput.liveLink = formatToUrl(formInput.liveLink);
@@ -76,6 +82,12 @@ export default function ProjectForm({ buttonText, values, projectId }) {
     } else {
       await dispatch(submit(formData));
     }
+  };
+
+  /** update editorMarkup in state when editor state changes */
+  const handleEditorChange = (value) => {
+    console.log(value);
+    setEditorMarkup(value);
   };
 
   return (
@@ -120,7 +132,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         <span>This field is required and must be a valid URL</span>
       )}
 
-      <label className="sr-only" htmlFor="message">
+      {/* <label className="sr-only" htmlFor="message">
         Message
       </label>
       <textarea
@@ -128,9 +140,9 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         placeholder="Enter Message"
         ref={register({ required: true })}
       ></textarea>
-      {errors["input-message"] && <span>This field is required</span>}
+      {errors["input-message"] && <span>This field is required</span>} */}
 
-      <TextEditor />
+      <TextEditor onChange={handleEditorChange} />
 
       <ImageUpload file={file} handleUpload={setFile} />
 
