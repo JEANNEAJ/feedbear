@@ -8,6 +8,8 @@ import { selectUser } from "../../slices/userSlice";
 import ImageUpload from "./ImageUpload";
 import { validateUrl, formatToUrl } from "../../helpers/validation";
 
+import TextEditor from './TextEditor';
+
 export default function ProjectForm({ buttonText, values, projectId }) {
   const {
     register,
@@ -127,6 +129,8 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         ref={register({ required: true })}
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
+
+      <TextEditor />
 
       <ImageUpload file={file} handleUpload={setFile} />
 
