@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import ReactMarkdown from 'react-markdown';
 import {
   getComments,
   setComments,
@@ -82,7 +83,7 @@ export default function ProjectDetails(props) {
               src={file ? file : "https://placekitten.com/400/300"}
               alt="Placeholder"
             />
-            <p className="mb-10">{message}</p>
+              <p className="mb-10"><ReactMarkdown>{message}</ReactMarkdown></p>
             <p className="text-sm">ID: {projectId}</p>
           </div>
           <div className="mt-10">

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ReactMarkdown from 'react-markdown';
 
 import TimeDifference from "../util/TimeDifference";
 
@@ -47,7 +48,7 @@ export default function Project(props) {
       </div>
 
       {/* project message */}
-      <p className="mt-5">{message}</p>
+      <p className="mt-5"><ReactMarkdown>{message}</ReactMarkdown></p>
     </li>
   );
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
-import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
+import { convertToRaw } from 'draft-js';
+import { draftToMarkdown } from 'markdown-draft-js';
 
 import { submit, update } from "../../slices/projectSlice";
 import { selectUser } from "../../slices/userSlice";
@@ -71,8 +71,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
       message: editorMarkdown(),
       ...getValues(), // values from the text fields
     };
-
-    console.log(formInput);
 
     formInput.projectLink = formatToUrl(formInput.projectLink);
     formInput.liveLink = formatToUrl(formInput.liveLink);
