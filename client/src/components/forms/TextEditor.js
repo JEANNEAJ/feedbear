@@ -29,29 +29,38 @@ export default function TextEditor({ onChange, defaultValue }) {
       setEditorState(newState);
       return 'handled';
     } return 'not-handled';
-  }
+  };
 
   const onBoldClick = () => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))
-  }
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+  };
 
   const onItalicClick = () => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))
-  }
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
+  };
+
+  const onCodeClick = () => {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'CODE'));
+  };
 
   return (
     <>
-      <div className="textEditor">
-        <button type="button" onClick={onBoldClick}><b>B</b></button>
-        <button type="button" onClick={onItalicClick}><em>I</em></button>
-        <Editor 
-          editorState={editorState}
-          onChange={setEditorState}
-          handleKeyCommand={handleKeyCommand}
-          placeholder="Message"
-          ariaLabel="Message"
-          tabIndex="0"
-        />
+      <div className="textEditor p-1">
+        <div className="p-2">
+          <Editor
+            editorState={editorState}
+            onChange={setEditorState}
+            handleKeyCommand={handleKeyCommand}
+            placeholder="Message"
+            ariaLabel="Message"
+            tabIndex="0"
+          />
+        </div>
+        <div className="border-t border-gray-200 pt-1">
+          <button type="button" onClick={onBoldClick}><b>B</b></button>
+          <button type="button" onClick={onItalicClick}><em>I</em></button>
+          <button type="button" onClick={onCodeClick}>Code</button>
+        </div>
     </div>
   </>
   )

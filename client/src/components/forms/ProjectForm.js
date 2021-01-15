@@ -109,7 +109,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         placeholder="Project Name"
         ref={register({ required: true })}
       />
-      {errors["projectTitle"] && <span>This field is required</span>}
+      {errors["projectTitle"] && <span className="error">This field is required</span>}
 
       <label className="sr-only" htmlFor="projectLink">
         Project Link
@@ -121,7 +121,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
       {errors["projectLink"] && (
-        <span>This field is required and must be a valid URL</span>
+        <span className="error">This field is required and must be a valid URL</span>
       )}
 
       <label className="sr-only" htmlFor="liveLink">
@@ -134,7 +134,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
       {errors["liveLink"] && (
-        <span>This field is required and must be a valid URL</span>
+        <span className="error">This field is required and must be a valid URL</span>
       )}
 
       {/* <label className="sr-only" htmlFor="message">
