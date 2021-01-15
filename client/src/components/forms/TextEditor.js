@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertFromRaw } from 'draft-js';
+import { markdownToDraft } from 'markdown-draft-js';
 import 'draft-js/dist/Draft.css';
 
 /** Text editor component allowing rich text formatting (using markup) */
-export default function TextEditor({ onChange }) {
+export default function TextEditor({ onChange, defaultValue }) {
+  /** The defaultValue markdown string converted to draft raw object */
+  const defaultRawObject = markdownToDraft(defaultValue);
+  /** The default content state to fill editor with if defaultValue is provided */
+  const defaultContentState = convertFromRaw(defaultRawObject);
+  
+  /** the state of the editor - if defaultValue is specified, set intial content to that value */
   const [editorState, setEditorState] = useState(() => 
-    EditorState.createEmpty(),
+    !defaultValue ? 
+      EditorState.createEmpty() : 
+      EditorState.createWithContent(defaultContentState)
   );
 
   // update parent state when editor state is changed
