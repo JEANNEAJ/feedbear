@@ -8,9 +8,9 @@ const styleMap = {
   'STRIKETHROUGH': {
     textDecoration: 'line-through',
   },
-  'H1': {
+  // 'H1': {
 
-  }
+  // }
 };
 
 

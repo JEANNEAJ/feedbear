@@ -91,7 +91,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
 
   /** update editorMarkup in state when editor state changes */
   const handleEditorChange = (value) => {
-    // console.log(value);
     setEditorValue(value);
   };
 
@@ -147,7 +146,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>} */}
 
-      <TextEditor onChange={handleEditorChange} />
+      <TextEditor onChange={handleEditorChange} defaultValue={values ? values.message: ''} />
 
       <ImageUpload file={file} handleUpload={setFile} />
 
