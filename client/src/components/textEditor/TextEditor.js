@@ -3,6 +3,17 @@ import { Editor, EditorState, RichUtils, convertFromRaw } from 'draft-js';
 import { markdownToDraft } from 'markdown-draft-js';
 import 'draft-js/dist/Draft.css';
 
+/** Custom styles (only bold, italics, underline, and code are included by default) */
+const styleMap = {
+  'STRIKETHROUGH': {
+    textDecoration: 'line-through',
+  },
+  'H1': {
+
+  }
+};
+
+
 /** Text editor component allowing rich text formatting (using markup) */
 export default function TextEditor({ onChange, defaultValue }) {
   /** The defaultValue markdown string converted to draft raw object */
@@ -31,6 +42,10 @@ export default function TextEditor({ onChange, defaultValue }) {
     } return 'not-handled';
   };
 
+  const toggleBlockType = (blockType) => {
+    setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+  }
+
   const onBoldClick = () => {
     setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
   };
@@ -43,11 +58,16 @@ export default function TextEditor({ onChange, defaultValue }) {
     setEditorState(RichUtils.toggleInlineStyle(editorState, 'CODE'));
   };
 
+  const onStrikethroughClick = () => {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'STRIKETHROUGH'));
+  };
+
   return (
     <>
       <div className="textEditor p-1">
         <div className="p-2">
           <Editor
+            customStyleMap={styleMap}
             editorState={editorState}
             onChange={setEditorState}
             handleKeyCommand={handleKeyCommand}
@@ -57,9 +77,10 @@ export default function TextEditor({ onChange, defaultValue }) {
           />
         </div>
         <div className="border-t border-gray-200 pt-1">
-          <button type="button" onClick={onBoldClick}><b>B</b></button>
-          <button type="button" onClick={onItalicClick}><em>I</em></button>
-          <button type="button" onClick={onCodeClick}>Code</button>
+          <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
+          <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
+          <button className="line-through" type="button" onClick={onStrikethroughClick} title="Strikethrough" aria-label="Strikethrough">abc</button>
+          <button type="button" onClick={onCodeClick} title="Code" aria-label="Code">{'<>'}</button>
         </div>
     </div>
   </>

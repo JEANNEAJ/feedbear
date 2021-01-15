@@ -5,7 +5,7 @@ import { convertToRaw } from 'draft-js';
 import { draftToMarkdown } from 'markdown-draft-js';
 
 import { getComments } from "../../slices/commentSlice";
-import TextEditor from './TextEditor';
+import TextEditor from '../textEditor/TextEditor';
 
 import * as commentApi from "../../api/comments";
 
