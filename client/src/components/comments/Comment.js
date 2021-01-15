@@ -96,7 +96,7 @@ export default function Comment(props) {
             </p>
 
             {editing !== _id ? (
-              <p><ReactMarkdown>{comment}</ReactMarkdown></p>
+              <div className="markdown"><ReactMarkdown>{comment}</ReactMarkdown></div>
             ) : (
               <CommentEditForm
                 comment={comment}

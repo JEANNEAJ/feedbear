@@ -83,7 +83,7 @@ export default function ProjectDetails(props) {
               src={file ? file : "https://placekitten.com/400/300"}
               alt="Placeholder"
             />
-              <p className="mb-10"><ReactMarkdown>{message}</ReactMarkdown></p>
+              <div className="mb-10 markdown"><ReactMarkdown>{message}</ReactMarkdown></div>
             <p className="text-sm">ID: {projectId}</p>
           </div>
           <div className="mt-10">

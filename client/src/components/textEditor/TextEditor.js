@@ -64,39 +64,37 @@ export default function TextEditor({ onChange, defaultValue }) {
   };
 
   return (
-    <>
-      <div className="textEditor p-1">
-        <div className="p-2">
-          <Editor
-            customStyleMap={styleMap}
-            blockStyleFn={getBlockStyle}
-            editorState={editorState}
-            onChange={setEditorState}
-            handleKeyCommand={handleKeyCommand}
-            placeholder="Message"
-            ariaLabel="Message"
-            tabIndex="0"
-          />
-        </div>
-        <ul className="border-t border-gray-200 pt-1 flex">
-          <BlockStyleToolbar
-            editorState={editorState}
-            onToggle={toggleBlockType}
-          />
-          <li>
-            <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
-          </li>
-          <li>
-            <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
-          </li>
-          <li>
-            <button className="line-through" type="button" onClick={onStrikethroughClick} title="Strikethrough" aria-label="Strikethrough">abc</button>
-          </li>
-          <li>
-            <button type="button" onClick={onCodeClick} title="Code" aria-label="Code">{'<>'}</button>
-          </li>
-        </ul>
-    </div>
-  </>
+    <div className="textEditor p-1">
+      <div className="p-2 markdown">
+        <Editor
+          customStyleMap={styleMap}
+          blockStyleFn={getBlockStyle}
+          editorState={editorState}
+          onChange={setEditorState}
+          handleKeyCommand={handleKeyCommand}
+          placeholder="Message"
+          ariaLabel="Message"
+          tabIndex="0"
+        />
+      </div>
+      <ul className="border-t border-gray-200 pt-1 flex">
+        <BlockStyleToolbar
+          editorState={editorState}
+          onToggle={toggleBlockType}
+        />
+        <li>
+          <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
+        </li>
+        <li>
+          <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
+        </li>
+        <li>
+          <button className="line-through" type="button" onClick={onStrikethroughClick} title="Strikethrough" aria-label="Strikethrough">abc</button>
+        </li>
+        <li>
+          <button type="button" onClick={onCodeClick} title="Code" aria-label="Code">{'<>'}</button>
+        </li>
+      </ul>
+  </div>
   )
 }

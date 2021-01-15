@@ -48,7 +48,7 @@ export default function Project(props) {
       </div>
 
       {/* project message */}
-      <p className="mt-5"><ReactMarkdown>{message}</ReactMarkdown></p>
+      <div className="mt-5 markdown"><ReactMarkdown>{message}</ReactMarkdown></div>
     </li>
   );
 }
