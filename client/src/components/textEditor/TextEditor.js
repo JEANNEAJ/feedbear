@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Editor, EditorState, RichUtils, convertFromRaw } from 'draft-js';
 import { markdownToDraft } from 'markdown-draft-js';
+
+import BlockStyleToolbar, { getBlockStyle } from './BlockStyleToolbar';
+
 import 'draft-js/dist/Draft.css';
 
 /** Custom styles (only bold, italics, underline, and code are included by default) */
@@ -8,9 +11,6 @@ const styleMap = {
   'STRIKETHROUGH': {
     textDecoration: 'line-through',
   },
-  // 'H1': {
-
-  // }
 };
 
 
@@ -43,6 +43,7 @@ export default function TextEditor({ onChange, defaultValue }) {
   };
 
   const toggleBlockType = (blockType) => {
+    console.log(blockType);
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   }
 
@@ -68,6 +69,7 @@ export default function TextEditor({ onChange, defaultValue }) {
         <div className="p-2">
           <Editor
             customStyleMap={styleMap}
+            blockStyleFn={getBlockStyle}
             editorState={editorState}
             onChange={setEditorState}
             handleKeyCommand={handleKeyCommand}
@@ -76,6 +78,10 @@ export default function TextEditor({ onChange, defaultValue }) {
             tabIndex="0"
           />
         </div>
+        <BlockStyleToolbar
+          editorState={editorState}
+          onToggle={toggleBlockType}
+        />
         <div className="border-t border-gray-200 pt-1">
           <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
           <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
