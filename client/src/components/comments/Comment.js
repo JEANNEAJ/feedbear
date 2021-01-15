@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
+
 import {
   getComments,
   setEditing,
@@ -96,7 +98,7 @@ export default function Comment(props) {
             </p>
 
             {editing !== _id ? (
-              <div className="markdown"><ReactMarkdown>{comment}</ReactMarkdown></div>
+                <div className="markdown"><ReactMarkdown plugins={[gfm]}>{comment}</ReactMarkdown></div>
             ) : (
               <CommentEditForm
                 comment={comment}
