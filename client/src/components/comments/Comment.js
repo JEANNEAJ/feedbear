@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import ReactMarkdown from 'react-markdown';
 import {
   getComments,
   setEditing,
@@ -95,7 +96,7 @@ export default function Comment(props) {
             </p>
 
             {editing !== _id ? (
-              <p>{comment}</p>
+              <p><ReactMarkdown>{comment}</ReactMarkdown></p>
             ) : (
               <CommentEditForm
                 comment={comment}
