@@ -12,13 +12,10 @@ export default function TextEditor({ onChange }) {
   const [editorState, setEditorState] = useState(() => 
     EditorState.createEmpty(),
   );
-  // const [markdown, setMarkdown] = useState('');
 
-  // update 
+  // update parent state when editor state is changed
   useEffect(() => {
-    const rawState = convertToRaw(editorState.getCurrentContent());
-    const markdownString = draftToMarkdown(rawState);
-    onChange(markdownString);
+    onChange(editorState.getCurrentContent());
   }, [editorState]);
 
   const handleKeyCommand = (command) => {

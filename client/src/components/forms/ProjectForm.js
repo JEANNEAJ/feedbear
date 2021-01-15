@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 
 import { submit, update } from "../../slices/projectSlice";
 import { selectUser } from "../../slices/userSlice";
@@ -31,7 +33,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
   const [file, setFile] = useState(null);
 
   /** The current markup in the text editor */
-  const [editorMarkup, setEditorMarkup] = useState('');
+  const [editorValue, setEditorValue] = useState('');
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -52,6 +54,12 @@ export default function ProjectForm({ buttonText, values, projectId }) {
     }
   }, [isSubmitSuccessful, reset]);
 
+  /** The markdown string from the editor */
+  const editorMarkdown = () => {
+    const rawState = convertToRaw(editorValue);
+    return draftToMarkdown(rawState);
+  };
+
   // submit the form data
   const onSubmit = async () => {
     // create and populate FormData object
@@ -60,7 +68,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
       userId,
       name,
       file,
-      message: editorMarkup,
+      message: editorMarkdown(),
       ...getValues(), // values from the text fields
     };
 
@@ -86,8 +94,8 @@ export default function ProjectForm({ buttonText, values, projectId }) {
 
   /** update editorMarkup in state when editor state changes */
   const handleEditorChange = (value) => {
-    console.log(value);
-    setEditorMarkup(value);
+    // console.log(value);
+    setEditorValue(value);
   };
 
   return (
