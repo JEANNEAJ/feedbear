@@ -78,16 +78,24 @@ export default function TextEditor({ onChange, defaultValue }) {
             tabIndex="0"
           />
         </div>
-        <BlockStyleToolbar
-          editorState={editorState}
-          onToggle={toggleBlockType}
-        />
-        <div className="border-t border-gray-200 pt-1">
-          <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
-          <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
-          <button className="line-through" type="button" onClick={onStrikethroughClick} title="Strikethrough" aria-label="Strikethrough">abc</button>
-          <button type="button" onClick={onCodeClick} title="Code" aria-label="Code">{'<>'}</button>
-        </div>
+        <ul className="border-t border-gray-200 pt-1 flex">
+          <BlockStyleToolbar
+            editorState={editorState}
+            onToggle={toggleBlockType}
+          />
+          <li>
+            <button type="button" onClick={onBoldClick} title="Bold" aria-label="Bold"><b>B</b></button>
+          </li>
+          <li>
+            <button type="button" onClick={onItalicClick} title="Italic" aria-label="Italic"><em>I</em></button>
+          </li>
+          <li>
+            <button className="line-through" type="button" onClick={onStrikethroughClick} title="Strikethrough" aria-label="Strikethrough">abc</button>
+          </li>
+          <li>
+            <button type="button" onClick={onCodeClick} title="Code" aria-label="Code">{'<>'}</button>
+          </li>
+        </ul>
     </div>
   </>
   )

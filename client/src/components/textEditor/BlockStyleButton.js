@@ -14,8 +14,10 @@ export default function BlockStyleButton(props) {
   }
 
   return (
-    <span className={className} onClick={onToggle}>
-      {label}
-    </span>
+    <li>
+      <button className={className} onClick={onToggle} title={style} aria-label={style}>
+        {label}
+      </button>
+    </li>
   )
 }

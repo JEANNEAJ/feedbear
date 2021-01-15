@@ -35,27 +35,25 @@ export default function BlockStyleToolbar({ editorState, onToggle }) {
     .getBlockForKey(selection.getStartKey())
     .getType();
   return (
-    <div>
-      <span className="RichEditor-controls">
-        <HeaderStyleDropdown
-          headerOptions={BLOCK_TYPE_HEADINGS}
-          active={blockType}
-          onToggle={onToggle}
-        />
+    <>
+      <HeaderStyleDropdown
+        headerOptions={BLOCK_TYPE_HEADINGS}
+        active={blockType}
+        onToggle={onToggle}
+      />
 
-        {BLOCK_TYPES.map(type => {
-          return (
-            <BlockStyleButton
-              active={type.style === blockType}
-              label={type.label}
-              onToggle={onToggle}
-              style={type.style}
-              key={type.label}
-              type={type}
-            />
-          );
-        })}
-      </span>
-    </div>
+      {BLOCK_TYPES.map(type => {
+        return (
+          <BlockStyleButton
+            active={type.style === blockType}
+            label={type.label}
+            onToggle={onToggle}
+            style={type.style}
+            key={type.label}
+            type={type}
+          />
+        );
+      })}
+    </>
   )
 }
