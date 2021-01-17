@@ -13,20 +13,37 @@ const styleMap = {
   },
 };
 
+/** Custom rules for markdownToDraft */
+const markdownToDraftOptions = {
+  blockStyles: {
+    'del_open': 'STRIKETHROUGH', // enables strikethrough conversion from markup (~~ ~~)
+  },
+  remarkableOptions: {
+    enable: {
+      inline: "del",
+    },
+  },
+};
+
 
 /** Text editor component allowing rich text formatting (using markup) */
 export default function TextEditor({ onChange, defaultValue }) {
-  /** The defaultValue markdown string converted to draft raw object */
-  const defaultRawObject = markdownToDraft(defaultValue);
-  /** The default content state to fill editor with if defaultValue is provided */
-  const defaultContentState = convertFromRaw(defaultRawObject);
   
-  /** the state of the editor - if defaultValue is specified, set intial content to that value */
-  const [editorState, setEditorState] = useState(() => 
-    !defaultValue ? 
-      EditorState.createEmpty() : 
-      EditorState.createWithContent(defaultContentState)
-  );
+  /** the state of the editor - empty by default */
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+
+
+  useEffect(() => {
+    // if a default value is provided, covert into editor state and update state
+    if (defaultValue) {
+      /** The defaultValue markdown string converted to draft raw object */
+      const defaultRawObject = markdownToDraft(defaultValue, markdownToDraftOptions);
+      /** The default content state to fill editor with if defaultValue is provided */
+      const defaultContentState = convertFromRaw(defaultRawObject);
+
+      setEditorState(() => EditorState.createWithContent(defaultContentState));
+    }
+  }, []);
 
   // update parent state when editor state is changed
   useEffect(() => {
