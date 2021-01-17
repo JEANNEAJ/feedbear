@@ -28,7 +28,6 @@ const LoginForm = () => {
       onSubmit={handleSubmit(handleLogin)}
     >
       <input
-        className="input-text"
         name="email"
         type="email"
         placeholder="email"
@@ -37,7 +36,6 @@ const LoginForm = () => {
       {errors.email && <span>This field is required</span>}
 
       <input
-        className="input-text"
         name="password"
         type="password"
         placeholder="password"
@@ -46,14 +44,12 @@ const LoginForm = () => {
       {errors.password && <span>This field is required</span>}
 
       {/* TODO: refactor this into an error message component? FormError or something? */}
-      {error ? (
+      {error &&
         <p className="error">
           <strong>Error: </strong>
           {error}
         </p>
-      ) : (
-        ""
-      )}
+      }
 
       <button className="btn-submit">Sign In</button>
       <p> Don't have an account?</p>

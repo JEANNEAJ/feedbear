@@ -47,6 +47,7 @@ const pending = (state, action) => {
   }
 };
 
+/** Adjust redux state to reflect successful authentication (login/signup)  */
 const fulfilled = (state, action) => {
   console.log("fulfilled");
   const { requestId } = action.meta;
@@ -55,9 +56,8 @@ const fulfilled = (state, action) => {
     state.loading = "idle";
     state.currentRequestId = undefined;
 
-    if (action.type === "user/login/fulfilled") {
-      state.isLoggedIn = true;
-    }
+    // setting this flag with render the AuthenticatedApp
+    state.isLoggedIn = true;
 
     state.data = action.payload.data;
   }

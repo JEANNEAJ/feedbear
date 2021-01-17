@@ -2,16 +2,27 @@ import passport from "passport";
 
 export const signup = async (req, res, next) => {
   passport.authenticate("signup", async (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
 
-    if (!user) {
-      console.log("no user");
-      return next(err);
-    }
+    try {
+      if (err) {
+        return next(err);
+      }
+  
+      if (!user) {
+        console.log("no user");
+        return next(err);
+      }
+  
+      req.login(user, { session: false }, async (error) => {
+        if (error) return next(error);
+  
+        req.session.user = user; // stores user session
+      });
+      
+      return res.json({ data: user });
 
-    const { _id, email, name } = user;
-    return res.status(200).json({ data: { _id, email, name } });
+    } catch (error) {
+      return next(error);
+    }
   })(req, res, next);
 };
