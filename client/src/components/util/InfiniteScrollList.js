@@ -17,10 +17,10 @@ export default function InfiniteScrollList({List, fetchApi}) {
 
   }, [sort]);
   
-  useEffect(() => {
-    fetchNext(sort, []);
+  // useEffect(() => {
+  //   fetchNext(sort, []);
 
-  }, [fetchApi])
+  // }, [fetchApi])
 
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
@@ -54,17 +54,20 @@ export default function InfiniteScrollList({List, fetchApi}) {
         last
       }
 
+      // fetch `numResults` amount of items from DB
       const { data } = await fetchApi(options);
 
-      // const fetchedItems = removeDuplicates(items, data, numResults);
+      // check if the amount of items returned is less than the configured `numResults`
+      if (data.length < numResults) {
+        // if the amount of items is less then set has more to false to stop the infinite scroll from requesting more data
+        setHasMore(false);
+      }
+      
+      // remove any duplicate items
       const fetchedItems = removeDuplicates(previousItems, data, numResults);
 
-      // if (fetchedItems.length === items.length) {
-      if (fetchedItems.length === previousItems.length) {
-        setHasMore(false);
-      } else {
-        setItems(fetchedItems);
-      }
+      // set the items list with the unique fetched items
+      setItems(fetchedItems);
     } catch (err) {
       console.error(err);
     }
