@@ -33,7 +33,6 @@ export default function CommentEditForm(props) {
     <form className="form" onSubmit={handleSubmit(handleSave)}>
       <label className="sr-only" htmlFor="editComment"></label>
       <textarea
-        className="input-text"
         name="editComment"
         id="editComment"
         defaultValue={comment}
