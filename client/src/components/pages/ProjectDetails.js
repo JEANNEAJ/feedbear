@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
+import MarkdownDisplayComponent from '../util/MarkdownDisplayComponent';
 
 import {
   getComments,
@@ -85,7 +84,7 @@ export default function ProjectDetails(props) {
               src={file ? file : "https://placekitten.com/400/300"}
               alt="Placeholder"
             />
-              <div className="mb-10 markdown"><ReactMarkdown plugins={[gfm]}>{message}</ReactMarkdown></div>
+            {message && <MarkdownDisplayComponent className="mb-10">{message}</MarkdownDisplayComponent>}            
             <p className="text-sm">ID: {projectId}</p>
           </div>
           <div className="mt-10">

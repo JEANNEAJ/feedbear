@@ -10,12 +10,12 @@ export default function HeaderStyleDropdown(props) {
 
   return (
     <li>
-    <label htmlFor="headerSelect" className="sr-only">Heading Type</label>
+      <label htmlFor="headerSelect" className="sr-only">Heading Type</label>
       <select name="headerSelect" value={active} onChange={onToggle}>
-        <option value="">Heading</option>
+        <option value="">Normal</option>
         {headerOptions.map(heading => {
           return (
-            <option value={heading.style}>
+            <option key={heading.label} value={heading.style}>
               {heading.label}
             </option>
           )

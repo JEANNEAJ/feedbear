@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
+import MarkdownDisplayComponent from '../util/MarkdownDisplayComponent';
 
 import TimeDifference from "../util/TimeDifference";
 
@@ -49,7 +48,7 @@ export default function Project(props) {
       </div>
 
       {/* project message */}
-      <div className="mt-5 markdown"><ReactMarkdown plugins={[gfm]}>{message}</ReactMarkdown></div>
+      <MarkdownDisplayComponent className="mt-5">{message}</MarkdownDisplayComponent>
     </li>
   );
 }

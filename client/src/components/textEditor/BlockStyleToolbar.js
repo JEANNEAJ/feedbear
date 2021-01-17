@@ -44,14 +44,14 @@ export default function BlockStyleToolbar({ editorState, onToggle }) {
         onToggle={onToggle}
       />
 
-      {BLOCK_TYPES.map(type => {
+      {BLOCK_TYPES.map((type) => {
         return (
           <BlockStyleButton
             active={type.style === blockType}
             label={type.label}
             onToggle={onToggle}
             style={type.style}
-            key={type.label}
+            key={type.style}
             type={type}
           />
         );

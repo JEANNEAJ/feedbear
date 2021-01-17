@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
 
 import {
   getComments,
@@ -13,6 +11,7 @@ import {
 
 import TimeDifference from "../util/TimeDifference";
 import CommentEditForm from "../forms/CommentEditForm";
+import MarkdownDisplayComponent from '../util/MarkdownDisplayComponent';
 
 import * as userApi from "../../api/user.js";
 import * as commentApi from "../../api/comments.js";
@@ -36,7 +35,6 @@ export default function Comment(props) {
     try {
       const { data } = await userApi.getUserName(userId);
       setUser(data[0]);
-      console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -98,7 +96,7 @@ export default function Comment(props) {
             </p>
 
             {editing !== _id ? (
-                <div className="markdown"><ReactMarkdown plugins={[gfm]}>{comment}</ReactMarkdown></div>
+              <MarkdownDisplayComponent>{comment}</MarkdownDisplayComponent>
             ) : (
               <CommentEditForm
                 comment={comment}

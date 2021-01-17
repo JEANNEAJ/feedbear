@@ -53,6 +53,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
     }
   }, [isSubmitSuccessful, reset]);
 
+  //TODO - where to put this? (same in multiple components)
   /** The markdown string from the editor */
   const editorMarkdown = () => {
     const rawState = convertToRaw(editorValue);
