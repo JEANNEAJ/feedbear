@@ -10,8 +10,8 @@ export const UpdateProject = () => {
     params: { projectId },
   } = useRouteMatch();
   
-  // set state variable to track progress of verifying if the logged in user is authorized to edit the request project
-  const [checkForAuthorizedUser, setCheckForAuthorizedUser] = useState({complete: false, isUserProjectCreator: false})
+  // set state variable to track progress of verifying if the logged in user is authorized to edit the requested project
+  const [authorizationCheck, setAuthorizationCheck] = useState({complete: false, isUserAuthorizedToEdit: false})
   const [project, setProject] = useState("");
 
   // get current logged in user from redux state
@@ -27,41 +27,41 @@ export const UpdateProject = () => {
       const { data } = await projectApi.fetchProjectByID("_id", projectId);
 
       const project = data[0];
-      // check if the retrieved project userId (id of the creator) is the same as the current loggedin user's id
+      // check if the retrieved project userId (id of the creator) is the same as the current logged in user's id
       if (project?.userId === currentLoggedInUser._id) {
         // set project in state to fetched project
         setProject(project);
         // update authorization check to true, and that the logged in user created the project
-        setCheckForAuthorizedUser({complete: true, isUserProjectCreator: true})
+        setAuthorizationCheck({complete: true, isUserAuthorizedToEdit: true})
       } else {
         // if the project's creator id does not match the current loggedin user's id
-        // set authorization check to complete, and that the current logged in user did not create the retrieved project
-        setCheckForAuthorizedUser({complete: true, isUserProjectCreator: false})
+        // set authorization check to complete, and that the current logged in user is not authorized to edit the project
+        setAuthorizationCheck({complete: true, isUserAuthorizedToEdit: false})
       }
       
     } catch (error) {
       console.error(error);
     }
   };
-
-  // render only the Loading message if the check for the authorized user has not completed
-  if (checkForAuthorizedUser.complete === false) {
-    return <h2>Loading...</h2>
-  }
   
-  // redirect to home page if the current logged in user did not create the project that is being requested to edit
-  if (checkForAuthorizedUser.complete === true && checkForAuthorizedUser.isUserProjectCreator === false) {
-    return <Redirect to="/" />
-  }
-
-  // otherwise (the check for the authorized user has completed, and the currently logged in user is the creator of the project)
-  // render the project editing form
   return (
-    <div>
-      <h3>Edit Your Requests:</h3>
-      <ProjectForm buttonText="Save" values={project} projectId={projectId} />
-    </div>
-  );
+    // check if the authorization check has completed
+    authorizationCheck.complete
+      // when complete check if the logged in user is authorized to edit the project
+    ? authorizationCheck.isUserAuthorizedToEdit
+      // if they are then render the edit form
+      ? (
+        <div>
+          <h3>Edit Your Requests:</h3>
+          <ProjectForm buttonText="Save" values={project} projectId={projectId} />
+        </div>
+      )
+      // if the logged in user is not authorized to edit the project
+      // redirect to the home page
+      : <Redirect to="/" />
+      // if the authorization check has not completed then render a loading message
+    : <h2>Loading...</h2>
+  )
 };
 
 export default UpdateProject;
