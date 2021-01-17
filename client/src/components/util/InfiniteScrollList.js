@@ -13,53 +13,40 @@ export default function InfiniteScrollList({List, fetchApi}) {
   const [sort, setSort] = useState({ sortBy: 'createdAt', sortDirection: DESCENDING })
 
   useEffect(() => {
-    fetchNext(sort);
-
-  }, [sort]);
-  
-  // useEffect(() => {
-  //   fetchNext(sort, []);
-
-  // }, [fetchApi])
-
+    setHasMore(true)
+    fetchNext([]);
+    // reset and fetch when the sort value or the fetchApi prop value changes
+  }, [sort, fetchApi]);
+    
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
     const sortDirection = e.target.options[e.target.selectedIndex].dataset.sortdirection;
-  
+    
     setSort({ 
       sortBy,
       sortDirection,
     })
     
-    resetRequests()
   };
 
-  const resetRequests = () => {
-    setItems([])
-    setHasMore(true)
-  };
-
-  const fetchNext = async (sort = { sortBy: 'createdAt', sortDirection: DESCENDING}, previousItems = items) => {
-    const { sortBy, sortDirection } = sort;
-
+  const fetchNext = async (previousItems = items) => {
     const numResults = 20;
     /** The ID of the last item, empty string if none */
-    const last = !items.length ? "" : items[items.length - 1]._id;
+    const last = !previousItems.length ? "" : previousItems[previousItems.length - 1]._id;
 
     try {
+      // set options for the api call
       const options = {
+        ...sort,
         numResults,
-        sortBy,
-        sortDirection,
         last
       }
 
       // fetch `numResults` amount of items from DB
       const { data } = await fetchApi(options);
 
-      // check if the amount of items returned is less than the configured `numResults`
+      // if the amount of items fetched is less than `numResults` then set `hasMore` to false to stop the infinite scroll from requesting more data
       if (data.length < numResults) {
-        // if the amount of items is less then set has more to false to stop the infinite scroll from requesting more data
         setHasMore(false);
       }
       
@@ -78,10 +65,10 @@ export default function InfiniteScrollList({List, fetchApi}) {
       <label htmlFor="sort">Sort: </label>
       <select onChange={handleSort} id="sort">
         <option data-sortby="createdAt" data-sortdirection={DESCENDING}>
-          Date (descending)
+          Date (Newest)
         </option>
         <option data-sortby="createdAt" data-sortdirection={ASCENDING}>
-          Date (ascending)
+          Date (Oldest)
         </option>
       </select>
 
@@ -96,16 +83,6 @@ export default function InfiniteScrollList({List, fetchApi}) {
             <b>Yay! You have seen it all</b>
           </p>
         }
-        // below props only if you need pull down functionality
-        // refreshFunction={this.refresh}
-        // pullDownToRefresh
-        // pullDownToRefreshThreshold={50}
-        // pullDownToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-        // }
-        // releaseToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-        // }
       >
         <List items={items} />
       </InfiniteScroll>
