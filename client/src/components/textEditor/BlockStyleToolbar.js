@@ -1,12 +1,14 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListUl, faListOl, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
 
 import HeaderStyleDropdown from './HeaderStyleDropdown';
 import BlockStyleButton from './BlockStyleButton';
 
 const BLOCK_TYPES = [
-  { label: " “ ” ", style: "blockquote" },
-  { label: "UL", style: "unordered-list-item" },
-  { label: "OL", style: "ordered-list-item" },
+  { label: <FontAwesomeIcon icon={faQuoteRight} />, style: "blockquote" },
+  { label: <FontAwesomeIcon icon={faListUl} />, style: "unordered-list-item" },
+  { label: <FontAwesomeIcon icon={faListOl} />, style: "ordered-list-item" },
   { label: "{ }", style: 'code-block' }
 ];
 

@@ -32,9 +32,8 @@ export default function TextEditor({ onChange, defaultValue }) {
   /** the state of the editor - empty by default */
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
 
-
   useEffect(() => {
-    // if a default value is provided, covert into editor state and update state
+    // if a default value is provided, convert into editor state and update state
     if (defaultValue) {
       /** The defaultValue markdown string converted to draft raw object */
       const defaultRawObject = markdownToDraft(defaultValue, markdownToDraftOptions);
