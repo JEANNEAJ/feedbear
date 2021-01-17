@@ -1,0 +1,10 @@
+{
+  "type": "service_account",
+  "project_id": "feedbear-298219",
+  "private_key_id": "280bd40c50e3e1dabe9a0843604d89907088bf23",
+  "client_id": "111141962013501997085",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/upload-service%40feedbear-298219.iam.gserviceaccount.com"
+}

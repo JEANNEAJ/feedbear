@@ -35,7 +35,6 @@ export default function CommentForm(props) {
         Your feedback
       </label>
       <textarea
-        className="input-text"
         name="input-feedback"
         id="input-feedback"
         placeholder="Leave your feedback"

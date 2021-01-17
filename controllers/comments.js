@@ -72,12 +72,14 @@ export const deleteComment = async (req, res, next) => {
 
   if (validUser) {
     try {
-      const deletedComment = await Project.updateOne(
+      await Project.updateOne(
         { _id: projectId }, // filter
         { $pull: { comments: { _id: commentId } } } // update
       );
+
       await updateNumComments(projectId);
-      res.status(201).json(deletedComment);
+
+      return res.sendStatus(204);
     } catch (err) {
       console.error(err);
       return next(err);
