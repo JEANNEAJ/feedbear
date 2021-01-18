@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
-import * as projectApi from "../../api/projects";
 import * as userApi from "../../api/user";
+import * as projectApi from "../../api/projects";
 
-import Project from "../projects/Project";
-import ProjectOptions from "../projects/ProjectOptions";
 import { selectUser } from "../../slices/userSlice";
+import ProjectList from "../projects/ProjectList";
+import InfiniteScrollList from '../lists/InfiniteScrollList';
 
 function UserPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [name, setName] = useState("");
-  const [projects, setProjects] = useState([]);
 
   const location = useLocation();
 
@@ -36,62 +34,25 @@ function UserPage() {
     }
   }, [location.name, loggedInUser, profileId]);
 
-  // perform initial fetch of projects
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const { data } = await projectApi.fetchProjectByID("userId", profileId);
-        setProjects(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProjects();
-    setIsLoading(false);
-  }, [profileId]);
+  /**
+   * function preset with the api options specific to the user page
+   * @param  {...any} extraOptions extra option paramters to be used in the api call
+   */
+  const fetchUserProjects = (...extraOptions) => {
+    const options = {
+      idType: 'userId',
+      id: profileId,
+      ...extraOptions[0]
+    }
 
-  // handle manual refreshes
-  const handleRefresh = async () => {
-    setIsLoading(true);
-    const { data } = await projectApi.fetchProjectByID("userId", profileId);
-    setProjects(data);
-    setIsLoading(false);
-  };
+    return projectApi.fetchProjects(options)
+  }
 
   return (
     <div className="container mx-auto">
-      {isLoading ? (
-        <h2>Loading user details</h2>
-      ) : (
-        <>
-          <h2 className="text-xl font-bold">{name}</h2>
-
-          <h3 className="text-xl mt-3">Projects:</h3>
-
-          {!projects.length ? (
-            <p>
-              Nothing here, try making a <Link to={"/"}>new Project</Link>
-            </p>
-          ) : (
-            <ul>
-              {projects.map((project) => (
-                <Project key={project._id} project={project}>
-                  {loggedInUser._id === profileId && (
-                    <ProjectOptions
-                      userId={loggedInUser._id}
-                      projectId={project._id}
-                      projectTitle={project.projectTitle}
-                      deleteAction={handleRefresh}
-                    />
-                  )}
-                </Project>
-              ))}
-            </ul>
-          )}
-
-          <button onClick={handleRefresh}>refresh 🔃</button>
-        </>
-      )}
+      <h2 className="text-xl font-bold">{name}</h2>
+      <h3 className="text-xl mt-3">Projects:</h3>
+      <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects}/>
     </div>
   );
 }
