@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from 'react'
-// import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeDuplicates } from '../../helpers'
-// import ListItem from './ListItem';
-// import Project from '../projects/Project';
-// import ProjectOptions from "../projects/ProjectOptions";
-
-// import {
-//   setListItems,
-//   selectListItems,
-//   setSort,
-//   setListType,
-//   fetchNext,
-//   selectHasMore,
-//   resetList,
-// } from "../../slices/listSlice";
-
-// import { selectUser } from "../../slices/userSlice";
 
 /** List component with infinite scroll */
 export default function List(props) {

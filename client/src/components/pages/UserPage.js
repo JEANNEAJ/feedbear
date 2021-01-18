@@ -9,8 +9,6 @@ import { selectUser } from "../../slices/userSlice";
 import ProjectList from "../projects/ProjectList";
 import InfiniteScrollList from '../lists/InfiniteScrollList';
 
-// import { setSearchParams } from "../../slices/listSlice";
-
 function UserPage() {
   const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
