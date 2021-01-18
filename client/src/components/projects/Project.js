@@ -34,8 +34,8 @@ export default function Project(props) {
             <TimeDifference dateString={createdAt} /> ago
           </p>
           <div className="flex space-x-2">
-            <a href={projectLink}>Project Link</a>
-            <a href={liveLink}>Live Link</a>
+            <a href={liveLink} target="_blank" rel="noopener noreferrer">View App</a>
+            <a href={projectLink} target="_blank" rel="noopener noreferrer">View Repository</a>
           </div>
 
           {/* project message */}
