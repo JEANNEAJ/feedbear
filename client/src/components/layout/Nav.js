@@ -14,19 +14,16 @@ export default function Nav() {
         <Link to={"/"}>Feedback App</Link>
       </h1>
 
-      {_id && (
-        <ul>
-          <li>
-            <Link to={`/user/${_id}`}>My Projects</Link>
-          </li>
-          <li>
-            <Link to={"/"}>Back to Main Page</Link>
-          </li>
-          <li>
-            <LogoutButton />
-          </li>
-        </ul>
-      )}
+      <ul>
+        <li><Link to={"/contact"}>Contact</Link></li>
+        {_id && (
+          <>
+            <li><Link to={`/user/${_id}`}>My Projects</Link></li>
+            <li><Link to={"/"}>Back to Main Page</Link></li>
+            <li><LogoutButton /></li>
+          </>
+        )}
+      </ul>
     </nav>
   );
 }
