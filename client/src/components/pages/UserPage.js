@@ -16,8 +16,6 @@ function UserPage() {
 
   const location = useLocation();
 
-  // const dispatch = useDispatch();
-
   // determine the display name for the current UserPage
   useEffect(() => {
     if (location.name && profileId !== loggedInUser._id) {

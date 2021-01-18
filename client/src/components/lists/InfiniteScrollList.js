@@ -14,9 +14,6 @@ export default function List(props) {
   const [items, setItems] = useState([])
   const [sort, setSort] = useState({ sortBy: 'createdAt', sortDirection: DESCENDING })
 
-
-  // const dispatch = useDispatch();
-
   useEffect(() => {
     setHasMore(true)
     fetchNext([]);
@@ -77,22 +74,20 @@ export default function List(props) {
         </option>
       </select>
 
-      {/* <ul> */}
-        <InfiniteScroll
-          dataLength={items.length}
-          next={fetchNext}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-          scrollThreshold={1} // how far down to scroll before fetching more
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
-        >
-          <List items={items} />
-        </InfiniteScroll>
-      {/* </ul> */}
+      <InfiniteScroll
+        dataLength={items.length}
+        next={fetchNext}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        scrollThreshold={1} // how far down to scroll before fetching more
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+      >
+        <List items={items} />
+      </InfiniteScroll>
     </>
   )
 }
