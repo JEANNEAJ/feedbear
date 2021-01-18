@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
 
 import * as userApi from "../../api/user";
+import * as projectApi from "../../api/projects";
 
 import { selectUser } from "../../slices/userSlice";
-
+import ProjectList from "../projects/ProjectList";
 import InfiniteScrollList from '../lists/InfiniteScrollList';
 
-import { setSearchParams } from "../../slices/listSlice";
+// import { setSearchParams } from "../../slices/listSlice";
 
 function UserPage() {
   const { userId: profileId } = useParams();
@@ -17,7 +18,7 @@ function UserPage() {
 
   const location = useLocation();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // determine the display name for the current UserPage
   useEffect(() => {
@@ -35,25 +36,26 @@ function UserPage() {
       };
       fetchName(profileId);
     }
+  }, [location.name, loggedInUser, profileId]);
 
-    dispatch(setSearchParams({
+  /**
+   * function preset with the api options specific to the user page
+   * @param  {...any} extraOptions extra option paramters to be used in the api call
+   */
+  const fetchUserProjects = (...extraOptions) => {
+    const options = {
       idType: 'userId',
       id: profileId,
-    }));
-
-    // cleanup
-    return function cleanup() {
-      dispatch(setSearchParams({
-        idType: '',
-        id: '',
-      }));
+      ...extraOptions[0]
     }
-  }, [location.name, loggedInUser, profileId]);
+
+    return projectApi.fetchProjects(options)
+  }
 
   return (
     <div className="container mx-auto">
       <h2 className="text-xl font-bold">{name}</h2>
-      {/* <List type="userProjects" /> */}
+      <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects}/>
     </div>
   );
 }
