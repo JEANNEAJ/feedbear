@@ -12,16 +12,9 @@ const url = "/projects";
  * @param {String} idType the type of ID to search for, if unspecified will not search by ID (will return all projects)
  * @param {String} id The ID to search with (only if idSearch is spefified)
  */
-export const fetchProjects = (numResults, sortBy, sortDirection, last, idType, id) =>
+export const fetchProjects = (options) =>
   axios.get(url, {
-    params: {
-      numResults,
-      sortBy,
-      sortDirection,
-      last,
-      idType,
-      id,
-    },
+    params: {...options},
   });
 
 export const fetchProjectByID = (type, ID) =>

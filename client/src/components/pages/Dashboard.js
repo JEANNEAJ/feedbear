@@ -1,14 +1,15 @@
 import { React } from "react";
-// import ProjectList from "../projects/ProjectList";
+import ProjectList from "../projects/ProjectList";
 import ProjectForm from "../forms/ProjectForm";
+import { fetchProjects } from '../../api/projects';
 
-import List from '../lists/List';
+import InfiniteScrollList from '../lists/InfiniteScrollList';
 
 const Dashboard = () => {
   return (
     <div>
       <ProjectForm buttonText="Submit" />
-      <List type="projects" />
+      <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
     </div>
   );
 };

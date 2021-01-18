@@ -6,7 +6,7 @@ import * as userApi from "../../api/user";
 
 import { selectUser } from "../../slices/userSlice";
 
-import List from '../lists/List';
+import InfiniteScrollList from '../lists/InfiniteScrollList';
 
 import { setSearchParams } from "../../slices/listSlice";
 
@@ -53,7 +53,7 @@ function UserPage() {
   return (
     <div className="container mx-auto">
       <h2 className="text-xl font-bold">{name}</h2>
-      <List type="userProjects" />
+      {/* <List type="userProjects" /> */}
     </div>
   );
 }
