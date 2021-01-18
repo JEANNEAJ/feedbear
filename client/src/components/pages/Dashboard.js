@@ -9,7 +9,11 @@ const Dashboard = () => {
   return (
     <div>
       <ProjectForm buttonText="Submit" />
-      <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
+
+      <div className="container mx-auto mt-10">
+        <h2 className="text-xl font-bold">Projects</h2>
+        <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
+      </div>
     </div>
   );
 };

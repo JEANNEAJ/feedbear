@@ -53,6 +53,7 @@ function UserPage() {
   return (
     <div className="container mx-auto">
       <h2 className="text-xl font-bold">{name}</h2>
+      <h3 className="text-xl mt-3">Projects:</h3>
       <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects}/>
     </div>
   );

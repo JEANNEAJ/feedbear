@@ -66,11 +66,7 @@ export default function List(props) {
   }
 
   return (
-    <div className="container mx-auto">
-      <div className="mt-10 flex justify-between">
-        <h2 className="text-xl font-bold">Projects</h2>
-      </div>
-
+    <>
       <label htmlFor="sort">Sort: </label>
       <select onChange={handleSort} id="sort">
         <option data-sortby="createdAt" data-sortdirection={DESCENDING}>
@@ -81,7 +77,7 @@ export default function List(props) {
         </option>
       </select>
 
-      <ul>
+      {/* <ul> */}
         <InfiniteScroll
           dataLength={items.length}
           next={fetchNext}
@@ -96,7 +92,7 @@ export default function List(props) {
         >
           <List items={items} />
         </InfiniteScroll>
-      </ul>
-    </div>
+      {/* </ul> */}
+    </>
   )
 }
