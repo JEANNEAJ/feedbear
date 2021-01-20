@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearErrors, login, selectError } from "../../slices/userSlice";
 import { useForm } from "react-hook-form";
+import FormError from "./FormError";
 
 const LoginForm = () => {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -43,13 +44,7 @@ const LoginForm = () => {
       />
       {errors.password && <span>This field is required</span>}
 
-      {/* TODO: refactor this into an error message component? FormError or something? */}
-      {error &&
-        <p className="error">
-          <strong>Error: </strong>
-          {error}
-        </p>
-      }
+      <FormError error={error} />
 
       <button className="btn-submit">Sign In</button>
       <p> Don't have an account?</p>
