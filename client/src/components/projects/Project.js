@@ -33,10 +33,12 @@ export default function Project(props) {
             <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
             <TimeDifference dateString={createdAt} /> ago
           </p>
+
+          {_id !== '5ff63422551e1e10ac0a44a1' && //omit links from pinned project
           <div className="flex space-x-2">
             <a href={liveLink} target="_blank" rel="noopener noreferrer">View App</a>
             <a href={projectLink} target="_blank" rel="noopener noreferrer">View Repository</a>
-          </div>
+          </div>}
 
           {/* project message */}
           <p className="mt-5">{message}</p>
