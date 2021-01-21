@@ -10,6 +10,7 @@ export default function ProjectList(props) {
   return (
     <ul>
       {items.map((project) => (
+        project._id !== '5ff63422551e1e10ac0a44a1' && //omit pinned project from list
         <Project key={project._id} project={project}>
           {loggedInUser._id === project.userId && (
             <ProjectOptions
