@@ -24,6 +24,6 @@
   }
 
   .form span, .error {
-    @apply text-center text-sm text-red-600;
+    @apply block text-center text-sm text-red-600;
   }
 }
