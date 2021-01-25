@@ -2,10 +2,9 @@ const FormError = (props) => {
     return (
         <div>
             {props.error &&
-                <p className="error">
-                    <strong>form Error: </strong>
-                    {props.error}
-                </p>
+                <span className="error">
+                    <strong>{props.errorMsg}</strong>
+                </span>
             }
         </div>
     )

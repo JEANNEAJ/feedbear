@@ -34,7 +34,7 @@ const LoginForm = () => {
         placeholder="email"
         ref={register({ required: true })}
       />
-      {errors.email && <span>This field is required</span>}
+      <FormError error={errors.email} errorMsg={"This field is required"} />
 
       <input
         name="password"
@@ -42,7 +42,7 @@ const LoginForm = () => {
         placeholder="password"
         ref={register({ required: true })}
       />
-      {errors.password && <span>This field is required</span>}
+      <FormError error={errors.password} errorMsg={"This field is required"} />
 
       <FormError error={error} />
 

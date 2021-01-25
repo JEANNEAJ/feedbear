@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { getComments } from "../../slices/commentSlice";
 
 import { useForm } from "react-hook-form";
+import FormError from "./FormError";
 
 import * as commentApi from "../../api/comments";
 
@@ -40,7 +41,7 @@ export default function CommentForm(props) {
         placeholder="Leave your feedback"
         ref={register({ required: true })}
       ></textarea>
-      {errors["input-feedback"] && <span>This field is required</span>}
+      <FormError error={errors["input-feedback"]} errorMsg={"This field is required"} />
 
       <button className="btn-submit" type="submit">
         Submit

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import FormError from "./FormError";
 
 import { submit, update } from "../../slices/projectSlice";
 import { selectUser } from "../../slices/userSlice";
@@ -90,7 +91,8 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         placeholder="Project Name"
         ref={register({ required: true })}
       />
-      {errors["projectTitle"] && <span>This field is required</span>}
+
+      <FormError error={errors["projectTitle"]} errorMsg={"This field is required"}/>
 
       <label className="sr-only" htmlFor="projectLink">
         Project Link
@@ -101,9 +103,8 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         placeholder="Enter Project Link (eg. github)"
         ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
-      {errors["projectLink"] && (
-        <span>This field is required and must be a valid URL</span>
-      )}
+
+      <FormError error={errors["projectLink"]} errorMsg={"This field is required and must be a valid URL"}/>
 
       <label className="sr-only" htmlFor="liveLink">
         Project Live Link
@@ -114,19 +115,19 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         placeholder="Enter live link"
         ref={register({ required: true, validate: { validUrl: validateUrl } })}
       />
-      {errors["liveLink"] && (
-        <span>This field is required and must be a valid URL</span>
-      )}
+
+      <FormError error={errors["liveLink"]} errorMsg={"This field is required and must be a valid URL"}/>
 
       <label className="sr-only" htmlFor="message">
         Message
       </label>
       <textarea
-        name="message"
+        name="input-message"
         placeholder="Enter Message"
         ref={register({ required: true })}
       ></textarea>
-      {errors["input-message"] && <span>This field is required</span>}
+
+      <FormError error={errors["input-message"]} errorMsg={"This field is required"}/>
 
       <ImageUpload file={file} handleUpload={setFile} />
 

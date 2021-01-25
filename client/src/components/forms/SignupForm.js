@@ -4,6 +4,7 @@ import { clearErrors, signup, selectError } from "../../slices/userSlice";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { validateEmail, validatePassword } from "../../helpers/validation";
+import FormError from "./FormError";
 
 const SignupForm = () => {
   const { register, handleSubmit, watch, errors, getValues } = useForm({ mode: 'onBlur' });
@@ -35,7 +36,7 @@ const SignupForm = () => {
         placeholder="Name"
         ref={register({ required: true })}
       />
-      {errors.name && <span>Name cannot be empty</span>}
+      <FormError error={errors.name} errorMsg={"Name cannot be empty"} />
 
       <input
         name="email"
@@ -46,8 +47,8 @@ const SignupForm = () => {
           validate: value => validateEmail(value)
         })}
       />
-      {errors.email?.type === 'required' && <span>E-mail cannot be empty</span>}
-      {errors.email?.type === 'validate' && <span>Please enter a valid e-mail</span>}
+      <FormError error={errors.email?.type === 'required'} errorMsg={"E-mail cannot be empty"} />
+      <FormError error={errors.email?.type === 'validate'} errorMsg={"Please enter a valid e-mail"} />
 
       <input
         name="matchEmail"
@@ -58,7 +59,7 @@ const SignupForm = () => {
           validate: value => value === getValues('email')
         })}
       />
-      {errors.matchEmail && <span>E-mail does not match</span>}
+      <FormError error={errors.matchEmail} errorMsg={"E-mail does not match"} />
 
       <input
         name="password"
@@ -71,9 +72,9 @@ const SignupForm = () => {
         })}
 
       />
-      {errors.password?.type === 'required' && <span>Password cannot be empty</span>}
-      {errors.password?.type === 'minLength' && <span>Password must be at least 8 characters</span>}
-      {errors.password?.type === 'validate' && <span>Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number</span>}
+      <FormError error={errors.password?.type === 'required'} errorMsg={"Password cannot be empty"} />
+      <FormError error={errors.password?.type === 'minLength'} errorMsg={"Password must be at least 8 characters"} />
+      <FormError error={errors.password?.type === 'validate'} errorMsg={"Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number"}/>
 
       <input
         name="matchPassword"
@@ -84,15 +85,10 @@ const SignupForm = () => {
           validate: value => value === getValues('password')
         })}
       />
-      {errors.matchPassword && <span>Password does not match</span>}
+      <FormError error={errors.matchPassword} errorMsg={"Password does not match"} />
 
-      {error &&
-        <p className="error">
-          <strong>Error: </strong>
-          {error}
-        </p>
-      }
-
+      <FormError error={error} errorMsg={error}/>
+     
       <button className="btn-submit">Create User</button>
       <p>Already registered?</p>
       <p>
