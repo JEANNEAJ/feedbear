@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { removeDuplicates } from '../../helpers'
+import { removeDuplicates } from "../../helpers";
 
 /** List component with infinite scroll */
 export default function List(props) {
@@ -11,38 +11,43 @@ export default function List(props) {
 
   /** False when there are no more projects - used to display message to user */
   const [hasMore, setHasMore] = useState(true);
-  const [items, setItems] = useState([])
-  const [sort, setSort] = useState({ sortBy: 'createdAt', sortDirection: DESCENDING })
+  const [items, setItems] = useState([]);
+  const [sort, setSort] = useState({
+    sortBy: "createdAt",
+    sortDirection: DESCENDING,
+  });
 
   useEffect(() => {
-    setHasMore(true)
+    setHasMore(true);
     fetchNext([]);
     // reset and fetch when the sort value or the fetchApi prop value changes
   }, [sort, fetchApi]);
-    
+
   const handleSort = (e) => {
     const sortBy = e.target.options[e.target.selectedIndex].dataset.sortby;
-    const sortDirection = e.target.options[e.target.selectedIndex].dataset.sortdirection;
-    
-    setSort({ 
+    const sortDirection =
+      e.target.options[e.target.selectedIndex].dataset.sortdirection;
+
+    setSort({
       sortBy,
       sortDirection,
-    })
-    
+    });
   };
 
   const fetchNext = async (previousItems = items) => {
     const numResults = 20;
     /** The ID of the last item, empty string if none */
-    const last = !previousItems.length ? "" : previousItems[previousItems.length - 1]._id;
+    const last = !previousItems.length
+      ? ""
+      : previousItems[previousItems.length - 1]._id;
 
     try {
       // set options for the api call
       const options = {
         ...sort,
         numResults,
-        last
-      }
+        last,
+      };
 
       // fetch `numResults` amount of items from DB
       const { data } = await fetchApi(options);
@@ -51,7 +56,7 @@ export default function List(props) {
       if (data.length < numResults) {
         setHasMore(false);
       }
-      
+
       // remove any duplicate items
       const fetchedItems = removeDuplicates(previousItems, data, numResults);
 
@@ -60,7 +65,7 @@ export default function List(props) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <>
@@ -78,7 +83,15 @@ export default function List(props) {
         dataLength={items.length}
         next={fetchNext}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <h4 className="flex mt-3">
+            <div
+              style={{ borderTopColor: "black" }}
+              className="animate-spin mr-2 loader ease-linear rounded-full border-2 border-t-2 border-gray-200 h-6 w-6"
+            ></div>
+            Loading...
+          </h4>
+        }
         scrollThreshold={1} // how far down to scroll before fetching more
         endMessage={
           <p style={{ textAlign: "center" }}>
@@ -89,5 +102,5 @@ export default function List(props) {
         <List items={items} />
       </InfiniteScroll>
     </>
-  )
+  );
 }
