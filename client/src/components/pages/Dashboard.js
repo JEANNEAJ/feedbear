@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ProjectList from "../projects/ProjectList";
 import ProjectForm from "../forms/ProjectForm";
-import { fetchProjects } from '../../api/projects';
+import { fetchProjects } from "../../api/projects";
 
-import InfiniteScrollList from '../lists/InfiniteScrollList';
-import Project from '../projects/Project';
+import InfiniteScrollList from "../lists/InfiniteScrollList";
+import Project from "../projects/Project";
 
 import * as projectApi from "../../api/projects";
 
@@ -18,14 +18,17 @@ const Dashboard = () => {
   /** get pinned project from the db (hardcoded for now) */
   const getPinned = async () => {
     try {
-      const { data } = await projectApi.fetchProjectByID("_id", '5ff63422551e1e10ac0a44a1');
+      const { data } = await projectApi.fetchProjectByID(
+        "_id",
+        "5ff63422551e1e10ac0a44a1"
+      );
 
       console.log(data[0]);
       setPinned(data[0]);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div>
