@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeDuplicates } from "../../helpers";
 
+import LoadingSpinner from '../util/LoadingSpinner';
+
 /** List component with infinite scroll */
 export default function List(props) {
   const { List, fetchApi } = props;
@@ -84,13 +86,7 @@ export default function List(props) {
         next={fetchNext}
         hasMore={hasMore}
         loader={
-          <h4 className="flex mt-3">
-            <div
-              style={{ borderTopColor: "black" }}
-              className="animate-spin mr-2 loader ease-linear rounded-full border-2 border-t-2 border-gray-200 h-6 w-6"
-            ></div>
-            Loading...
-          </h4>
+          <LoadingSpinner />
         }
         scrollThreshold={1} // how far down to scroll before fetching more
         endMessage={

@@ -30,10 +30,6 @@ const Dashboard = () => {
     }
   };
 
-  const style = {
-    borderTopColor: "black",
-  };
-
   return (
     <div>
       <ProjectForm buttonText="Submit" />
