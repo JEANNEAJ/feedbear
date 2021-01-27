@@ -11,7 +11,7 @@ export default function Nav() {
   return (
     <nav className="container mx-auto p-5">
       <h1 className="text-3xl font-bold">
-        <Link to={"/"}>Feedback App</Link>
+        <Link to={"/"}>FeedBear</Link>
       </h1>
 
       {_id && (

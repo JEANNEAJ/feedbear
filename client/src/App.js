@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import Hero from "./components/layout/Hero";
 import Nav from "./components/layout/Nav";
 import AuthenticatedApp from "./AuthenticatedApp";
 import UnauthenticatedApp from "./UnauthenticatedApp";
@@ -15,8 +16,9 @@ function App() {
   return (
     <Router>
       {/* arrange components in a flex-column that spans 100vh */}
-      <div className="bg-gradient-to-b from-purple-400 to-blue-400 flex flex-col justify-between min-h-screen">
+      <div className="bg-gray-100">
         <header>
+          <Hero />
           <Nav />
         </header>
 
