@@ -5,6 +5,7 @@ import {
   Strategy as JWTstrategy,
   ExtractJwt as ExtractJWT,
 } from "passport-jwt";
+import { uploadImage } from "../helpers/helpers.js";
 
 import UserModel from "../models/users.js";
 
@@ -23,16 +24,21 @@ passport.use(
       try {
         const name = req.body.name;
 
+        // TODO: choose default avatar
+        let avatar = req.file
+          ? await uploadImage(req.file)
+          : "https://placekitten.com/300/300";
+
         // create new User document and save it in the database
         const user = await UserModel.create({
           name,
           email,
           password,
+          avatar,
         });
 
         return done(null, user);
       } catch (err) {
-
         // handles failed registration due to invalid email format
         if (err.errors.email) {
           err.message = err.errors.email.properties.message;
