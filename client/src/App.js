@@ -18,7 +18,6 @@ function App() {
       {/* arrange components in a flex-column that spans 100vh */}
       <div className="bg-gray-100">
         <header>
-          <Hero />
           <Nav />
         </header>
 
