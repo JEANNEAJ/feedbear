@@ -3,7 +3,6 @@ import userReducer, {
   initialState as userInitialState,
 } from "../slices/userSlice";
 import commentReducer from "../slices/commentSlice";
-import projectListReducer from "../slices/projectListSlice";
 import * as api from "../api/session";
 
 /**
@@ -38,7 +37,6 @@ export const initializeStore = async () => {
       reducer: {
         user: userReducer,
         comments: commentReducer,
-        projectList: projectListReducer,
       },
       preloadedState: await setPreloadedUserState(),
     });

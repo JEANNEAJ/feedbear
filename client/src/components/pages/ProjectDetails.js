@@ -73,17 +73,24 @@ export default function ProjectDetails(props) {
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago
             </p>
-            <div className="flex space-x-4">
-              <a href={liveLink}>View App</a>
-              <a href={projectLink}>View Repository</a>
-            </div>
+
+            {projectId !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
+              <div className="flex space-x-4">
+                <a href={liveLink} target="_blank" rel="noopener noreferrer">
+                  View App
+                </a>
+                <a href={projectLink} target="_blank" rel="noopener noreferrer">
+                  View Repository
+                </a>
+              </div>
+            )}
+
             <img
               className="mx-auto max-w-full my-3"
               src={file ? file : "https://placekitten.com/400/300"}
               alt="Placeholder"
             />
             <p className="mb-10">{message}</p>
-            <p className="text-sm">ID: {projectId}</p>
           </div>
           <div className="mt-10">
             <h3 className="mb-5 text-xl font-bold">Feedback</h3>
