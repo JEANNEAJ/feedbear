@@ -9,6 +9,7 @@ module.exports = {
         'yellowBtn': '#FFE3AA',
         'blueBtn': '#9ADCFF',
         'neutralBtn': '#DAD7D7',
+        'grayBox': '#BDB7B7',
       }
     },
   },

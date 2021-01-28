@@ -9,24 +9,33 @@ export default function Nav() {
   const { _id } = user.data;
 
   return (
-    <nav className="container mx-auto p-5">
-      <h1 className="text-3xl font-bold">
-        <Link to={"/"}>FeedBear</Link>
-      </h1>
+    <div className="bg-gray-300">
 
-      {_id && (
-        <ul>
-          <li>
-            <Link to={`/user/${_id}`}>My Projects</Link>
-          </li>
-          <li>
-            <Link to={"/"}>Back to Main Page</Link>
-          </li>
-          <li>
-            <LogoutButton />
-          </li>
-        </ul>
-      )}
-    </nav>
+    
+      <nav className="container mx-auto p-5 flex justify-between">
+        <div className="logo">
+          {/* logo image */}
+          <h1 className="text-3xl font-bold">
+            <Link to={"/"}>FeedBear</Link>
+          </h1>
+        </div>
+
+        <div className="nav-options">
+          {_id && (
+            <ul>
+              <li>
+                <Link to={`/user/${_id}`}>My Projects</Link>
+              </li>
+              <li>
+                <Link to={"/"}>Back to Main Page</Link>
+              </li>
+              <li>
+                <LogoutButton />
+              </li>
+            </ul>
+            )}
+        </div>
+        </nav>
+    </div>
   );
 }
