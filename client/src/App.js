@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import Hero from "./components/layout/Hero";
 import Nav from "./components/layout/Nav";
 import AuthenticatedApp from "./AuthenticatedApp";
 import UnauthenticatedApp from "./UnauthenticatedApp";

@@ -19,7 +19,7 @@ const ImageUpload = ({ file, handleUpload }) => {
         htmlFor="file-input"
       >
         {/* upload button */}
-        <p className="btn-submit m-0 bg-purple-200 shadow-inner">
+        <p className="btn-submit m-0 bg-blueBtn">
           Attach an image
         </p>
 
