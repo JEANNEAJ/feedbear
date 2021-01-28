@@ -56,7 +56,7 @@ export const getProjectByID = async (req, res) => {
   }
 };
 
-export const createProject = async (req, res) => {
+export const createProject = async (req, res, next) => {
   const body = req.body;
   body.userId = req.session.user._id;
   console.log(body);
