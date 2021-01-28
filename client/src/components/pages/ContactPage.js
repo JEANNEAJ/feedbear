@@ -12,7 +12,9 @@ export default function ContactPage() {
       url: 'https://api.github.com/repos/jeanneaj/feedbear/contributors',
       method: 'GET',
       dataResponse: 'json'
-    }).then(res => setDustySticks(res.data))
+    }).then(res => {
+      setDustySticks(res.data.filter(user => user.type !== 'Bot'))
+    })
   }, [])
 
   return (
