@@ -3,14 +3,7 @@ import { deleteImage, uploadImage } from "../helpers/helpers.js";
 import Project from "../models/projects.js";
 
 export const getProjects = async (req, res) => {
-  const { 
-    numResults, 
-    sortBy, 
-    sortDirection, 
-    last,
-    idType,
-    id,
-   } = req.query;
+  const { numResults, sortBy, sortDirection, last, idType, id } = req.query;
 
   try {
     /** The date of the last item (current date if none provided) */
@@ -24,20 +17,22 @@ export const getProjects = async (req, res) => {
 
     const searchDirection = parseInt(sortDirection) === -1 ? "$lte" : "$gte";
     const searchQuery = !last.length
-      ? !idType ? {} : { [idType]: id }
+      ? !idType
+        ? {}
+        : { [idType]: id }
       : !idType
-        ? { createdAt: { [searchDirection]: lastDate } }
-        : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
+      ? { createdAt: { [searchDirection]: lastDate } }
+      : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
 
     console.log(idType);
     console.log(searchQuery);
 
     const projects = await Project.find(searchQuery, { comments: 0 })
+      .populate("userId", { name: 1, avatar: 1 })
       .sort({ createdAt: sortDirection })
       .limit(parseInt(numResults));
 
-      res.status(200).json(projects);
-
+    res.status(200).json(projects);
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: err });
@@ -59,11 +54,9 @@ export const getProjectByID = async (req, res) => {
 export const createProject = async (req, res, next) => {
   const body = req.body;
   body.userId = req.session.user._id;
-  console.log(body);
 
   // if a file was included, upload to GCS and store the URL
   try {
-    console.log(req.file);
     if (req.file) {
       const fileURL = await uploadImage(req.file);
       body.file = fileURL;

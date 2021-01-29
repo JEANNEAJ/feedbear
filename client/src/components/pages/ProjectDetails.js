@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  getComments,
-  setComments,
-  selectComments,
-} from "../../slices/commentSlice";
+import { getComments, selectComments } from "../../slices/commentSlice";
 
 import CommentList from "../comments/CommentList";
 import { useParams } from "react-router-dom";
@@ -35,20 +31,19 @@ export default function ProjectDetails(props) {
     file,
   } = project;
 
-  const populateProject = async () => {
-    try {
-      const { data } = await projectApi.fetchProjectByID("_id", projectId);
-
-      setProject(data[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    const populateProject = async () => {
+      try {
+        const { data } = await projectApi.fetchProjectByID("_id", projectId);
+
+        setProject(data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     populateProject();
     dispatch(getComments(projectId));
-  }, [projectId]);
+  }, [projectId, dispatch]);
 
   return (
     <div className="container mx-auto">
