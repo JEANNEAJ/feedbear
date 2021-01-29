@@ -22,12 +22,12 @@ export default function Nav() {
 
         <div className="nav-options">
           {_id && (
-            <ul>
-              <li>
+            <ul className="flex"> 
+              <li className="pr-5">
                 <Link to={`/user/${_id}`}>My Projects</Link>
               </li>
-              <li>
-                <Link to={"/"}>Back to Main Page</Link>
+              <li className="pr-5">
+                <Link to={"/"}>Home</Link>
               </li>
               <li>
                 <LogoutButton />

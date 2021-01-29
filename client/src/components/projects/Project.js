@@ -17,8 +17,7 @@ export default function Project(props) {
   } = props.project;
 
   return (
-    <div className="flex-1 flex-row">
-
+   
     <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-purple-200">
       <div className="flex justify-between">
         <div>
@@ -56,6 +55,5 @@ export default function Project(props) {
         </div>
       </div>
     </li>
-  </div>
   );
 }
