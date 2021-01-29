@@ -26,11 +26,7 @@ const userSchema = mongoose.Schema({
     },
     minlength: [8, "Password must be at least 8 characters"],
   },
-  // TODO: validation for this + URLs in project model?
-  avatar: {
-    type: String,
-    required: true,
-  },
+  avatar: String,
 });
 
 // hashing the user password to be stored safely

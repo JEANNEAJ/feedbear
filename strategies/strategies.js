@@ -24,17 +24,12 @@ passport.use(
       try {
         const name = req.body.name;
 
-        // TODO: choose default avatar
-        let avatar = req.file
-          ? await uploadImage(req.file)
-          : "https://placekitten.com/300/300";
-
         // create new User document and save it in the database
         const user = await UserModel.create({
           name,
           email,
           password,
-          avatar,
+          ...(req.file && { avatar: await uploadImage(req.file) }),
         });
 
         return done(null, user);
