@@ -8,7 +8,7 @@
   }
 
   .btn-submit {
-    @apply bg-purple-400 hover:bg-purple-200 border-2 border-transparent hover:border-purple-400 rounded-lg py-2 px-4 my-3 w-1/4 min-w-max;
+    @apply bg-greenBtn hover:bg-purple-200 border-2 border-transparent hover:border-purple-400 rounded-lg py-2 px-4 my-3 w-1/4 min-w-max;
   }
 
   .btn-options {
@@ -16,11 +16,12 @@
   }
 
   .form {
-    @apply container mx-auto max-w-screen-sm bg-white p-5 rounded-lg shadow-md;
+    @apply container mx-auto max-w-3xl bg-white p-5 rounded-lg shadow-md;
   }
 
   .form input,
-  .form textarea {
+  .form textarea,
+  .form-input {
     @apply mt-3 block w-full rounded-md bg-gray-100 shadow-inner border-transparent placeholder-gray-400 focus:border-gray-500 focus:bg-white focus:ring-1 focus:ring-purple-400;
   }
 
