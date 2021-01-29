@@ -16,7 +16,7 @@ export default function Hero() {
                     <h1 className="text-3xl font-bold pb-3">Welcome to FeedBear!</h1>
 
                     <p className="text-justify">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        Remember way back when we were suppose to ask people for some feedback on our apps? We made an app for that! Our app allows users to login and post their projects and ask other users to leave comments.
                     </p>
                 </div>
 
