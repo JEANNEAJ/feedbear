@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -7,41 +7,25 @@ import {
   setEditing,
   selectEditing,
 } from "../../slices/commentSlice";
+import bear from "../../assets/bear.png";
 
 import TimeDifference from "../util/TimeDifference";
 import CommentEditForm from "../forms/CommentEditForm";
 
-import * as userApi from "../../api/user.js";
 import * as commentApi from "../../api/comments.js";
 import { selectUser } from "../../slices/userSlice";
 
 export default function Comment(props) {
-  const { _id, comment, createdAt, userId } = props.comment;
+  const { _id, comment, createdAt, userId: userData } = props.comment;
+  const { userId, name, avatar } = userData;
   const { projectId } = props;
 
-  /** The user info for who created this comment (name, etc.) */
-  const [user, setUser] = useState({});
   /** The currently logged in user */
   const currentUser = useSelector(selectUser);
   /** The ID of the comment currently being edited */
   const editing = useSelector(selectEditing);
 
   const dispatch = useDispatch();
-
-  /** Get user info for this comment */
-  const fetchUserData = async () => {
-    try {
-      const { data } = await userApi.getUserName(userId);
-      setUser(data[0]);
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   /** Returns true if this comment was made by the currently logged in user */
   const isUserComment = () => {
@@ -78,43 +62,52 @@ export default function Comment(props) {
 
   return (
     <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
-      {!user ? (
+      {!userData ? (
         "Loading..."
       ) : (
         <>
-          {/* <img className='w-12 h-12 rounded-full flex-none' src={user.avatarUrl} alt={user.name} /> */}
-          <div className="pl-3">
-            <h4 className="font-bold">
-              <Link to={`/user/${userId}`}>
-                {user.name}
-                {isUserComment() && " (You)"}
-              </Link>
-            </h4>
-            <p className="text-sm">
-              submitted <TimeDifference dateString={createdAt} /> ago
-            </p>
+          {/* row flex for avatar + comment metadata */}
+          <div className="flex mb-3 items-center">
+            <img
+              className="object-cover w-12 h-12 rounded-full"
+              src={avatar ? avatar : bear}
+              alt={name}
+            />
 
-            {editing !== _id ? (
-              <p>{comment}</p>
-            ) : (
-              <CommentEditForm
-                comment={comment}
-                projectId={projectId}
-                commentId={_id}
-              />
-            )}
-
-            {isUserComment() && (
-              <>
-                <button className="btn-options" onClick={handleDelete}>
-                  delete
-                </button>
-                <button className="btn-options" onClick={handleEdit}>
-                  edit
-                </button>
-              </>
-            )}
+            {/* col flex for comment metadata */}
+            <div className="pl-3 flex flex-col">
+              <h4 className="font-bold">
+                <Link to={`/user/${userId}`}>
+                  {name}
+                  {isUserComment() && " (You)"}
+                </Link>
+              </h4>
+              <p className="text-sm">
+                submitted <TimeDifference dateString={createdAt} /> ago
+              </p>
+            </div>
           </div>
+
+          {editing !== _id ? (
+            <p>{comment}</p>
+          ) : (
+            <CommentEditForm
+              comment={comment}
+              projectId={projectId}
+              commentId={_id}
+            />
+          )}
+
+          {isUserComment() && (
+            <>
+              <button className="btn-options" onClick={handleDelete}>
+                delete
+              </button>
+              <button className="btn-options" onClick={handleEdit}>
+                edit
+              </button>
+            </>
+          )}
         </>
       )}
     </li>
