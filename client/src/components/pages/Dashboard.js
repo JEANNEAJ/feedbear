@@ -37,7 +37,7 @@ const Dashboard = () => {
       {/* Pinned project asking for feedback */}
       <div className="container mx-auto">
         <h2 className="text-xl font-bold">Pinned</h2>
-        <ul>
+        <ul className="w-full flex flex-col items-center">
           <Project project={pinned} />
         </ul>
       </div>
