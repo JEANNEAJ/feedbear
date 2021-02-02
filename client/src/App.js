@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       {/* arrange components in a flex-column that spans 100vh */}
-      <div className="bg-gray-100 flex flex-col">
+      <div className="bg-gray-100  flex flex-col">
         <header className="sticky top-0">
           <Nav />
         </header>

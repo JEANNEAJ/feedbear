@@ -9,13 +9,14 @@ export default function Nav() {
   const { _id } = user.data;
 
   return (
-    <div className="bg-gray-300">
+    <div className="bg-gray-300 shadow">
 
     
-      <nav className="container mx-auto p-5 flex justify-between">
-        <div className="logo">
+      <nav className="container mx-auto py-3 flex justify-between items-center">
+        <div className="logo w-10 flex items-center">
           {/* logo image */}
-          <h1 className="text-3xl font-bold">
+          <img src="Feedbear-no-tie-06.png"/>
+          <h1 className="text-3xl font-bold pl-1">
             <Link to={"/"}>FeedBear</Link>
           </h1>
         </div>

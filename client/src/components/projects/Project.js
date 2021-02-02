@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+// AT: Imported Font Awesome & 2 icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 import TimeDifference from "../util/TimeDifference";
 
 export default function Project(props) {
@@ -18,7 +21,7 @@ export default function Project(props) {
 
   return (
    
-    <li className="bg-white rounded-lg shadow-sm mt-7 px-3 py-2 hover:bg-purple-200 w-full">
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-300">
       <div className="flex justify-between">
         <div>
           {/* project title */}
@@ -36,9 +39,11 @@ export default function Project(props) {
           </p>
 
           {_id !== '5ff63422551e1e10ac0a44a1' && //omit links from pinned project
+          // AT:  Added FontAwesome icons here
+          // AT: Not sure if we want to style these links as buttons on the List view so just changed the color of the text
           <div className="flex space-x-2">
-            <a href={liveLink} target="_blank" rel="noopener noreferrer">View App</a>
-            <a href={projectLink} target="_blank" rel="noopener noreferrer">View Repository</a>
+            <a href={liveLink} target="_blank" rel="noopener noreferrer" className="hover:underline"><FontAwesomeIcon icon = {faEye} /> View App</a>
+            <a href={projectLink} target="_blank" rel="noopener noreferrer" className="hover:underline"><FontAwesomeIcon icon= {faCode} /> View Repository</a>
           </div>}
 
           {/* project message */}
