@@ -37,7 +37,7 @@ export default function ContactForm() {
 
   return (
     <form className='form text-center' noValidate={true} onSubmit={handleSubmit(onSubmit)}>
-      {!_id ?
+      {!_id ? (
         <>
           <input type='text'
             name='contactName'
@@ -58,14 +58,22 @@ export default function ContactForm() {
           {errors.email?.type === 'validate' && <span>Please enter a valid e-mail</span>}
 
         </>
-        :
-        <input type='text'
-          name='contactName'
-          value={name}
-          className='text-gray-400'
-          ref={register}
-        />
-      }
+      ) : (
+          <>
+            <input type='text'
+              name='contactName'
+              value={name}
+              style={{ display: 'none' }}
+              ref={register}
+            />
+            {/* display input only */}
+            <input type='text'
+              value={name}
+              className='text-gray-400'
+              disabled
+            />
+          </>
+        )}
       <textarea
         name='message'
         placeholder='Enter Message Here!'
