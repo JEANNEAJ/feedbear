@@ -12,7 +12,7 @@ export default function Nav() {
     <div className="bg-gray-300 shadow">
 
     
-      <nav className="container mx-auto py-3 flex justify-between items-center">
+      <nav className="container mx-auto p-3 flex justify-between items-center">
         <div className="logo w-10 flex items-center">
           {/* logo image */}
           <img src="Feedbear-no-tie-06.png"/>
