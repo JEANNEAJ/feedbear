@@ -22,8 +22,6 @@ const Dashboard = () => {
         "_id",
         "5ff63422551e1e10ac0a44a1"
       );
-
-      console.log(data[0]);
       setPinned(data[0]);
     } catch (err) {
       console.error(err);

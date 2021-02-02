@@ -5,6 +5,7 @@ import Dashboard from "./components/pages/Dashboard";
 import ProjectDetails from "./components/pages/ProjectDetails";
 import UserPage from "./components/pages/UserPage";
 import UpdateProject from "./components/pages/UpdateProject";
+import ContactPage from "./components/pages/ContactPage";
 
 const AuthenticatedApp = () => {
   return (
@@ -13,6 +14,7 @@ const AuthenticatedApp = () => {
       <Route exact path="/project/:projectId" component={ProjectDetails} />
       <Route exact path="/user/:userId" component={UserPage} />
       <Route exact path="/edit/:projectId" component={UpdateProject} />
+      <Route exact path={'/contact'} component={ContactPage} />
       <Redirect to="/" />
     </Switch>
   );
