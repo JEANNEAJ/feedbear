@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ProjectList from "../projects/ProjectList";
-import ProjectForm from "../forms/ProjectForm";
 import { fetchProjects } from "../../api/projects";
 
 import InfiniteScrollList from "../lists/InfiniteScrollList";
@@ -22,8 +22,6 @@ const Dashboard = () => {
         "_id",
         "5ff63422551e1e10ac0a44a1"
       );
-
-      console.log(data[0]);
       setPinned(data[0]);
     } catch (err) {
       console.error(err);
@@ -32,8 +30,6 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-screen-md container mx-auto">
-      <ProjectForm buttonText="Submit" />
-
       {/* Pinned project asking for feedback */}
       <div>
         <h2 className="text-xl font-bold">Pinned</h2>
@@ -42,8 +38,11 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      <div className="mt-10">
-        <h2 className="text-xl font-bold">Projects</h2>
+      <div className="container mx-auto mt-10">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-bold">Projects</h2>
+          <Link to={"/project"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link>
+        </div>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>
     </div>

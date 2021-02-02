@@ -90,8 +90,8 @@ export default function List(props) {
         }
         scrollThreshold={1} // how far down to scroll before fetching more
         endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>Yay! You have seen it all</b>
+          <p className="text-center pt-3">
+            <b>Yay! You've seen it all!</b>
           </p>
         }
       >
