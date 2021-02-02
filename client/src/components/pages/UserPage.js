@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 
 import * as userApi from "../../api/user";
 import * as projectApi from "../../api/projects";
@@ -50,9 +50,14 @@ function UserPage() {
 
   return (
     <div className="container mx-auto">
-      <h2 className="text-xl font-bold">{name}</h2>
-      <h3 className="text-xl mt-3">Projects:</h3>
-      <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects}/>
+      <h2 className="text-xl font-bold">Hi, {name}!</h2>
+
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl mt-3">Projects:</h3>
+        <Link to={"/project"} className="btn-submit rounded-full w-12">&#65291; Add Project</Link>
+      </div>
+
+      <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
     </div>
   );
 }

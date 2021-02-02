@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ProjectList from "../projects/ProjectList";
-import ProjectForm from "../forms/ProjectForm";
 import { fetchProjects } from "../../api/projects";
 
 import InfiniteScrollList from "../lists/InfiniteScrollList";
@@ -30,7 +30,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <ProjectForm buttonText="Submit" />
 
       {/* Pinned project asking for feedback */}
       <div className="container mx-auto">
@@ -41,7 +40,10 @@ const Dashboard = () => {
       </div>
 
       <div className="container mx-auto mt-10">
-        <h2 className="text-xl font-bold">Projects</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-bold">Projects</h2>
+          <Link to={"/project"} className="btn-submit rounded-full w-12">&#65291; Add Project</Link>
+        </div>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>
     </div>
