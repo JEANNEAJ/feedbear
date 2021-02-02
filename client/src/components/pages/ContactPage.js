@@ -18,13 +18,15 @@ export default function ContactPage() {
   }, [])
 
   return (
-    <>
-      <h2>Contact Us</h2>
-      <p>Have some comments about our app? Mention it on our very own <Link to={'/project/5ff63422551e1e10ac0a44a1'}>project page!</Link></p>
+    <div className="max-w-screen-md container mx-auto">
+      <h2 className="text-3xl font-bold">Contact Us</h2>
+      <p className="my-5">Have some comments about our app? Mention it on our very own <Link to={'/project/5ff63422551e1e10ac0a44a1'}>project page!</Link></p>
 
+  <ContactForm />
       <div>
-        <h3>Contributors</h3>
-        <ol>
+
+          <h3 className="text-center mt-5">Contributors:</h3>
+        <ol className="flex space-x-3 justify-center">
           {dustySticks.map(contributor => {
             return (
               <li key={contributor.id}>
@@ -35,7 +37,7 @@ export default function ContactPage() {
         </ol>
       </div>
 
-      <ContactForm />
-    </>
+      
+    </div>
   )
 }

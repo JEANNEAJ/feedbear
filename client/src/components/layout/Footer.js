@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="text-black text-center">
       <div className="container mx-auto p-5">
         <p>
-          Created by the <Link to={'/contact'}>graduates</Link> of Juno College
+          Created by the <Link to={'/contact'}>Graduates</Link> of Juno College
         </p>
         <p>© 2020</p>
       </div>

@@ -6,6 +6,10 @@ import {
   setComments,
   selectComments,
 } from "../../slices/commentSlice";
+// AT: Imported Font Awesome & 2 icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 import CommentList from "../comments/CommentList";
 import { useParams } from "react-router-dom";
@@ -76,11 +80,12 @@ export default function ProjectDetails(props) {
 
             {projectId !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
               <div className="flex space-x-4">
-                <a href={liveLink} target="_blank" rel="noopener noreferrer">
-                  View App
-                </a>
-                <a href={projectLink} target="_blank" rel="noopener noreferrer">
-                  View Repository
+                {/* AT: Added Font Awesome icons here + classNames*/}
+                <a href={liveLink} target="_blank" rel="noopener noreferrer" className="btn-view">
+                <FontAwesomeIcon icon = {faEye} /> View App
+                </a> 
+                <a href={projectLink} target="_blank" rel="noopener noreferrer" className="btn-view">
+                <FontAwesomeIcon icon= {faCode} /> View Repository
                 </a>
               </div>
             )}

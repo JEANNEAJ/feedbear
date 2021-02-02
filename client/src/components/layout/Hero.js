@@ -1,15 +1,15 @@
 import React from 'react'
 import LoginForm from "../forms/LoginForm";
-
+import feedbear from "../../assets/feedbear.png";
 export default function Hero() {
 
 
     return (
-        <div className="h-screen" >
+        <div >
 
             <div className=" hero-container flex flex-col md:flex-row justify-center items-center container mx-auto px-10 py-10">
                 <div className="logo w-1/4" >
-                    <img src="Feedbear-no-tie-06.png"/>
+                    <img src={feedbear}/>
                 </div>
 
                 <div className="hero-text md:w-2/5 md:pl-5">

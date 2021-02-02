@@ -8,7 +8,7 @@ export default function ProjectList(props) {
   const loggedInUser = useSelector(selectUser);
 
   return (
-    <ul>
+    <ul className="flex flex-col items-center container">
       {items.map((project) => (
         project._id !== '5ff63422551e1e10ac0a44a1' && //omit pinned project from list
         <Project key={project._id} project={project}>

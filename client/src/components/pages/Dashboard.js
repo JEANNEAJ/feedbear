@@ -29,12 +29,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-
+    <div className="max-w-screen-md container mx-auto">
       {/* Pinned project asking for feedback */}
-      <div className="container mx-auto">
+      <div>
         <h2 className="text-xl font-bold">Pinned</h2>
-        <ul>
+        <ul className="w-full flex flex-col items-center">
           <Project project={pinned} />
         </ul>
       </div>
@@ -42,7 +41,7 @@ const Dashboard = () => {
       <div className="container mx-auto mt-10">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">Projects</h2>
-          <Link to={"/project"} className="btn-submit rounded-full w-12">&#65291; Add Project</Link>
+          <Link to={"/project"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link>
         </div>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>

@@ -36,8 +36,9 @@ export default function ProjectOptions(props) {
 
   return (
     <div className="flex space-x-2">
-      <Link to={`/edit/${projectId}`}>Edit</Link>{" "}
-      <button onClick={openModal}>Delete</button>
+      {/* AT: Added classNames to these 2 elements below: */}
+      <Link to={`/edit/${projectId}`}> <button className='btn-edit'>Edit</button> </Link>{" "}
+      <button onClick={openModal} className='btn-delete' >Delete</button>
     </div>
   );
 }
