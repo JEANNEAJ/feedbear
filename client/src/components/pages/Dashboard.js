@@ -31,18 +31,18 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-screen-md container mx-auto">
       <ProjectForm buttonText="Submit" />
 
       {/* Pinned project asking for feedback */}
-      <div className="container mx-auto">
+      <div>
         <h2 className="text-xl font-bold">Pinned</h2>
         <ul className="w-full flex flex-col items-center">
           <Project project={pinned} />
         </ul>
       </div>
 
-      <div className="container mx-auto mt-10">
+      <div className="mt-10">
         <h2 className="text-xl font-bold">Projects</h2>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>

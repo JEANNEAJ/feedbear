@@ -18,7 +18,7 @@ export default function Project(props) {
 
   return (
    
-    <li className="bg-white rounded-lg shadow-sm mt-7 px-3 py-2 hover:bg-purple-200 w-1/2">
+    <li className="bg-white rounded-lg shadow-sm mt-7 px-3 py-2 hover:bg-purple-200 w-full">
       <div className="flex justify-between">
         <div>
           {/* project title */}
