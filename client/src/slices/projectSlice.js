@@ -15,6 +15,7 @@ export const submit = (formData) => async () => {
     const { data } = await projectApi.createProject(formData);
     console.log("submit success");
     console.log(data);
+    return { data }
   } catch (err) {
     console.log("submit failed");
     console.log(err);

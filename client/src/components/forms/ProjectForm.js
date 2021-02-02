@@ -70,9 +70,10 @@ export default function ProjectForm({ buttonText, values, projectId }) {
     // handle form submission for project creation/updates
     if (values) {
       await dispatch(update(projectId, formData));
-      history.push(`/user/${userId}`);
+      history.push(`/project/${projectId}`);
     } else {
-      await dispatch(submit(formData));
+      const { data } = await dispatch(submit(formData));
+      history.push(`/project/${data._id}`)
     }
   };
 
