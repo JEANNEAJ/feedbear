@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       {/* arrange components in a flex-column that spans 100vh */}
-      <div className="bg-gradient-to-b from-purple-400 to-blue-400 flex flex-col justify-between min-h-screen">
+      <div className="bg-gray-100">
         <header>
           <Nav />
         </header>
