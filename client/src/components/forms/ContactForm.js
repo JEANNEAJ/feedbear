@@ -18,12 +18,21 @@ export default function ContactForm() {
       url: process.env.REACT_APP_EMAIL_URL,
       method: 'POST',
       data
+    }).then(res => {
+      if (res.status === 200) {
+        Swal.fire({
+          title: 'Message Sent!',
+          text: 'Sent Successfully',
+          icon: 'success'
+        }).then(() => reset())
+      } else {
+        Swal.fire({
+          title: 'Something went wrong',
+          text: 'Please try again later',
+          icon: 'error'
+        })
+      }
     })
-    Swal.fire({
-      title: 'Message Sent!',
-      text: 'Sent Successfully',
-      icon: 'success'
-    }).then(() => reset())
   }
 
   return (
