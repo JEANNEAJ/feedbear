@@ -135,7 +135,7 @@ export default function ProjectForm({ buttonText, values, projectId }) {
       {isSubmitSuccessful && <p>Submission complete!</p>}
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
-        {buttonText}
+        {buttonText || 'Submit'}
       </button>
     </form>
   );

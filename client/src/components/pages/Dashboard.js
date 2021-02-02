@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ProjectList from "../projects/ProjectList";
-import ProjectForm from "../forms/ProjectForm";
 import { fetchProjects } from "../../api/projects";
 
 import InfiniteScrollList from "../lists/InfiniteScrollList";
@@ -30,7 +29,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <ProjectForm buttonText="Submit" />
 
       {/* Pinned project asking for feedback */}
       <div className="container mx-auto">
