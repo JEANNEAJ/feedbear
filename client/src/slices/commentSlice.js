@@ -10,7 +10,6 @@ export const commentSlice = createSlice({
   },
   reducers: {
     setComments(state, action) {
-      console.log(action.payload);
       state.comments = action.payload;
     },
     setEditing(state, action) {

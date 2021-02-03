@@ -29,7 +29,6 @@ const SignupForm = () => {
     const formData = new FormData();
     const keys = Object.keys(formInput);
     keys.forEach((key) => {
-      console.log("key:", key);
       // null fields will be skipped; this prevents the {file: "null"} issue
       if (formInput[key]) {
         formData.append(key, formInput[key]);
