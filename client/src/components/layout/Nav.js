@@ -16,7 +16,7 @@ export default function Nav() {
       <nav className="container mx-auto p-3 flex justify-between items-center">
         <div className="logo w-10 flex items-center">
           {/* logo image */}
-          <img src={feedbear}/>
+          <img src={feedbear} alt=""/>
           <h1 className="text-3xl font-bold pl-1">
             <Link to={"/"}>FeedBear</Link>
           </h1>
