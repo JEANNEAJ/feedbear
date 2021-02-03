@@ -24,9 +24,6 @@ export const getProjects = async (req, res) => {
       ? { createdAt: { [searchDirection]: lastDate } }
       : { createdAt: { [searchDirection]: lastDate }, [idType]: id };
 
-    console.log(idType);
-    console.log(searchQuery);
-
     const projects = await Project.find(searchQuery, { comments: 0 })
       .populate("userId", { name: 1, avatar: 1 })
       .sort({ createdAt: sortDirection })
