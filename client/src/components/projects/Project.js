@@ -32,7 +32,7 @@ export default function Project(props) {
             alt={`${name}'s avatar`}
           />
           <p className="text-sm">
-            <Link to={{ pathname: `/user/${userId}`, name }}>{name}</Link>{" "}
+            <Link to={{ pathname: `/user/${userId?._id}`, name }}>{name}</Link>{" "}
             <TimeDifference dateString={createdAt} /> ago
           </p>
         </div>

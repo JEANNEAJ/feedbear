@@ -17,7 +17,7 @@ import { selectUser } from "../../slices/userSlice";
 
 export default function Comment(props) {
   const { _id, comment, createdAt, userId: userData } = props.comment;
-  const { userId, name, avatar } = userData;
+  const { _id: userId, name, avatar } = userData;
   const { projectId } = props;
 
   /** The currently logged in user */
