@@ -15,13 +15,13 @@ function App() {
   return (
     <Router>
       {/* arrange components in a flex-column that spans 100vh */}
-      <div className="bg-gradient-to-b from-purple-400 to-blue-400 flex flex-col justify-between min-h-screen">
-        <header>
+      <div className="bg-gray-100  flex flex-col min-h-screen">
+        <header className="sticky top-0 bg-gray-300 shadow">
           <Nav />
         </header>
 
         {/* main component fills space b/w header and footer, centered vertically */}
-        <main className="flex-grow flex flex-col justify-around p-5">
+        <main className="flex-grow flex flex-col justify-between p-5">
           {isLoggedIn ? <AuthenticatedApp /> : <UnauthenticatedApp />}
         </main>
 

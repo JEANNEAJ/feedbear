@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+// AT: Imported Font Awesome & 2 icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faCode, faComments } from "@fortawesome/free-solid-svg-icons";
 import TimeDifference from "../util/TimeDifference";
 import bear from "../../assets/bear.png";
 
@@ -19,7 +21,7 @@ export default function Project(props) {
   } = props.project;
 
   return (
-    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-300 w-full">
       {/* project header */}
       <div className="flex justify-between w-full flex-shrink-0">
         {/* posted by {user} at {time difference} */}
@@ -36,14 +38,26 @@ export default function Project(props) {
         </div>
 
         {/* demo and repo links */}
-        <div className="flex items-end text-sm space-x-2 mt-auto">
+        <div className="flex items-end space-x-1 mt-auto">
           {_id !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
             <>
-              <a href={liveLink} target="_blank" rel="noopener noreferrer">
-                Demo
+              <a
+                href={liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill bg-blueBtn"
+              >
+                <FontAwesomeIcon icon={faEye} />
+                <span>Demo</span>
               </a>
-              <a href={projectLink} target="_blank" rel="noopener noreferrer">
-                Code
+              <a
+                href={projectLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill bg-greenBtn"
+              >
+                <FontAwesomeIcon icon={faCode} />
+                <span>Code</span>
               </a>
             </>
           )}
@@ -64,14 +78,21 @@ export default function Project(props) {
 
           <div className="flex items-end text-sm space-x-2 mt-auto pt-5">
             {/* Comment count */}
-            <Link to={`/project/${_id}`} title="Number of comments">
-              💬{commentsCount || 0} comments
+            <Link
+              to={`/project/${_id}`}
+              title="Number of comments"
+              className="space-x-1"
+            >
+              <FontAwesomeIcon icon={faComments} />
+              <span>
+                {commentsCount || 0} comment{commentsCount !== 1 && "s"}
+              </span>
             </Link>
           </div>
         </div>
 
         {/* RIGHT SIDE: image thumbnail, edit/delete buttons */}
-        <div className="pl-5 flex-shrink-0 flex flex-col justify-between w-60 items-end">
+        <div className="pl-5 flex-shrink-0 flex flex-col justify-between w-40 items-end">
           {file && (
             <img
               className="object-cover rounded-lg mt-10"
@@ -81,7 +102,7 @@ export default function Project(props) {
           )}
 
           {/* edit and delete button (if applicable) */}
-          <div className="mt-auto">{props.children}</div>
+          <div className="mt-auto pt-2">{props.children}</div>
         </div>
       </div>
     </li>

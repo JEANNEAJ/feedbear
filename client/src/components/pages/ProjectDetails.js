@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getComments, selectComments } from "../../slices/commentSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 import CommentList from "../comments/CommentList";
 import { useParams } from "react-router-dom";
@@ -10,7 +13,6 @@ import TimeDifference from "../util/TimeDifference";
 import ProjectOptions from "../projects/ProjectOptions";
 
 import * as projectApi from "../../api/projects";
-// import * as commentApi from "../../api/comments";
 
 export default function ProjectDetails(props) {
   const loggedInUserId = useSelector((state) => state.user.data._id);
@@ -71,11 +73,22 @@ export default function ProjectDetails(props) {
 
             {projectId !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
               <div className="flex space-x-4">
-                <a href={liveLink} target="_blank" rel="noopener noreferrer">
-                  View App
+                {/* AT: Added Font Awesome icons here + classNames*/}
+                <a
+                  href={liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-view"
+                >
+                  <FontAwesomeIcon icon={faEye} /> View App
                 </a>
-                <a href={projectLink} target="_blank" rel="noopener noreferrer">
-                  View Repository
+                <a
+                  href={projectLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-view"
+                >
+                  <FontAwesomeIcon icon={faCode} /> View Repository
                 </a>
               </div>
             )}

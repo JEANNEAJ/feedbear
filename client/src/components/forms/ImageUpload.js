@@ -15,11 +15,11 @@ const ImageUpload = ({ file, handleUpload }) => {
 
       {/* label: contains upload button + displays file name */}
       <label
-        className="flex items-center w-full mt-2"
+        className="flex items-center w-full form-input mt-2 cursor-pointer"
         htmlFor="file-input"
       >
         {/* upload button */}
-        <p className="btn-submit m-0 bg-purple-200 shadow-inner">
+        <p className="btn-view m-0 text-center font-bold">
           Attach an image
         </p>
 
