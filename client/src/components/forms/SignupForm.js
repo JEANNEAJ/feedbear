@@ -113,7 +113,11 @@ const SignupForm = () => {
           {error}
         </p>
       )}
-      <ImageUpload file={file} handleUpload={setFile} />
+      <ImageUpload
+        file={file}
+        handleUpload={setFile}
+        text={"Profile Picture (optional):"}
+      />
       <button className="btn-submit">Create User</button>
       <p>Already registered?</p>
       <p>
