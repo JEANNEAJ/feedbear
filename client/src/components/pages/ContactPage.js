@@ -19,8 +19,6 @@ export default function ContactPage() {
 
   return (
     <div className="max-w-screen-md container mx-auto">
-      <h2 className="text-3xl font-bold">Contact Us</h2>
-      <p className="my-5">Have some comments about our app? Mention it on our very own <Link to={'/project/5ff63422551e1e10ac0a44a1'}>project page!</Link></p>
 
   <ContactForm />
       <div>
