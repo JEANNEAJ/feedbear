@@ -12,10 +12,10 @@ const AuthenticatedApp = () => {
   return (
     <Switch>
       <Route exact path="/" component={Dashboard} />
+      <Route exact path="/project/new" render={() => <ProjectForm headingText="Add Project"/>} />
       <Route exact path="/project/:projectId" component={ProjectDetails} />
       <Route exact path="/user/:userId" component={UserPage} />
       <Route exact path="/edit/:projectId" component={UpdateProject} />
-      <Route exact path={'/project'} component={ProjectForm} />
       <Route exact path={'/contact'} component={ContactPage} />
       <Redirect to="/" />
     </Switch>

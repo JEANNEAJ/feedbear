@@ -8,7 +8,7 @@ import { selectUser } from "../../slices/userSlice";
 import ImageUpload from "./ImageUpload";
 import { validateUrl, formatToUrl } from "../../helpers/validation";
 
-export default function ProjectForm({ buttonText, values, projectId }) {
+export default function ProjectForm({ buttonText, values, projectId, headingText }) {
   const {
     register,
     handleSubmit,
@@ -78,6 +78,8 @@ export default function ProjectForm({ buttonText, values, projectId }) {
   };
 
   return (
+    <div className="max-w-screen-md container mx-auto">
+    { headingText && <h3 className="text-3xl font-bold mb-5">{ headingText }</h3>}
     <form
       className="form flex flex-col items-center"
       onSubmit={handleSubmit(onSubmit)}
@@ -139,5 +141,6 @@ export default function ProjectForm({ buttonText, values, projectId }) {
         {buttonText || 'Submit'}
       </button>
     </form>
+    </div>
   );
 }

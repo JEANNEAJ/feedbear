@@ -4,6 +4,7 @@ import { useRouteMatch, Redirect } from "react-router-dom";
 import * as projectApi from "../../api/projects";
 import { selectUser } from "../../slices/userSlice";
 import { useSelector } from "react-redux";
+import LoadingSpinner from '../util/LoadingSpinner';
 
 export const UpdateProject = () => {
   const {
@@ -45,22 +46,21 @@ export const UpdateProject = () => {
   };
   
   return (
-    // check if the authorization check has completed
-    authorizationCheck.complete
-      // when complete check if the logged in user is authorized to edit the project
-    ? authorizationCheck.isUserAuthorizedToEdit
-      // if they are then render the edit form
-      ? (
-        <div>
-          <h3>Edit Your Requests:</h3>
-          <ProjectForm buttonText="Save" values={project} projectId={projectId} />
-        </div>
-      )
-      // if the logged in user is not authorized to edit the project
-      // redirect to the home page
-      : <Redirect to="/" />
-      // if the authorization check has not completed then render a loading message
-    : <h2>Loading...</h2>
+    <div className="max-w-screen-md container mx-auto">
+      {
+        // check if the authorization check has completed
+        authorizationCheck.complete
+          // when complete check if the logged in user is authorized to edit the project
+        ? authorizationCheck.isUserAuthorizedToEdit
+          // if they are then render the edit form
+          ? <ProjectForm buttonText="Save" values={project} projectId={projectId} headingText="Edit Project" />
+          // if the logged in user is not authorized to edit the project
+          // redirect to the home page
+          : <Redirect to="/" />
+          // if the authorization check has not completed then render a loading message
+        : <LoadingSpinner />
+      }
+    </div>
   )
 };
 

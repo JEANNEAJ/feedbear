@@ -41,7 +41,7 @@ const Dashboard = () => {
       <div className="container mx-auto mt-10">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">Projects</h2>
-          <Link to={"/project"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link>
+          <Link to={"/project/new"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link>
         </div>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>
