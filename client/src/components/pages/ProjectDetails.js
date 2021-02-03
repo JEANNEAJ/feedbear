@@ -54,7 +54,7 @@ export default function ProjectDetails(props) {
       ) : (
         <>
           <div className="bg-white rounded-lg shadow-md p-5">
-            <div className="text-lg flex justify-between">
+            <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold">{projectTitle}</h2>
               {loggedInUserId === userId && (
                 <ProjectOptions
@@ -72,24 +72,27 @@ export default function ProjectDetails(props) {
             </p>
 
             {projectId !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
-              <div className="flex space-x-4">
-                {/* AT: Added Font Awesome icons here + classNames*/}
-                <a
-                  href={liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-view"
-                >
-                  <FontAwesomeIcon icon={faEye} /> View App
-                </a>
-                <a
-                  href={projectLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-view"
-                >
-                  <FontAwesomeIcon icon={faCode} /> View Repository
-                </a>
+              <div className="flex items-end space-x-2 mt-auto">
+                <>
+                  <a
+                    href={liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pill bg-blueBtn"
+                  >
+                    <FontAwesomeIcon icon={faEye} />
+                    <span>Demo</span>
+                  </a>
+                  <a
+                    href={projectLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pill bg-greenBtn"
+                  >
+                    <FontAwesomeIcon icon={faCode} />
+                    <span>Code</span>
+                  </a>
+                </>
               </div>
             )}
 

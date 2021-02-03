@@ -38,7 +38,7 @@ export default function Project(props) {
         </div>
 
         {/* demo and repo links */}
-        <div className="flex items-end space-x-1 mt-auto">
+        <div className="flex items-end space-x-2 mt-auto">
           {_id !== "5ff63422551e1e10ac0a44a1" && ( //omit links from pinned project
             <>
               <a
