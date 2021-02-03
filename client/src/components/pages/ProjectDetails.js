@@ -96,11 +96,13 @@ export default function ProjectDetails(props) {
               </div>
             )}
 
-            <img
-              className="mx-auto max-w-full my-3"
-              src={file ? file : "https://placekitten.com/400/300"}
-              alt="Placeholder"
-            />
+            {file && (
+              <img
+                className="mx-auto max-w-full my-3"
+                src={file}
+                alt="Placeholder"
+              />
+            )}
             <p className="mb-10">{message}</p>
           </div>
           <div className="mt-10">
