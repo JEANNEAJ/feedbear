@@ -29,7 +29,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="max-w-screen-md container mx-auto">
+    <section>
       {/* Pinned project asking for feedback */}
       <div>
         <h2 className="text-xl font-bold">Pinned</h2>
@@ -38,14 +38,19 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      <div className="container mx-auto mt-10">
+      <div className="mt-10">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">Projects</h2>
-          <Link to={"/project"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link>
+          <Link
+            to={"/project"}
+            className="btn-submit rounded-full w-12 hover:no-underline"
+          >
+            &#65291; Add Project
+          </Link>
         </div>
         <InfiniteScrollList List={ProjectList} fetchApi={fetchProjects} />
       </div>
-    </div>
+    </section>
   );
 };
 

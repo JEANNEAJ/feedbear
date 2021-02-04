@@ -48,7 +48,7 @@ export default function ProjectDetails(props) {
   }, [projectId, dispatch]);
 
   return (
-    <div className="container mx-auto">
+    <section>
       {!project ? (
         "Loading..."
       ) : (
@@ -112,6 +112,6 @@ export default function ProjectDetails(props) {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

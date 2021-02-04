@@ -7,7 +7,7 @@ import * as projectApi from "../../api/projects";
 
 import { selectUser } from "../../slices/userSlice";
 import ProjectList from "../projects/ProjectList";
-import InfiniteScrollList from '../lists/InfiniteScrollList';
+import InfiniteScrollList from "../lists/InfiniteScrollList";
 
 function UserPage() {
   const { userId: profileId } = useParams();
@@ -15,7 +15,6 @@ function UserPage() {
   const [name, setName] = useState("");
 
   const isLoggedInUser = loggedInUser._id === profileId;
-  
 
   const location = useLocation();
 
@@ -43,29 +42,34 @@ function UserPage() {
    */
   const fetchUserProjects = (...extraOptions) => {
     const options = {
-      idType: 'userId',
+      idType: "userId",
       id: profileId,
-      ...extraOptions[0]
-    }
+      ...extraOptions[0],
+    };
 
-    return projectApi.fetchProjects(options)
-  }
+    return projectApi.fetchProjects(options);
+  };
 
   return (
-    <div className="max-w-screen-md container mx-auto">
+    <section>
       <h2 className="text-3xl font-bold">
-        { isLoggedInUser ? `Hi, ${name}!` : `${name}'s Profile`}
-        
+        {isLoggedInUser ? `Hi, ${name}!` : `${name}'s Profile`}
       </h2>
 
       <div className="flex justify-between items-center">
         <h3 className="text-xl mt-3">Projects:</h3>
-        { isLoggedInUser && 
-        <Link to={"/project"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link> }
+        {isLoggedInUser && (
+          <Link
+            to={"/project"}
+            className="btn-submit rounded-full w-12 hover:no-underline"
+          >
+            &#65291; Add Project
+          </Link>
+        )}
       </div>
 
       <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
-    </div>
+    </section>
   );
 }
 
