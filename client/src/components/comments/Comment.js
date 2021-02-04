@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 import {
   getComments,
   setEditing,
@@ -86,6 +88,20 @@ export default function Comment(props) {
                 submitted <TimeDifference dateString={createdAt} /> ago
               </p>
             </div>
+
+            {/* edit/delete button (if applicable) */}
+            {isUserComment() && (
+              <div className="space-x-2 self-start ml-auto">
+                <button className="pill bg-yellowBtn" onClick={handleEdit}>
+                  <FontAwesomeIcon icon={faPen} />
+                  <span>Edit</span>
+                </button>
+                <button className="pill bg-redBtn" onClick={handleDelete}>
+                  <FontAwesomeIcon icon={faTrash} />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {editing !== _id ? (
@@ -96,17 +112,6 @@ export default function Comment(props) {
               projectId={projectId}
               commentId={_id}
             />
-          )}
-
-          {isUserComment() && (
-            <>
-              <button className="btn-options" onClick={handleDelete}>
-                delete
-              </button>
-              <button className="btn-options" onClick={handleEdit}>
-                edit
-              </button>
-            </>
           )}
         </>
       )}
