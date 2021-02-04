@@ -41,7 +41,10 @@ export const getProjectByID = async (req, res) => {
   const { type } = req.query;
 
   try {
-    const projects = await Project.find({ [type]: id });
+    const projects = await Project.find({ [type]: id }).populate("userId", {
+      name: 1,
+      avatar: 1,
+    });
     res.status(200).json(projects);
   } catch (err) {
     res.status(404).json({ message: err });

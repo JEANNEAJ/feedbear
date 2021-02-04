@@ -23,7 +23,7 @@ export default function ProjectDetails(props) {
   const dispatch = useDispatch();
 
   const {
-    userId,
+    userId: userData,
     name,
     message,
     projectTitle,
@@ -56,16 +56,16 @@ export default function ProjectDetails(props) {
           <div className="bg-white rounded-lg shadow-md p-5">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold">{projectTitle}</h2>
-              {loggedInUserId === userId && (
+              {loggedInUserId === userData?._id && (
                 <ProjectOptions
-                  userId={userId}
+                  userId={userData?._id}
                   projectId={projectId}
                   projectTitle={projectTitle}
                 />
               )}
             </div>
             <p>
-              by <Link to={`/user/${userId}`}>{name}</Link>
+              by <Link to={`/user/${userData?._id}`}>{name}</Link>
             </p>
             <p>
               submitted <TimeDifference dateString={createdAt} /> ago

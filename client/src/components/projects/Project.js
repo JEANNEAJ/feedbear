@@ -9,7 +9,7 @@ import bear from "../../assets/bear.png";
 export default function Project(props) {
   const {
     name,
-    userId,
+    userId: userData,
     projectTitle,
     projectLink,
     liveLink,
@@ -28,11 +28,13 @@ export default function Project(props) {
         <div className="flex items-center">
           <img
             className="object-cover w-5 h-5 mr-1 rounded-full inline-block"
-            src={userId?.avatar ? userId.avatar : bear}
+            src={userData?.avatar ? userData.avatar : bear}
             alt={`${name}'s avatar`}
           />
           <p className="text-sm">
-            <Link to={{ pathname: `/user/${userId?._id}`, name }}>{name}</Link>{" "}
+            <Link to={{ pathname: `/user/${userData?._id}`, name }}>
+              {name}
+            </Link>{" "}
             <TimeDifference dateString={createdAt} /> ago
           </p>
         </div>
