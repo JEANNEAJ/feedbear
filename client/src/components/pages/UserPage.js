@@ -24,8 +24,8 @@ function UserPage() {
   const location = useLocation();
 
   const fetchUserInfo = useCallback(async (profileId) => {
+
     const { data } = await userApi.getUserInfo(profileId);
-    setUserInfo(data)
     
     if (location.name && profileId !== loggedInUser._id) {
       // if name was provided in the Link component, set name from location
@@ -35,19 +35,19 @@ function UserPage() {
       setName(loggedInUser.name);
     } else {
       // if all else fails, get the name from the API
-      setName(userInfo.name);
+      setName(data.name);
     }
-    
+    setUserInfo(data)
     setIsLoading(false)
 
-  }, [isLoggedInUser, location.name, loggedInUser._id, profileId])
+  }, [isLoggedInUser, location.name, loggedInUser._id, profileId, userInfo.name])
 
   // determine the display name for the current UserPage
   useLayoutEffect(() => {
     setIsLoading(true)
     fetchUserInfo(profileId)
     
-  }, [isLoggedInUser, location.name, location.key, profileId, fetchUserInfo]);
+  }, [isLoggedInUser, name, userInfo.name, location.name, location.key, profileId, fetchUserInfo]);
 
   
   
@@ -74,7 +74,7 @@ function UserPage() {
         ? <LoadingSpinner />
         :
         <>
-          <h2 className="text-3xl font-bold mb-5">
+          <h2 className="text-3xl font-bold mb-4">
             { name && isLoggedInUser ? `Hi, ${name}!` : `${name}'s Profile`}
           </h2>
 
@@ -89,7 +89,7 @@ function UserPage() {
               </div> 
               <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
             </>
-            : <ProjectForm headingText="Add Your First Project!" />
+            : <ProjectForm headingText="Add A Project" />
           }
         </>
       }
