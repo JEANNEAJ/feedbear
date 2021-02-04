@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import Project from './projects.js'
 
 const userSchema = mongoose.Schema({
   name: String,
@@ -43,6 +44,12 @@ userSchema.methods.isValidPassword = async function (password) {
   console.log("did login comparison:", compare);
   return compare;
 };
+
+userSchema.methods.getProjectCount = async function() {
+  const projects = await Project.find({ userId: this._id})
+
+  return projects.length
+}
 
 const User = mongoose.model("User", userSchema);
 
