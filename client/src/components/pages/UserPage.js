@@ -60,7 +60,7 @@ function UserPage() {
         <h3 className="text-xl mt-3">Projects:</h3>
         {isLoggedInUser && (
           <Link
-            to={"/project"}
+            to={"/project/new"}
             className="btn-submit rounded-full w-12 hover:no-underline"
           >
             &#65291; Add Project
