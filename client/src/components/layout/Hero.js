@@ -16,10 +16,10 @@ export default function Hero() {
           <h1 className="text-3xl font-bold pb-3">Welcome to FeedBear!</h1>
 
           <p className="text-justify">
-            Remember way back when we were suppose to ask people for some
-            feedback on our apps? We made an app for that! Our app allows users
-            to login and post their projects and ask other users to leave
-            comments.
+            Remember way back when we were supposed to ask people for some
+            feedback on our apps? We made an app for that! FeedBear allows users
+            to login, post their projects, and ask other users to provide
+            feedback.
           </p>
         </div>
       </div>
