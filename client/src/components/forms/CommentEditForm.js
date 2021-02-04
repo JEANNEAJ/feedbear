@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faSave } from "@fortawesome/free-solid-svg-icons";
 import { setEditing, getComments } from "../../slices/commentSlice";
 
 import * as commentApi from "../../api/comments";
@@ -38,12 +40,18 @@ export default function CommentEditForm(props) {
         defaultValue={comment}
         ref={register({ required: true })}
       ></textarea>
-      <button className="btn-options" type="submit">
-        save
-      </button>
-      <button className="btn-options" onClick={handleCancel} type="button">
-        cancel
-      </button>
+
+      {/* save/cancel buttons */}
+      <div className="mt-2 space-x-2 text-center">
+        <button className="pill bg-greenBtn" type="submit">
+          <FontAwesomeIcon icon={faSave} />
+          <span>Save</span>
+        </button>
+        <button className="pill bg-redBtn" onClick={handleCancel} type="button">
+          <FontAwesomeIcon icon={faTimes} />
+          <span>Cancel</span>
+        </button>
+      </div>
     </form>
   );
 }
