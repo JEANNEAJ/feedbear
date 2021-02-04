@@ -1,6 +1,8 @@
 import React, { useState, useLayoutEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useLocation, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSadCry } from "@fortawesome/free-solid-svg-icons";
 
 import * as userApi from "../../api/user";
 import * as projectApi from "../../api/projects";
@@ -89,7 +91,7 @@ function UserPage() {
               </div> 
               <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
             </>
-            : <ProjectForm headingText="Add A Project" />
+            : isLoggedInUser ? <ProjectForm headingText="Add A Project" /> : <p className="flex items-center text-2xl">{name} has not added any projects yet! <FontAwesomeIcon className="text-4xl ml-3" icon={faSadCry} /></p>
           }
         </>
       }
