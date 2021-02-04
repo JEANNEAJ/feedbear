@@ -40,7 +40,9 @@ export default function CommentForm(props) {
         placeholder="Leave your feedback"
         ref={register({ required: true })}
       ></textarea>
-      {errors["input-feedback"] && <span>This field is required</span>}
+      {errors["input-feedback"] && (
+        <span className="error">This field is required</span>
+      )}
 
       <button className="btn-submit" type="submit">
         Submit

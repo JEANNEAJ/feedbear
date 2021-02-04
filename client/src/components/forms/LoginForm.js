@@ -33,7 +33,7 @@ const LoginForm = () => {
         placeholder="email"
         ref={register({ required: true })}
       />
-      {errors.email && <span>This field is required</span>}
+      {errors.email && <span className="error">This field is required</span>}
 
       <input
         name="password"
@@ -41,7 +41,7 @@ const LoginForm = () => {
         placeholder="password"
         ref={register({ required: true })}
       />
-      {errors.password && <span>This field is required</span>}
+      {errors.password && <span className="error">This field is required</span>}
 
       {/* TODO: refactor this into an error message component? FormError or something? */}
       {error && (

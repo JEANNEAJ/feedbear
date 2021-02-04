@@ -50,7 +50,7 @@ const SignupForm = () => {
         placeholder="Name"
         ref={register({ required: true })}
       />
-      {errors.name && <span>Name cannot be empty</span>}
+      {errors.name && <span className="error">Name cannot be empty</span>}
       <input
         name="email"
         type="email"
@@ -60,9 +60,11 @@ const SignupForm = () => {
           validate: (value) => validateEmail(value),
         })}
       />
-      {errors.email?.type === "required" && <span>E-mail cannot be empty</span>}
+      {errors.email?.type === "required" && (
+        <span className="error">E-mail cannot be empty</span>
+      )}
       {errors.email?.type === "validate" && (
-        <span>Please enter a valid e-mail</span>
+        <span className="error">Please enter a valid e-mail</span>
       )}
       <input
         name="matchEmail"
@@ -73,7 +75,9 @@ const SignupForm = () => {
           validate: (value) => value === getValues("email"),
         })}
       />
-      {errors.matchEmail && <span>E-mail does not match</span>}
+      {errors.matchEmail && (
+        <span className="error">E-mail does not match</span>
+      )}
       <input
         name="password"
         type="password"
@@ -85,13 +89,13 @@ const SignupForm = () => {
         })}
       />
       {errors.password?.type === "required" && (
-        <span>Password cannot be empty</span>
+        <span className="error">Password cannot be empty</span>
       )}
       {errors.password?.type === "minLength" && (
-        <span>Password must be at least 8 characters</span>
+        <span className="error">Password must be at least 8 characters</span>
       )}
       {errors.password?.type === "validate" && (
-        <span>
+        <span className="error">
           Password must contain at least 1 uppercase letter, 1 lowercase letter,
           and 1 number
         </span>
@@ -105,7 +109,9 @@ const SignupForm = () => {
           validate: (value) => value === getValues("password"),
         })}
       />
-      {errors.matchPassword && <span>Password does not match</span>}
+      {errors.matchPassword && (
+        <span className="error">Password does not match</span>
+      )}
       {error && (
         <p className="error">
           <strong>Error: </strong>
