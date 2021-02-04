@@ -1,19 +1,45 @@
 import User from '../models/users.js';
+import Mongoose from 'mongoose'
 
-export const getUserName = async (req, res, next) => {
+// export const getUserProjectCount = async (req, res, next) => {
+//   const { userId } = req.params;
+
+//   try {
+//     const user = await User.findById(userId).select({ _id: 1, name: 1, projectCount: 1})
+
+//     if (!user) {
+//       throw {
+//         status: 404,
+//         message: "User does not exist"
+//       }
+//     }
+
+
+
+//     const projectCount = await user.getProjectCount()
+    
+//     res.status(200).json({ userId: user._id, name: user.name , projectCount });
+//   } catch (err) {
+//     return next(err)
+//   }
+// }
+
+
+export const getUserInfo = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const userName = await User.find({ _id: userId }, { name: 1, _id: 0 })
+    const user = await User.findById(userId).select({ _id: 1, name: 1})
     
-    if (!userName[0]) {
+    if (!user) {
       throw {
         status: 404,
         message: "User does not exist"
       }
     }
+    const projectCount = await user.getProjectCount()
     
-    res.status(200).json(userName);
+    res.status(200).json({ userId: user._id, name: user.name , projectCount });
   } catch (err) {
     return next(err)
   }

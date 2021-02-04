@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useLocation, Link } from "react-router-dom";
 
@@ -8,34 +8,49 @@ import * as projectApi from "../../api/projects";
 import { selectUser } from "../../slices/userSlice";
 import ProjectList from "../projects/ProjectList";
 import InfiniteScrollList from '../lists/InfiniteScrollList';
+import ProjectForm from "../forms/ProjectForm";
+import LoadingSpinner from "../util/LoadingSpinner";
 
 function UserPage() {
+  const [ isLoading, setIsLoading ] = useState(true)
   const { userId: profileId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [name, setName] = useState("");
+  const [userInfo, setUserInfo] = useState({})
 
   const isLoggedInUser = loggedInUser._id === profileId;
   
 
   const location = useLocation();
 
-  // determine the display name for the current UserPage
-  useEffect(() => {
+  const fetchUserInfo = useCallback(async (profileId) => {
+    const { data } = await userApi.getUserInfo(profileId);
+    setUserInfo(data)
+    
     if (location.name && profileId !== loggedInUser._id) {
       // if name was provided in the Link component, set name from location
       setName(location.name);
-    } else if (profileId === loggedInUser._id) {
+    } else if (isLoggedInUser) {
       // if user is on their own profile, set name using Redux
       setName(loggedInUser.name);
     } else {
       // if all else fails, get the name from the API
-      const fetchName = async (profileId) => {
-        const { data } = await userApi.getUserName(profileId);
-        setName(data[0].name);
-      };
-      fetchName(profileId);
+      setName(userInfo.name);
     }
-  }, [location.name, loggedInUser, profileId]);
+    
+    setIsLoading(false)
+
+  }, [isLoggedInUser, location.name, loggedInUser._id, profileId])
+
+  // determine the display name for the current UserPage
+  useLayoutEffect(() => {
+    setIsLoading(true)
+    fetchUserInfo(profileId)
+    
+  }, [isLoggedInUser, location.name, location.key, profileId, fetchUserInfo]);
+
+  
+  
 
   /**
    * function preset with the api options specific to the user page
@@ -53,18 +68,31 @@ function UserPage() {
 
   return (
     <div className="max-w-screen-md container mx-auto">
-      <h2 className="text-3xl font-bold">
-        { isLoggedInUser ? `Hi, ${name}!` : `${name}'s Profile`}
-        
-      </h2>
 
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl mt-3">Projects:</h3>
-        { isLoggedInUser && 
-        <Link to={"/project/new"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link> }
-      </div>
+      { 
+        isLoading 
+        ? <LoadingSpinner />
+        :
+        <>
+          <h2 className="text-3xl font-bold mb-5">
+            { name && isLoggedInUser ? `Hi, ${name}!` : `${name}'s Profile`}
+          </h2>
 
-      <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
+          { userInfo.projectCount > 0 
+            ?
+            <>
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl">Projects:</h3>
+                { userInfo.projectCount > 0 && isLoggedInUser && 
+                  <Link to={"/project/new"} className="btn-submit rounded-full w-12 hover:no-underline">&#65291; Add Project</Link> 
+                }
+              </div> 
+              <InfiniteScrollList List={ProjectList} fetchApi={fetchUserProjects} />
+            </>
+            : <ProjectForm headingText="Add Your First Project!" />
+          }
+        </>
+      }
     </div>
   );
 }
