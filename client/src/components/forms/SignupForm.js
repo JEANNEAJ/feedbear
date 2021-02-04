@@ -44,6 +44,7 @@ const SignupForm = () => {
       onSubmit={handleSubmit(handleSignup)}
       noValidate={true}
     >
+      <h3 className="text-3xl font-bold mb-2">Sign Up</h3>
       <input
         name="name"
         type="text"
