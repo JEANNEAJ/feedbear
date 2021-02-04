@@ -35,7 +35,7 @@ export default function CommentEditForm(props) {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(handleSave)}>
+    <form className="form shadow-none" onSubmit={handleSubmit(handleSave)}>
       <label className="sr-only" htmlFor="editComment"></label>
       <textarea
         name="editComment"
