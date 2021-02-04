@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { validateEmail } from "../../helpers/validation";
 import Swal from "sweetalert2";
@@ -40,6 +41,11 @@ export default function ContactForm() {
       noValidate={true}
       onSubmit={handleSubmit(onSubmit)}
     >
+      <h2 className="text-3xl font-bold">Contact Us</h2>
+      <p className="mt-3 mb-5">
+        Have some comments about our app? Mention it on our very own{" "}
+        <Link to={"/project/5ff63422551e1e10ac0a44a1"}>project page!</Link>
+      </p>
       {!_id ? (
         <>
           <input

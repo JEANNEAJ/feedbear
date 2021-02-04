@@ -42,7 +42,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">Projects</h2>
           <Link
-            to={"/project"}
+            to={"/project/new"}
             className="btn-submit rounded-full w-12 hover:no-underline"
           >
             &#65291; Add Project
