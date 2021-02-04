@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// AT: Imported Font Awesome & 2 icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faCode, faComments } from "@fortawesome/free-solid-svg-icons";
 import TimeDifference from "../util/TimeDifference";
@@ -66,7 +65,7 @@ export default function Project(props) {
         </div>
       </div>
 
-      {/* project body */}
+      {/* project body: title, message, and image thumbnail */}
       <div className="flex justify-between">
         {/* LEFT SIDE: title, message, and comment count */}
         <div className="flex flex-col">
@@ -77,35 +76,38 @@ export default function Project(props) {
 
           {/* project message */}
           <p>{message}</p>
-
-          <div className="flex items-end text-sm space-x-2 mt-auto pt-5">
-            {/* Comment count */}
-            <Link
-              to={`/project/${_id}`}
-              title="Number of comments"
-              className="space-x-1"
-            >
-              <FontAwesomeIcon icon={faComments} />
-              <span>
-                {commentsCount || 0} comment{commentsCount !== 1 && "s"}
-              </span>
-            </Link>
-          </div>
         </div>
 
-        {/* RIGHT SIDE: image thumbnail, edit/delete buttons */}
-        <div className="pl-5 flex-shrink-0 flex flex-col justify-between w-40 items-end">
-          {file && (
+        {/* RIGHT SIDE: image thumbnail */}
+        {file && (
+          <div className="pl-5 flex-shrink-0 flex flex-col justify-between w-40 items-end">
             <img
               className="object-cover rounded-lg mt-10"
               src={file}
               alt={`Preview for ${name}'s project, "`}
             />
-          )}
+          </div>
+        )}
+      </div>
 
-          {/* edit and delete button (if applicable) */}
-          <div className="mt-auto pt-2">{props.children}</div>
+      {/* project footer: comments + edit/delete buttons */}
+      <div className="flex justify-between items-center">
+        {/* Comment count */}
+        <div className="flex items-end text-sm space-x-2 mt-auto pt-5">
+          <Link
+            to={`/project/${_id}`}
+            title="Number of comments"
+            className="space-x-1"
+          >
+            <FontAwesomeIcon icon={faComments} />
+            <span>
+              {commentsCount || 0} comment{commentsCount !== 1 && "s"}
+            </span>
+          </Link>
         </div>
+
+        {/* edit and delete button (if applicable) */}
+        <div className="mt-auto pt-2">{props.children}</div>
       </div>
     </li>
   );

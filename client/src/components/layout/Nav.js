@@ -10,28 +10,35 @@ export default function Nav() {
   const { _id } = user.data;
 
   return (
-
-
-    
-      <nav className="container mx-auto p-3 flex justify-between items-center">
-        <div className="logo w-10 flex items-center">
-          {/* logo image */}
-          <img src={feedbear} alt=""/>
-          <h1 className="text-3xl font-bold pl-1">
-            <Link to={"/"}>FeedBear</Link>
-          </h1>
-        </div>
-
-      <div className="nav-options">
-        <ul className="flex">
-          <li className="pr-5"><Link to={"/"}>Home</Link></li>
-          {_id && <li className="pr-5"><Link to={`/user/${_id}`}>My Projects</Link></li>}
-          <li className="pr-5"><Link to={"/contact"}>Contact</Link></li>
-          {_id && <li><LogoutButton /></li>}
-        </ul>
+    <nav className="max-w-screen-xl mx-auto p-3 flex sm:flex-nowrap justify-between items-center">
+      <div className="logo flex items-center w-max flex-shrink-0 pr-2">
+        {/* logo image */}
+        <img src={feedbear} alt="FeedBear logo" className="w-5 sm:w-10" />
+        <Link to={"/"}>
+          <h1 className="text-xl sm:text-3xl font-bold pl-1">FeedBear</h1>
+        </Link>
       </div>
 
-      </nav>
-   
+      <div className="nav-options w-max">
+        <ul className="flex flex-wrap justify-center text-sm sm:text-base space-x-2 sm:space-x-5">
+          <li>
+            <Link to={"/"}>Home</Link>
+          </li>
+          {_id && (
+            <li>
+              <Link to={`/user/${_id}`}>My Projects</Link>
+            </li>
+          )}
+          <li>
+            <Link to={"/contact"}>Contact</Link>
+          </li>
+          {_id && (
+            <li>
+              <LogoutButton />
+            </li>
+          )}
+        </ul>
+      </div>
+    </nav>
   );
 }

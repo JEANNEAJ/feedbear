@@ -1,6 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faWindowClose,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { setEditing, getComments } from "../../slices/commentSlice";
 
 import * as commentApi from "../../api/comments";
@@ -30,7 +35,7 @@ export default function CommentEditForm(props) {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(handleSave)}>
+    <form className="form shadow-none" onSubmit={handleSubmit(handleSave)}>
       <label className="sr-only" htmlFor="editComment"></label>
       <textarea
         name="editComment"
@@ -38,12 +43,22 @@ export default function CommentEditForm(props) {
         defaultValue={comment}
         ref={register({ required: true })}
       ></textarea>
-      <button className="btn-options" type="submit">
-        save
-      </button>
-      <button className="btn-options" onClick={handleCancel} type="button">
-        cancel
-      </button>
+
+      {/* save/cancel buttons */}
+      <div className="mt-2 space-x-2 text-center">
+        <button className="btn-submit w-max space-x-2" type="submit">
+          <FontAwesomeIcon icon={faCheckCircle} />
+          <span>Save</span>
+        </button>
+        <button
+          className="btn-delete space-x-2"
+          onClick={handleCancel}
+          type="button"
+        >
+          <FontAwesomeIcon icon={faWindowClose} />
+          <span>Cancel</span>
+        </button>
+      </div>
     </form>
   );
 }

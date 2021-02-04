@@ -43,10 +43,9 @@
   .form input,
   .form textarea,
   .form-input {
-    @apply mt-3 block w-full rounded-md bg-gray-100 shadow-inner border-transparent placeholder-gray-400 focus:border-gray-500 focus:bg-white focus:ring-1 focus:ring-purple-400;
+    @apply mt-3 block w-full rounded-md bg-gray-100 shadow-inner border-transparent placeholder-gray-400 focus:border-gray-500 focus:bg-white focus:ring-1 focus:ring-gray-300;
   }
 
-  .form span,
   .error {
     @apply text-center text-sm text-red-600;
   }
