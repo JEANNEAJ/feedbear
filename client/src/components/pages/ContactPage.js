@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import ContactForm from "./../forms/ContactForm";
 import Axios from "axios";
 
