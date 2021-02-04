@@ -40,14 +40,14 @@ function UserPage() {
     setUserInfo(data)
     setIsLoading(false)
 
-  }, [isLoggedInUser, location.name, loggedInUser._id, profileId, userInfo.name])
+  }, [isLoggedInUser, location.name, loggedInUser._id, loggedInUser.name])
 
   // determine the display name for the current UserPage
   useLayoutEffect(() => {
     setIsLoading(true)
     fetchUserInfo(profileId)
     
-  }, [isLoggedInUser, name, userInfo.name, location.name, location.key, profileId, fetchUserInfo]);
+  }, [fetchUserInfo, profileId]);
 
   
   
