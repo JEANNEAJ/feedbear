@@ -7,7 +7,7 @@ import * as commentApi from "../../api/comments";
 
 export default function CommentEditForm(props) {
   const { comment, projectId, commentId } = props;
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const dispatch = useDispatch();
 

@@ -1,6 +1,8 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { Link, useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 import * as projectApi from "../../api/projects";
 
 export default function ProjectOptions(props) {
@@ -36,9 +38,14 @@ export default function ProjectOptions(props) {
 
   return (
     <div className="flex space-x-2">
-      {/* AT: Added classNames to these 2 elements below: */}
-      <Link to={`/edit/${projectId}`}> <button className='btn-edit'>Edit</button> </Link>{" "}
-      <button onClick={openModal} className='btn-delete' >Delete</button>
+      <Link to={`/edit/${projectId}`} className="pill bg-yellowBtn">
+        <FontAwesomeIcon icon={faPen} />
+        <span>Edit</span>
+      </Link>
+      <button onClick={openModal} className="pill bg-redBtn">
+        <FontAwesomeIcon icon={faTrash} />
+        <span>Delete</span>
+      </button>
     </div>
   );
 }

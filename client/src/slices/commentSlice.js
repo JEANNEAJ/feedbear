@@ -31,7 +31,7 @@ export const { setComments, setEditing } = actions;
 export const getComments = (projectId) => async (dispatch) => {
   try {
     const { data } = await commentApi.fetchComments(projectId);
-    dispatch(setComments(data.length ? data[0].comments : []));
+    dispatch(setComments(data.comments.length ? data.comments : []));
   } catch (err) {
     console.error(err);
   }

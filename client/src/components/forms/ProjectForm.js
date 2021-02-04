@@ -73,7 +73,7 @@ export default function ProjectForm({ buttonText, values, projectId, headingText
       history.push(`/project/${projectId}`);
     } else {
       const { data } = await dispatch(submit(formData));
-      history.push(`/project/${data._id}`)
+      history.push(`/project/${data._id}`);
     }
   };
 
@@ -131,14 +131,18 @@ export default function ProjectForm({ buttonText, values, projectId, headingText
       ></textarea>
       {errors["input-message"] && <span>This field is required</span>}
 
-      <ImageUpload file={file} handleUpload={setFile} />
+      <ImageUpload
+        file={file}
+        handleUpload={setFile}
+        text="Include an image of your project (optional):"
+      />
 
       {/* Conditionally display info about submission status */}
       {isSubmitting && <p>Submitting...</p>}
       {isSubmitSuccessful && <p>Submission complete!</p>}
 
       <button className="btn-submit" onClick={handleSubmit} type="submit">
-        {buttonText || 'Submit'}
+        {buttonText || "Submit"}
       </button>
     </form>
     </div>

@@ -8,7 +8,7 @@ import * as commentApi from "../../api/comments";
 
 export default function CommentForm(props) {
   const { projectId } = props;
-  const { register, handleSubmit, watch, errors, reset } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {

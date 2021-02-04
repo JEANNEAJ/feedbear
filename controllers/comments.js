@@ -7,7 +7,13 @@ export const getComments = async (req, res, next) => {
   const { projectId } = req.params;
 
   try {
-    const commentList = await Project.find({ _id: projectId }, { comments: 1 });
+    const commentList = await Project.findOne(
+      { _id: projectId },
+      { comments: 1 }
+    ).populate({
+      path: "comments",
+      populate: { path: "userId", select: { name: 1, avatar: 1 } },
+    });
     res.status(200).json(commentList);
   } catch (err) {
     console.error(err);

@@ -2,6 +2,9 @@
 import { Storage } from "@google-cloud/storage";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // construct path to GCS config
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
