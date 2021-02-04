@@ -5,6 +5,7 @@ import {
   Strategy as JWTstrategy,
   ExtractJwt as ExtractJWT,
 } from "passport-jwt";
+import { uploadImage } from "../helpers/helpers.js";
 
 import UserModel from "../models/users.js";
 
@@ -28,11 +29,11 @@ passport.use(
           name,
           email,
           password,
+          ...(req.file && { avatar: await uploadImage(req.file) }),
         });
 
         return done(null, user);
       } catch (err) {
-
         // handles failed registration due to invalid email format
         if (err.errors.email) {
           err.message = err.errors.email.properties.message;
