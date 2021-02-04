@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 import {
   getComments,
   setEditing,
@@ -61,31 +63,39 @@ export default function Comment(props) {
   };
 
   return (
-    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-100">
+    <li className="bg-white rounded-lg shadow-sm mt-3 px-3 py-2 hover:bg-gray-300">
       {!userData ? (
         "Loading..."
       ) : (
         <>
-          {/* row flex for avatar + comment metadata */}
-          <div className="flex mb-3 items-center">
+          {/* posted by {user} at {time difference} */}
+          <div className="flex items-center mb-3">
             <img
-              className="object-cover w-12 h-12 rounded-full"
+              className="object-cover w-5 h-5 mr-1 rounded-full inline-block"
               src={avatar ? avatar : bear}
-              alt={name}
+              alt={`${name}'s avatar`}
             />
+            <p className="text-sm">
+              <Link to={{ pathname: `/user/${userData?._id}`, name }}>
+                {name}
+                {isUserComment() && " (You)"}
+              </Link>{" "}
+              <TimeDifference dateString={createdAt} /> ago
+            </p>
 
-            {/* col flex for comment metadata */}
-            <div className="pl-3 flex flex-col">
-              <h4 className="font-bold">
-                <Link to={`/user/${userId}`}>
-                  {name}
-                  {isUserComment() && " (You)"}
-                </Link>
-              </h4>
-              <p className="text-sm">
-                submitted <TimeDifference dateString={createdAt} /> ago
-              </p>
-            </div>
+            {/* edit/delete button (if applicable) */}
+            {isUserComment() && (
+              <div className="space-x-2 self-start ml-auto">
+                <button className="pill bg-yellowBtn" onClick={handleEdit}>
+                  <FontAwesomeIcon icon={faPen} />
+                  <span>Edit</span>
+                </button>
+                <button className="pill bg-redBtn" onClick={handleDelete}>
+                  <FontAwesomeIcon icon={faTrash} />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {editing !== _id ? (
@@ -96,17 +106,6 @@ export default function Comment(props) {
               projectId={projectId}
               commentId={_id}
             />
-          )}
-
-          {isUserComment() && (
-            <>
-              <button className="btn-options" onClick={handleDelete}>
-                delete
-              </button>
-              <button className="btn-options" onClick={handleEdit}>
-                edit
-              </button>
-            </>
           )}
         </>
       )}

@@ -21,7 +21,6 @@ function UserPage() {
   const [userInfo, setUserInfo] = useState({})
 
   const isLoggedInUser = loggedInUser._id === profileId;
-  
 
   const location = useLocation();
 
@@ -60,16 +59,16 @@ function UserPage() {
    */
   const fetchUserProjects = (...extraOptions) => {
     const options = {
-      idType: 'userId',
+      idType: "userId",
       id: profileId,
-      ...extraOptions[0]
-    }
+      ...extraOptions[0],
+    };
 
-    return projectApi.fetchProjects(options)
-  }
+    return projectApi.fetchProjects(options);
+  };
 
   return (
-    <div className="max-w-screen-md container mx-auto">
+    <section>
 
       { 
         isLoading 
@@ -95,7 +94,7 @@ function UserPage() {
           }
         </>
       }
-    </div>
+    </section>
   );
 }
 

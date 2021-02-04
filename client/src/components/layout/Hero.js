@@ -4,16 +4,18 @@ import feedbear from "../../assets/feedbear.png";
 export default function Hero() {
   return (
     <div>
-      <div className=" hero-container flex flex-col md:flex-row justify-center items-center container mx-auto px-10 py-10">
-        <div className="logo w-1/4">
+      <div className=" hero-container flex flex-col sm:flex-row justify-center items-center container mx-auto py-10">
+        <div className="logo w-1/3 flex-shrink-0">
           <img
             src={feedbear}
             alt="FeedBear logo: the adorable face of a brown, cartoon bear."
           />
         </div>
 
-        <div className="hero-text md:w-2/5 md:pl-5">
-          <h1 className="text-3xl font-bold pb-3">Welcome to FeedBear!</h1>
+        <div className="hero-text flex-grow p-5">
+          <h1 className="text-xl sm:text-3xl font-bold pb-3">
+            Welcome to FeedBear!
+          </h1>
 
           <p className="text-justify">
             Remember way back when we were supposed to ask people for some

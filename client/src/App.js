@@ -21,7 +21,7 @@ function App() {
         </header>
 
         {/* main component fills space b/w header and footer, centered vertically */}
-        <main className="flex-grow flex flex-col justify-between p-5">
+        <main className="flex-grow flex flex-col justify-between p-5 max-w-screen-md mx-auto container">
           {isLoggedIn ? <AuthenticatedApp /> : <UnauthenticatedApp />}
         </main>
 

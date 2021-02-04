@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeDuplicates } from "../../helpers";
 
-import LoadingSpinner from '../util/LoadingSpinner';
+import LoadingSpinner from "../util/LoadingSpinner";
 
 /** List component with infinite scroll */
 export default function List(props) {
@@ -71,23 +71,29 @@ export default function List(props) {
 
   return (
     <>
-      <label htmlFor="sort">Sort: </label>
-      <select onChange={handleSort} id="sort">
-        <option data-sortby="createdAt" data-sortdirection={DESCENDING}>
-          Date (Newest)
-        </option>
-        <option data-sortby="createdAt" data-sortdirection={ASCENDING}>
-          Date (Oldest)
-        </option>
-      </select>
+      <div className="bg-white hover:bg-gray-300 rounded-lg w-max p-2 text-xs">
+        <label htmlFor="sort" className="font-bold">
+          Sort:{" "}
+        </label>
+        <select
+          onChange={handleSort}
+          id="sort"
+          className="p-1 pr-5 rounded-md border-0 text-xs"
+        >
+          <option data-sortby="createdAt" data-sortdirection={DESCENDING}>
+            Date (Newest)
+          </option>
+          <option data-sortby="createdAt" data-sortdirection={ASCENDING}>
+            Date (Oldest)
+          </option>
+        </select>
+      </div>
 
       <InfiniteScroll
         dataLength={items.length}
         next={fetchNext}
         hasMore={hasMore}
-        loader={
-          <LoadingSpinner />
-        }
+        loader={<LoadingSpinner />}
         scrollThreshold={1} // how far down to scroll before fetching more
         endMessage={
           <p className="text-center pt-3">
